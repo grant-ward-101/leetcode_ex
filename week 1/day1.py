@@ -64,17 +64,42 @@ class Solution:
         return [x[1] for x in reversed_temp]
         
 
+    
+    def reorderLogFiles(self, logs: list[str]) -> list[str]:
+        let_log = []
+        dig_log = []
+        none_iden_log = []
+        for i in logs:
+            if i[-1].isdigit():
+                if i[0].isdigit():
+                    none_iden_log.append(i)
+                else:
+                    dig_log.append(i)
+            else:
+                let_log.append(i)
         
-def main():
-    s = sys.stdin.read()
-    print(s)
-    temp = s.split('\n')
-    k = int(temp[1])
-    nums = [int(x) for x in temp[0][1:-1].split(',')]
+        sorted_let_log = sorted(let_log, key=lambda x: x.split(' ')[0])
+        print(sorted_let_log)
+        sorted_let_log = sorted(sorted_let_log, key=lambda x: x.split(' ')[1:])
+        print(sorted_let_log)        
+        # sorted_dig_log = sorted(dig_log, key=lambda x: x.split(' ')[0][-1])
+        # print(dig_log)
+        # print(sorted_dig_log)
+        # sorted_none_iden_log = sorted(none_iden_log)
+        # return sorted_let_log + sorted_dig_log + sorted_none_iden_log
+        return sorted_let_log + dig_log
 
+
+def main():
+    # s = sys.stdin.read()
+    # print(s)
+    # temp = s.split('\n')
+    # k = int(temp[1])
+    # nums = [int(x) for x in temp[0][1:-1].split(',')]
+    s = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo","a2 act car"]
     sol = Solution()
-    res = sol.maxSubsequence(nums, k)
-    print(res)
+    res = sol.reorderLogFiles(s)
+    # print(res)
 
 
 
