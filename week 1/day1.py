@@ -1,6 +1,5 @@
+import  sys
 class Solution:
-
-    
     def twoSum(self, nums: list[int], target: int) -> list[int]:
         for idx in range(len(nums) - 1):
             subtract = target - nums[idx]
@@ -45,3 +44,39 @@ class Solution:
             nums1[idx] = nums2[j]
             j += 1
             idx += 1
+
+
+    def maxSubsequence(self, nums: list[int], k: int) -> list[int]:
+        # temp = dict(zip(nums, range(len(nums))))
+        # print(temp)
+        # res = []
+        # sorted_nums = sorted(temp, reverse=True)
+        # for key in sorted_nums:
+        #     res.append(nums[temp[key]])
+        # return res
+
+        temp = enumerate(nums)
+        reversed_temp = sorted(temp, reverse=True, key=lambda x: x[1])
+        reversed_temp = [list(x) for x in reversed_temp][:k]
+        
+        reversed_temp = sorted(reversed_temp, key=lambda x: x[0])
+        
+        return [x[1] for x in reversed_temp]
+        
+
+        
+def main():
+    s = sys.stdin.read()
+    print(s)
+    temp = s.split('\n')
+    k = int(temp[1])
+    nums = [int(x) for x in temp[0][1:-1].split(',')]
+
+    sol = Solution()
+    res = sol.maxSubsequence(nums, k)
+    print(res)
+
+
+
+if __name__=='__main__':
+    main()
