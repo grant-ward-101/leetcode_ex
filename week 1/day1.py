@@ -1,3 +1,4 @@
+from bisect import bisect
 import  sys
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
@@ -90,16 +91,44 @@ class Solution:
         return sorted_let_log + dig_log
 
 
+
+    def maxDepth(self, root: 'Node') -> int:
+
+        def dfs(node, level):
+            max_depth = 0
+            if not node:
+                return
+            for child in node.children:
+                max_depth = max(max_depth, dfs(child, level + 1))
+            return max_depth
+        
+        return dfs(root, 1)
+
+
+    def triangleNumber(self, nums: list[int]) -> int:
+        res = 0
+        nums.sort()
+        for i in range(len(nums) - 1):
+            for j in range(i + 1, len(nums)):
+                min_third_lenght = nums[i] + nums[j]
+                third_location = bisect.bisect_left(nums, min_third_lenght)
+                if third_location > j + 1:
+                    res += third_location - j - 1
+        return res
+
+
+
+
 def main():
     # s = sys.stdin.read()
     # print(s)
     # temp = s.split('\n')
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
-    s = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo","a2 act car"]
+    s = [2, 2, 3, 4]
     sol = Solution()
-    res = sol.reorderLogFiles(s)
-    # print(res)
+    res = sol.triangleNumber(s)
+    print(res)
 
 
 
