@@ -1,5 +1,6 @@
 from audioop import maxpp
 from bisect import bisect
+from pydoc import tempfilepager
 import  sys
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
@@ -186,15 +187,41 @@ class Solution:
         return calculate_row(numRows)
 
 
+    def validateStackSequences(self, pushed: list[int], popped: list[int]) -> bool:
+        stack = []
+        j = 0
+        for i in pushed:
+            stack.append(i)
+            
+            while (len(stack) > 0 and stack[-1] == popped[j]):
+                stack.pop(len(stack) - 1)
+                j += 1
+        return len(stack) == 0 
+
+
+    def replaceElements(self, arr: list[int]) -> list[int]:
+        current_max = arr[-1]
+        res = []
+        for i in range(len(arr) - 2, -1, -1):
+            temp = arr[i]
+            if arr[i + 1] <= current_max:
+                arr[i] = current_max
+            if temp >= current_max:
+                current_max = temp
+        arr[-1] = -1
+        return arr
+            
+
 def main():
     # s = sys.stdin.read()
     # print(s)
     # temp = s.split('\n')
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
-    s = 3
+
+    s = [17,18,5,4,6,1]
     sol = Solution()
-    res = sol.generate(3)
+    res = sol.replaceElements(s)
     print(res)
 
 
