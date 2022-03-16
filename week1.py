@@ -1,6 +1,7 @@
 from audioop import maxpp
 from bisect import bisect
 from pydoc import tempfilepager
+import string
 import  sys
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
@@ -210,7 +211,37 @@ class Solution:
                 current_max = temp
         arr[-1] = -1
         return arr
-            
+
+
+    def floodFill(self, image: list[list[int]], sr: int, sc: int, newColor: int) -> list[list[int]]: 
+        marked = []
+        def change_color(old, new, r, c, img):
+            img[r][c] = new
+            marked.append([r, c])
+            if r - 1 >= 0 and img[r - 1][c] == old and [r - 1, c] not in marked:
+                change_color(old, new, r - 1, c, img)
+            if r + 1 <= len(img) - 1 and img[r + 1][c] == old and [r + 1, c] not in marked:
+                change_color(old, new, r + 1, c, img)
+            if c - 1 >= 0 and img[r][c - 1] == old and [r, c - 1] not in marked:
+                change_color(old, new, r, c - 1, img)
+            if c + 1 <= len(img[0]) - 1 and img[r][c + 1] == old and [r, c + 1] not in marked:
+                change_color(old, new, r, c + 1, img)
+        old = image[sr][sc]
+        change_color(old, newColor, sr, sc, image)
+        return image
+
+
+    def uniqueMorseRepresentations(self, words: list[str]) -> int:
+        arr = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        alphabets = list(string.ascii_lowercase)
+        morse_dict = dict(zip(alphabets, arr))
+        morsed_words = []
+        for word in words:
+            code = [morse_dict[x] for x in word]
+            code = "".join(code)
+            morsed_words.append(code)
+        return len(set(morsed_words))
+
 
 def main():
     # s = sys.stdin.read()
@@ -219,9 +250,9 @@ def main():
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
 
-    s = [17,18,5,4,6,1]
+    s = ["gin","zen","gig","msg"]
     sol = Solution()
-    res = sol.replaceElements(s)
+    res = sol.uniqueMorseRepresentations(s)
     print(res)
 
 
