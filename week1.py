@@ -242,14 +242,49 @@ class Solution:
             morsed_words.append(code)
         return len(set(morsed_words))
 
+    def canBeEqual(self, target: list[int], arr: list[int]) -> bool:
+        target_counter = collections.Counter(target)
+        arr_counter = collections.Counter(arr)
+        return target_counter == arr_counter
 
+class MyHashMap:
+    
+    def __init__(self):
+        self.hash_map = []
+
+    def put(self, key: int, value: int) -> None:
+        key_list = [x[0] for x in self.hash_map]
+        if key not in key_list:
+            self.hash_map.append([key, value])
+        else:
+            pos = self.hash_map[:, 0].index(key)
+            self.hash_map[pos, 1] = value
+
+    def get(self, key: int) -> int:
+        key_list = [x[0] for x in self.hash_map]
+        if key not in key_list:
+            return -1
+        else:
+            pos = key_list.index(key)
+            return self.hash_map[pos, 1]
+
+    def remove(self, key: int) -> None:
+        key_list = [x[0] for x in self.hash_map]
+        if key not in key_list:
+            return
+        else:
+            pos = key_list.index(key)
+            del self.hash_map[pos]
+        
 def main():
     # s = sys.stdin.read()
     # print(s)
     # temp = s.split('\n')
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
-
+    k = [[1, 1], [2, 2][2, 1]]
+    print(k[:, 0])
+    input()
     s = ["gin","zen","gig","msg"]
     sol = Solution()
     res = sol.uniqueMorseRepresentations(s)
