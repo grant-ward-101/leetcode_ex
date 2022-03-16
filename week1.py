@@ -1,3 +1,4 @@
+from audioop import maxpp
 from bisect import bisect
 import  sys
 class Solution:
@@ -117,6 +118,72 @@ class Solution:
         return res
 
 
+    def intersect(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        if len(nums1) > len(nums2):
+            longer_list = nums1
+            shorter_list = nums2
+        else:
+            longer_list = nums1
+            shorter_list = nums2
+        
+        hash_map = dict()
+        for i in longer_list:
+            if i in hash_map:
+                hash_map[i] += 1
+            else:
+                hash_map[i] = 1
+        res = []
+        for j in shorter_list:
+            if j in hash_map and hash_map[j] > 0:
+                res.append(j)
+                hash_map[j] -= 1
+        return res
+
+
+    def maxProfit(self, prices: list[int]) -> int:
+        max_profit = -1
+        buy_day = 0
+        for sell_date in range(1, len(prices)):
+            current_profit = prices[sell_date] - prices[buy_day]
+            if current_profit > max_profit:
+                max_profit = current_profit
+            if prices[sell_date] < prices[buy_day]:
+                buy_day = sell_date
+        
+        return max_profit if max_profit > 0 else 0
+
+
+    def matrixReshape(self, mat: list[list[int]], r: int, c: int) -> list[list[int]]:
+        flatten_data = []
+        for row in mat:
+            flatten_data += row
+        
+        if r * c != len(flatten_data):
+            return mat
+        res = []
+        while (len(flatten_data) > 0):
+            res.append(flatten_data[:c])
+            flatten_data = flatten_data[c:]
+        return res
+
+
+    def generate(self, numRows: int) -> list[list[int]]:
+        
+        def calculate_row(num):
+            if num == 1:
+                return [[1]]
+            if num == 2:
+                return [[1], [1, 1]]
+            else:
+                last_triangle = calculate_row(num - 1)
+                last_row = last_triangle[-1]
+                new_row = [1]
+                for i in range(len(last_row) - 1):
+                    new_row.append(last_row[i] + last_row[i + 1])
+                new_row.append(1)
+                last_triangle.append(new_row)
+                return last_triangle
+        return calculate_row(numRows)
 
 
 def main():
@@ -125,9 +192,9 @@ def main():
     # temp = s.split('\n')
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
-    s = [2, 2, 3, 4]
+    s = 3
     sol = Solution()
-    res = sol.triangleNumber(s)
+    res = sol.generate(3)
     print(res)
 
 
