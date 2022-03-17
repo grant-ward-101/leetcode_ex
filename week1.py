@@ -1,8 +1,10 @@
 from audioop import maxpp
 from bisect import bisect
+from cgitb import small
 from pydoc import tempfilepager
 import string
 import  sys
+from tabnanny import check
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
         for idx in range(len(nums) - 1):
@@ -242,10 +244,53 @@ class Solution:
             morsed_words.append(code)
         return len(set(morsed_words))
 
+
     def canBeEqual(self, target: list[int], arr: list[int]) -> bool:
         target_counter = collections.Counter(target)
         arr_counter = collections.Counter(arr)
         return target_counter == arr_counter
+
+
+    def scoreOfParentheses(self, s: str) -> int: 
+        score = 0
+        stack = []
+        for i in s:
+            if i == '(':
+                stack.append(score)
+                score = 0
+            else:
+                score = stack[-1] + max(2 * score, 1)
+                del stack[-1]
+        return score
+
+
+    def isValidSudoku(self, board: list[list[str]]) -> bool:
+        import numpy as np 
+        def check_duplicate(arr):
+            arr.remove('.')
+            return len(arr) == len(set(arr))
+
+        def check_small_square(arr):
+            flatten = []
+            for i in range(len(arr)):
+                for j in range(len(arr[0])):
+                    flatten.append(arr[i][j])
+            return check_duplicate(flatten)
+
+        np_board = np.array(board)
+        for i in range(0, len(np_board), 3):
+            for j in range(0, len(np_board[0]), 3):
+                small_board = np_board[i:i + 2, j:j + 2]
+                if not check_small_square(small_board):
+                    return False
+        for i in range(len(np_board)):
+            if not check_duplicate(np_board[i,:]):
+                return False
+        for i in range(len(np_board[0])):
+            if not check_duplicate(np_board[:, i]):
+                return False
+        return True
+
 
 class MyHashMap:
     
@@ -285,9 +330,18 @@ def main():
     k = [[1, 1], [2, 2][2, 1]]
     print(k[:, 0])
     input()
+    board = [["5","3",".",".","7",".",".",".","."]
+            ,["6",".",".","1","9","5",".",".","."]
+            ,[".","9","8",".",".",".",".","6","."]
+            ,["8",".",".",".","6",".",".",".","3"]
+            ,["4",".",".","8",".","3",".",".","1"]
+            ,["7",".",".",".","2",".",".",".","6"]
+            ,[".","6",".",".",".",".","2","8","."]
+            ,[".",".",".","4","1","9",".",".","5"]
+            ,[".",".",".",".","8",".",".","7","9"]]
     s = ["gin","zen","gig","msg"]
     sol = Solution()
-    res = sol.uniqueMorseRepresentations(s)
+    res = sol.isValidSudoku(board)
     print(res)
 
 
