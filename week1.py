@@ -327,7 +327,9 @@ def main():
     # temp = s.split('\n')
     # k = int(temp[1])
     # nums = [int(x) for x in temp[0][1:-1].split(',')]
-    k = [[1, 1], [2, 2][2, 1]]
+    print(1)
+    input()
+    k = [[1, 1], [2, 2], [2, 1]]
     print(k[:, 0])
     input()
     board = [["5","3",".",".","7",".",".",".","."]
