@@ -324,7 +324,9 @@ class Solution:
                 return False
             else:
                 return check_identical(node1.left, node2.left) and check_identical(node1.right, node2.right)
+
         res = False
+
         def traverse(root, sub_root):
             nonlocal res
             if not root:
@@ -338,13 +340,17 @@ class Solution:
         traverse(root, subRoot)
         return res
 
-    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]
+        year -= month < 3
+        idx = (year + int(year / 4) - int(year / 100) + int(year / 400) + t[month - 1] + day) % 7
+        return days[idx - 1]
 
 
 def main():
-    s = "ababcbacadefegdehijhklij"
     test = Solution()
-    res = test.partitionLabels(s)
+    res = test.dayOfTheWeek(1, 9, 2019)
     print(res)
 
 
