@@ -7,6 +7,63 @@ class ListNode:
         self.next = next
 
 
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        self.min_val = None
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if self.min_val == None or self.min_val >= val:
+            self.min_val = val
+
+    def pop(self) -> None:
+        temp = self.stack[-1]
+        del self.stack[-1]
+        if len(self.stack) > 0:
+            self.min_val = min(self.stack)
+        else:
+            self.min_val = None
+        return temp
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_val
+
+
+class MyQueue:
+
+    def __init__(self):
+        self.queue = []
+
+    def push(self, x: int) -> None:
+        self.queue.append(x)
+
+    def pop(self) -> int:
+        if len(self.queue) > 0:
+            temp = self.queue[0]
+            del self.queue[0]
+            return temp
+        else:
+            return None
+
+    def peek(self) -> int:
+        return self.queue[0]
+
+    def empty(self) -> bool:
+        return len(self.queue) == 0
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
     def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
         idx = len(matrix)
@@ -174,12 +231,120 @@ class Solution:
             current = temp
         return prev
 
+    def minDominoRotations(self, tops: list[int], bottoms: list[int]) -> int:
+        def swap_one_face(first, second):
+            min_rotation = 10 ** 5
+            for value in range(1, 7):
+                count = 0
+                i = 0
+                while i < len(first):
+                    if first[i] == value:
+                        i += 1
+                        continue
+                    elif second[i] == value:
+                        i += 1
+                        count += 1
+                    else:
+                        break
+
+                if count < min_rotation and i == len(first):
+                    min_rotation = count
+
+            return -1 if min_rotation == 10 ** 5 else min_rotation
+
+        top_swap = swap_one_face(tops, bottoms)
+        bot_swap = swap_one_face(bottoms, tops)
+        if top_swap == -1 or bot_swap == -1:
+            return -1
+        return min(top_swap, bot_swap)
+
+    def isPowerOfTwo(self, n: int) -> bool:
+        def recusive_divide(x):
+            if x == 0:
+                return False
+            if x == 1:
+                return True
+            if x / 2 != x // 2:
+                return False
+            else:
+                return recusive_divide(x // 2)
+
+        return recusive_divide(n)
+
+    def firstPalindrome(self, words: list[str]) -> str:
+        def check_palindrome(x):
+            return x == x[::-1]
+
+        for word in words:
+            if check_palindrome(word):
+                return word
+        return ''
+
+    def isValid(self, s: str) -> bool:
+        stack = []
+        for letter in s:
+            if letter in ['(', '{', '[']:
+                stack.append(letter)
+            else:
+                if len(stack) > 0:
+                    if (stack[-1] == '[' and letter == ']') or \
+                            (stack[-1] == '{' and letter == '}') or \
+                            (stack[-1] == '(' and letter == ')'):
+                        del stack[-1]
+                    else:
+                        return False
+                else:
+                    return False
+        if len(stack) > 0:
+            return False
+        return True
+
+    def partitionLabels(self, s: str) -> list[int]:
+        res = []
+        current_idx = 0
+        while len(s) > 0:
+            current_letter = s[current_idx]
+            idx = 0
+            last_curr = s.rfind(current_letter)
+            while idx < last_curr:
+                temp_letter = s[idx]
+                last_temp = s.rfind(temp_letter)
+                if last_temp > last_curr:
+                    last_curr = last_temp
+                idx += 1
+            res.append(idx + 1)
+            s = s[idx + 1:]
+        return res
+
+    def isSubtree(self, root: [TreeNode], subRoot: [TreeNode]) -> bool:
+        def check_identical(node1, node2):
+            if not node1 and not node2:
+                return True
+            if (not node1 and node2) or (not node2 and node1) or node1.val != node2.val:
+                return False
+            else:
+                return check_identical(node1.left, node2.left) and check_identical(node1.right, node2.right)
+        res = False
+        def traverse(root, sub_root):
+            nonlocal res
+            if not root:
+                return
+            traverse(root.left, sub_root)
+            if root.val == subRoot.val:
+                if check_identical(root, sub_root):
+                    res = True
+            traverse(root.right, sub_root)
+
+        traverse(root, subRoot)
+        return res
+
+    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+
 
 def main():
-    s = "anagram"
-    t = "nagaram"
-    s = Solution()
-    res = s.isAnagram(s, t)
+    s = "ababcbacadefegdehijhklij"
+    test = Solution()
+    res = test.partitionLabels(s)
     print(res)
 
 
