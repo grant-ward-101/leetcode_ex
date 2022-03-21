@@ -344,13 +344,58 @@ class Solution:
         days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]
         year -= month < 3
-        idx = (year + int(year / 4) - int(year / 100) + int(year / 400) + t[month - 1] + day) % 7
+        cal = year + int(year / 4) - int(year / 100) + int(year / 400) + t[month - 1] + day
+        idx = cal % 7
         return days[idx - 1]
+
+    def minCostClimbingStairs(self, cost: list[int]) -> int:
+        a = cost[0]
+        b = cost[1]
+
+        for i in range(2, len(cost)):
+            temp = cost[i] + min(a, b)
+            a = b
+            b = temp
+        return min(a, b)
+
+    def prefixCount(self, words: list[str], pref: str) -> int:
+        count = 0
+        for word in words:
+            if word[:len(pref)] == pref:
+                count += 1
+        return count
+
+    def countMatches(self, items: list[list[str]], ruleKey: str, ruleValue: str) -> int:
+        def check_matching(item, rule_key, rule_value):
+            if rule_key == 'type' and rule_value == item[0]:
+                return True
+            if rule_key == 'color' and rule_value == item[1]:
+                return True
+            if rule_key == 'name' and rule_value == item[2]:
+                return True
+            return False
+
+        count = 0
+        for item in items:
+            if check_matching(item, ruleKey, ruleValue):
+                count += 1
+        return count
+
+    def findPoisonedDuration(self, timeSeries: list[int], duration: int) -> int:
+        total = 0
+        for i in range(len(timeSeries) - 1):
+            if timeSeries[i] + duration <= timeSeries[i + 1]:
+                total += duration
+            else:
+                total += timeSeries[i + 1] - timeSeries[i]
+        total += duration
+        return total
 
 
 def main():
+    cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
     test = Solution()
-    res = test.dayOfTheWeek(1, 9, 2019)
+    res = test.minCostClimbingStairs(cost)
     print(res)
 
 
