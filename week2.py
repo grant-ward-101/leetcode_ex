@@ -434,7 +434,19 @@ class Solution:
                 return True
         return False
 
+    def maximumPopulation(self, logs: list[list[int]]) -> int:
+        population_dict = dict()
+        min_year = min([min(x) for x in logs])
+        max_year = max([max(x) for x in logs])
 
+        for i in range(min_year, max_year):
+            curr_pop = 0
+            for log in logs:
+                if log[0] <= i and log[1] > i:
+                    curr_pop += 1
+            population_dict[i] = curr_pop
+
+        return max(population_dict, key=population_dict.get)
 
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
