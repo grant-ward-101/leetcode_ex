@@ -412,11 +412,34 @@ class Solution:
                     count += 1
         return count
 
+    def containsPattern(self, arr: list[int], m: int, k: int) -> bool:
+        # for i in range(len(arr) - m):
+        #     pattern = arr[i:i + m]
+        #     j = i + m
+        #     count = 0
+        #     flag = 0
+        #     while j < len(arr):
+        #         if arr[j:j + m] == pattern:
+        #             count += 1
+        #             j += m
+        #             if count >= k - 1 and flag == 0:
+        #                 return True
+        #         else:
+        #             flag = 1
+        #             j += 1
+        # return False
+
+        for i in range(len(arr) - m * k + 1):
+            if arr[i:i + m] * k == arr[i:i + m * k]:
+                return True
+        return False
+
+
 
 def main():
-    s = "00110011"
+    s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
-    res = test.countBinarySubstrings(s)
+    res = test.containsPattern(s, 2, 2)
     print(res)
 
 
