@@ -482,8 +482,6 @@ class Solution:
             empty_bottles = empty_bottles % numExchange
         return res
 
-
-
     def preorderTraversal(self, root: [TreeNode]) -> list[int]:
         def recursive(root, res):
             if not root:
@@ -492,14 +490,60 @@ class Solution:
             recursive(root.left, res)
             recursive(root.right, res)
             return res
+
         res = []
         return recursive(root, res)
 
+    def inorderTraversal(self, root: [TreeNode]) -> list[int]:
+        def recursive(root, res):
+            if not root:
+                return res
+            recursive(root.left, res)
+            res.append(root.val)
+            recursive(root.right, res)
+            return res
+
+        res = []
+        return recursive(root, res)
+
+    def postorderTraversal(self, root: [TreeNode]) -> list[int]:
+        def recursive(root, res):
+            if not root:
+                return res
+            recursive(root.left, res)
+            recursive(root.right, res)
+            res.append(root.val)
+            return res
+
+        res = []
+        return recursive(root, res)
+
+    def getSmallestString(self, n: int, k: int) -> str:
+        res = ['a'] * n
+        idx = 0
+        # while idx < n:
+        #     sum_diff = k - sum(res) + 1
+        #     if sum_diff >= 26:
+        #         num_rep = sum_diff // 26
+        #         res[idx:idx + num_rep] = [26] * num_rep
+        #         idx += num_rep
+        #     else:
+        #         res[idx] = sum_diff
+        #         idx += 1
+        sum_diff = k - n
+        num_rep_z = sum_diff // 25
+        filled_letter = sum_diff % 25
+        res[:num_rep_z] = 'z' * num_rep_z
+        if num_rep_z < n:
+            res[num_rep_z] = chr(filled_letter + 97)
+
+        res = res[::-1]
+        return ''.join(res)
 
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
-    res = test.numWaterBottles(9, 3)
+    res = test.getSmallestString(5, 130)
     print(res)
 
 
