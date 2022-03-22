@@ -565,10 +565,26 @@ class Solution:
             temp_res.next = ListNode(left_over)
         return res.next
 
+    def convertToBase7(self, num: int) -> str:
+        res = ''
+        negative = False
+        if num == 0:
+            return '0'
+        if num < 0:
+            num *= -1
+            negative = True
+        while num > 0:
+            res += str(num % 7)
+            num = num // 7
+        res = res[::-1]
+        if negative:
+            res = '-' + res
+        return res
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
-    res = test.getSmallestString(5, 130)
+    res = test.convertToBase7(-38)
     print(res)
 
 
