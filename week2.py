@@ -1,4 +1,5 @@
 import numpy as np
+import bisect
 
 
 class ListNode:
@@ -589,11 +590,24 @@ class Solution:
                 count += 1
         return count
 
+    def numSubseq(self, nums: list[int], target: int) -> int:
+        res = 0
+        max_num = 10 ** 9 + 7
+        nums = sorted(nums)
+        for i in range(len(nums)):
+            loc = bisect.bisect_right(nums, target - nums[i])
+            if loc > i:
+                res += pow(2, loc - i - 1, max_num)
+            else:
+                break
+        return res % max_num
+
 
 def main():
-    s = [1, 2, 1, 2, 1, 1, 1, 3]
+    nums = [3, 5, 6, 7]
+    target = 9
     test = Solution()
-    res = test.convertToBase7(-38)
+    res = test.numSubseq(nums, target)
     print(res)
 
 
