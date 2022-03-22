@@ -47,8 +47,6 @@ class MyQueue:
             temp = self.queue[0]
             del self.queue[0]
             return temp
-        else:
-            return None
 
     def peek(self) -> int:
         return self.queue[0]
@@ -471,12 +469,24 @@ class Solution:
             res.append(-1 * i)
         return res
 
+    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
+        res = 0
+        full_bottles = numBottles
+        empty_bottles = 0
+        while full_bottles > 0:
+            res += full_bottles
+            temp = full_bottles
+            empty_bottles = full_bottles + empty_bottles
+
+            full_bottles = empty_bottles // numExchange
+            empty_bottles = empty_bottles % numExchange
+        return res
 
 
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
-    res = test.containsPattern(s, 2, 2)
+    res = test.numWaterBottles(9, 3)
     print(res)
 
 
