@@ -483,6 +483,19 @@ class Solution:
         return res
 
 
+
+    def preorderTraversal(self, root: [TreeNode]) -> list[int]:
+        def recursive(root, res):
+            if not root:
+                return res
+            res.append(root.val)
+            recursive(root.left, res)
+            recursive(root.right, res)
+            return res
+        res = []
+        return recursive(root, res)
+
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
