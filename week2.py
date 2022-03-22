@@ -448,6 +448,17 @@ class Solution:
 
         return max(population_dict, key=population_dict.get)
 
+    def uniqueOccurrences(self, arr: list[int]) -> bool:
+        occur_dict = dict()
+        for i in arr:
+            if i not in occur_dict:
+                occur_dict[i] = 1
+            else:
+                occur_dict[i] += 1
+
+        occurrences = occur_dict.values()
+        return len(occurrences) == len(set(occurrences))
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
