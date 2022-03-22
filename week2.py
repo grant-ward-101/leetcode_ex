@@ -540,6 +540,31 @@ class Solution:
         res = res[::-1]
         return ''.join(res)
 
+    def addTwoNumbers(self, l1: [ListNode], l2: [ListNode]) -> [ListNode]:
+        res = ListNode()
+        temp_res = res
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+        left_over = 0
+        while l1 or l2:
+            v1 = 0
+            v2 = 0
+            if l1:
+                v1 = l1.val
+                l1 = l1.next
+            if l2:
+                v2 = l2.val
+                l2 = l2.next
+            temp = v1 + v2 + left_over
+            temp_res.next = ListNode(temp % 10)
+            left_over = temp // 10
+            temp_res = temp_res.next
+        if left_over > 0:
+            temp_res.next = ListNode(left_over)
+        return res.next
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
