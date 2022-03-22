@@ -391,11 +391,23 @@ class Solution:
         total += duration
         return total
 
+    def countBinarySubstrings(self, s: str) -> int:
+        prev, curr = 0, 1
+        count = 0
+        for i in range(1, len(s)):
+            if s[i - 1] == s[i]:
+                curr += 1
+            else:
+                count += min(prev, curr)
+                prev = curr
+                curr = 1
+        count += min(prev, curr)
+        return count
 
 def main():
-    cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+    s = "00110011"
     test = Solution()
-    res = test.minCostClimbingStairs(cost)
+    res = test.countBinarySubstrings(s)
     print(res)
 
 
