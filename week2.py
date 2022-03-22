@@ -459,6 +459,20 @@ class Solution:
         occurrences = occur_dict.values()
         return len(occurrences) == len(set(occurrences))
 
+    def sumZero(self, n: int) -> list[int]:
+        res = []
+        if n % 2 == 0:
+            temp = n
+        else:
+            temp = n - 1
+            res.append(0)
+        for i in range(1, int(temp / 2) + 1):
+            res.append(i)
+            res.append(-1 * i)
+        return res
+
+
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
