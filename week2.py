@@ -16,7 +16,7 @@ class MinStack:
 
     def push(self, val: int) -> None:
         self.stack.append(val)
-        if self.min_val == None or self.min_val >= val:
+        if self.min_val is None or self.min_val >= val:
             self.min_val = val
 
     def pop(self) -> None:
@@ -112,9 +112,9 @@ class Solution:
         return -1
 
     def isAnagram(self, s: str, t: str) -> bool:
-        def create_hash_table(s):
+        def create_hash_table(x):
             hash_table = dict()
-            for letter in s:
+            for letter in x:
                 if letter not in hash_table:
                     hash_table[letter] = 1
                 else:
@@ -258,7 +258,7 @@ class Solution:
         return min(top_swap, bot_swap)
 
     def isPowerOfTwo(self, n: int) -> bool:
-        def recusive_divide(x):
+        def recursive_divide(x):
             if x == 0:
                 return False
             if x == 1:
@@ -266,9 +266,9 @@ class Solution:
             if x / 2 != x // 2:
                 return False
             else:
-                return recusive_divide(x // 2)
+                return recursive_divide(x // 2)
 
-        return recusive_divide(n)
+        return recursive_divide(n)
 
     def firstPalindrome(self, words: list[str]) -> str:
         def check_palindrome(x):
@@ -365,12 +365,12 @@ class Solution:
         return count
 
     def countMatches(self, items: list[list[str]], ruleKey: str, ruleValue: str) -> int:
-        def check_matching(item, rule_key, rule_value):
-            if rule_key == 'type' and rule_value == item[0]:
+        def check_matching(values, rule_key, rule_value):
+            if rule_key == 'type' and rule_value == values[0]:
                 return True
-            if rule_key == 'color' and rule_value == item[1]:
+            if rule_key == 'color' and rule_value == values[1]:
                 return True
-            if rule_key == 'name' and rule_value == item[2]:
+            if rule_key == 'name' and rule_value == values[2]:
                 return True
             return False
 
@@ -441,7 +441,7 @@ class Solution:
         for i in range(min_year, max_year):
             curr_pop = 0
             for log in logs:
-                if log[0] <= i and log[1] > i:
+                if log[0] <= i < log[1]:
                     curr_pop += 1
             population_dict[i] = curr_pop
 
@@ -476,7 +476,6 @@ class Solution:
         empty_bottles = 0
         while full_bottles > 0:
             res += full_bottles
-            temp = full_bottles
             empty_bottles = full_bottles + empty_bottles
 
             full_bottles = empty_bottles // numExchange
@@ -521,7 +520,6 @@ class Solution:
 
     def getSmallestString(self, n: int, k: int) -> str:
         res = ['a'] * n
-        idx = 0
         # while idx < n:
         #     sum_diff = k - sum(res) + 1
         #     if sum_diff >= 26:
