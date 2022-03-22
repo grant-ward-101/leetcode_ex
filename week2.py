@@ -581,6 +581,15 @@ class Solution:
             res = '-' + res
         return res
 
+    def heightChecker(self, heights: list[int]) -> int:
+        sorted_height = sorted(heights)
+        count = 0
+        for i in range(len(heights)):
+            if heights[i] != sorted_height[i]:
+                count += 1
+        return count
+
+
 def main():
     s = [1, 2, 1, 2, 1, 1, 1, 3]
     test = Solution()
