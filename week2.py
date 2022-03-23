@@ -696,11 +696,13 @@ class Solution:
         remain_ones = len(remain) - remain_zeros
         return '1' * (pre_ones + remain_zeros - 1) + '0' + '1' * remain_ones
 
+    def countSegments(self, s: str) -> int:
+        return len(s.split(' '))
 
 def main():
-    binary = '000110'
+    binary = "                "
     test = Solution()
-    res = test.maximumBinaryString(binary)
+    res = test.countSegments(binary)
     print(res)
 
 
