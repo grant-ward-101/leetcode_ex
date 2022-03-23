@@ -610,17 +610,28 @@ class Solution:
                     number_negative += 1
                 else:
                     flatten.append(i)
-
         if number_negative % 2 == 0:
             return sum(flatten)
         else:
             return sum(flatten) - 2 * min(flatten)
 
+    def brokenCalc(self, startValue: int, target: int) -> int:
+        def backward_cal(end_value, start_value):
+            if start_value >= end_value:
+                return start_value - end_value
+            if end_value % 2 == 0:
+                return 1 + backward_cal(end_value / 2, start_value)
+            else:
+                return 1 + backward_cal(end_value + 1, start_value)
+
+        return int(backward_cal(target, startValue))
+
 
 def main():
-    matrix = [[1, -1], [-1, 1]]
+    startValue = 2
+    target = 3
     test = Solution()
-    res = test.maxMatrixSum(matrix)
+    res = test.brokenCalc(startValue, target)
     print(res)
 
 
