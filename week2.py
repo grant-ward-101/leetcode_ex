@@ -626,6 +626,45 @@ class Solution:
 
         return int(backward_cal(target, startValue))
 
+    def isSymmetric(self, root: [TreeNode]) -> bool:
+        def check_mirror(node1, node2):
+            if node1 is None and node2 is None:
+                return True
+            if (node1 is None and node2 is not None) or \
+                    (node1 is not None and node2 is None) or \
+                    (node1.val != node2.val):
+                return False
+            else:
+                return check_mirror(node1.left, node2.right) & check_mirror(node1.right, node2.left)
+
+        return check_mirror(root.left, root.right)
+
+    def maxDepth(self, root: [TreeNode]) -> int:
+        def traverse_to_leaf(node):
+            if not node:
+                return 0
+            return 1 + max(traverse_to_leaf(node.left), traverse_to_leaf(node.right))
+
+        return traverse_to_leaf(root)
+
+    def levelOrder(self, root: [TreeNode]) -> list[list[int]]:
+        res = []
+        if not root:
+            return res
+
+        def get_layer_values(node, output, level=0):
+            if not node:
+                return output
+            if level == len(output):
+                output.append([node.val])
+            else:
+                output[level].append(node.val)
+            get_layer_values(node.left, output, level + 1)
+            get_layer_values(node.right, output, level + 1)
+
+        get_layer_values(root, res, 0)
+        return res
+
 
 def main():
     startValue = 2
