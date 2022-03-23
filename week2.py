@@ -63,6 +63,20 @@ class TreeNode:
         self.right = right
 
 
+class SubrectangleQueries:
+
+    def __init__(self, rectangle: list[list[int]]):
+        self.matrix = rectangle
+
+    def updateSubrectangle(self, row1: int, col1: int, row2: int, col2: int, newValue: int) -> None:
+        for row_idx in range(row1, row2 + 1):
+            for col_idx in range(col1, col2 + 1):
+                self.matrix[row_idx][col_idx] = newValue
+
+    def getValue(self, row: int, col: int) -> int:
+        return self.matrix[row][col]
+
+
 class Solution:
     def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
         idx = len(matrix)
@@ -697,12 +711,68 @@ class Solution:
         return '1' * (pre_ones + remain_zeros - 1) + '0' + '1' * remain_ones
 
     def countSegments(self, s: str) -> int:
-        return len(s.split(' '))
+        return len(s.split(''))
+
+    def minFlips(self, s: str) -> int:
+        # works but takes too long, probably due to looping
+
+        # def count_pos(x):
+        #     odd1 = 0
+        #     even1 = 0
+        #     odd0 = 0
+        #     even0 = 0
+        #     for i in range(len(x)):
+        #         if i % 2 == 0 and x[i] == '0':
+        #             even0 += 1
+        #         if i % 2 == 0 and x[i] == '1':
+        #             even1 += 1
+        #         if i % 2 == 1 and x[i] == '0':
+        #             odd0 += 1
+        #         if i % 2 == 1 and x[i] == '1':
+        #             odd1 += 1
+        #     return (odd1, even1, odd0, even0)
+        #
+        # min_flip = 10 ** 5
+        # for i in range(len(s)):
+        #     ones_odd, ones_even, zeros_odd, zeros_even = count_pos(s)
+        #     temp = min(ones_odd + zeros_even, ones_even + zeros_odd)
+        #
+        #     if min_flip > temp:
+        #         min_flip = temp
+        #     s = s[1:] + s[0]
+        # return min_flip
+
+        min_flips = 10 ** 5
+        even_string = ''
+        odd_string = ''
+        double_string = s * 2
+        for i in range(len(double_string)):
+            if i % 2 == 0:
+                even_string += '0'
+                odd_string += '1'
+            else:
+                even_string += '1'
+                odd_string += '0'
+        even_count = 0
+        odd_count = 0
+        for i in range(len(double_string)):
+            if double_string[i] != even_string[i]:
+                even_count += 1
+            if double_string[i] != odd_string[i]:
+                odd_count += 1
+            if i >= len(s):
+                if double_string[i - len(s)] != even_string[i - len(s)]:
+                    even_count -= 1
+                if double_string[i - len(s)] != odd_string[i - len(s)]:
+                    odd_count -= 1
+            if i >= len(s) - 1:
+                min_flips = min(min_flips, min(odd_count, even_count))
+        return min_flips
+
 
 def main():
-    binary = "                "
     test = Solution()
-    res = test.countSegments(binary)
+    res = test.minFlips('111000')
     print(res)
 
 
