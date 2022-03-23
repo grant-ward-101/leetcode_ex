@@ -679,12 +679,28 @@ class Solution:
             temp[i] = max(temp_sum, temp[i + 1])
         return max(temp)
 
+    def maximumBinaryString(self, binary: str) -> str:
+        pre_ones = 0
+        for i in binary:
+            if i == '1':
+                pre_ones += 1
+            else:
+                break
+        if pre_ones == len(binary):
+            return binary
+        remain = binary[pre_ones:]
+        remain_zeros = 0
+        for x in remain:
+            if x == '0':
+                remain_zeros += 1
+        remain_ones = len(remain) - remain_zeros
+        return '1' * (pre_ones + remain_zeros - 1) + '0' + '1' * remain_ones
+
 
 def main():
-    questions = [[12, 46], [78, 19], [63, 15], [79, 62], [13, 10]]
-    q = [[3, 2], [4, 3], [4, 4], [2, 5]]
+    binary = '000110'
     test = Solution()
-    res = test.mostPoints(questions)
+    res = test.maximumBinaryString(binary)
     print(res)
 
 
