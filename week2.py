@@ -600,12 +600,27 @@ class Solution:
                 break
         return res % max_num
 
+    def maxMatrixSum(self, matrix: list[list[int]]) -> int:
+        flatten = []
+        number_negative = 0
+        for row in matrix:
+            for i in row:
+                if i < 0:
+                    flatten.append(i * -1)
+                    number_negative += 1
+                else:
+                    flatten.append(i)
+
+        if number_negative % 2 == 0:
+            return sum(flatten)
+        else:
+            return sum(flatten) - 2 * min(flatten)
+
 
 def main():
-    nums = [3, 5, 6, 7]
-    target = 9
+    matrix = [[1, -1], [-1, 1]]
     test = Solution()
-    res = test.numSubseq(nums, target)
+    res = test.maxMatrixSum(matrix)
     print(res)
 
 
