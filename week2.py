@@ -665,12 +665,26 @@ class Solution:
         get_layer_values(root, res, 0)
         return res
 
+    def mostPoints(self, questions: list[list[int]]) -> int:
+        temp = [0] * len(questions)
+        temp[-1] = questions[-1][0]
+        for i in range(len(questions) - 2, -1, -1):
+            # if i + questions[i][1] < len(questions) - 1:
+            #     temp[i] = max(questions[i][0] + temp[i + questions[i][1] + 1], questions[i + 1][0])
+            # else:
+            #     temp[i] = max(questions[i][0], temp[min(i + 1, len(questions) - 1)])
+            temp_sum = questions[i][0]
+            if i + questions[i][1] < len(questions) - 1:
+                temp_sum += temp[i + questions[i][1] + 1]
+            temp[i] = max(temp_sum, temp[i + 1])
+        return max(temp)
+
 
 def main():
-    startValue = 2
-    target = 3
+    questions = [[12, 46], [78, 19], [63, 15], [79, 62], [13, 10]]
+    q = [[3, 2], [4, 3], [4, 4], [2, 5]]
     test = Solution()
-    res = test.brokenCalc(startValue, target)
+    res = test.mostPoints(questions)
     print(res)
 
 
