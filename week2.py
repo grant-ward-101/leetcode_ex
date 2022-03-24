@@ -916,6 +916,22 @@ class Solution:
 
         return sorted(res)
 
+    def removeNthFromEnd(self, head: [ListNode], n: int) -> [ListNode]:
+        if not head:
+            return
+        fast_node = head
+        slow_node = head
+        for i in range(n):
+            fast_node = fast_node.next
+        if not fast_node:
+            return head.next
+        else:
+            while fast_node.next:
+                fast_node = fast_node.next
+                slow_node = slow_node.next
+            slow_node.next = slow_node.next.next
+            return head
+
 
 def main():
     keyName = ["a", "a", "a", "a", "a", "b", "b", "b", "b", "b", "b"]
