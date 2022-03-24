@@ -822,6 +822,15 @@ class Solution:
         self.invertTree(root.right)
         return root
 
+    def hasPathSum(self, root: [TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        if root.val == targetSum and root.left is None and root.right is None:
+            return True
+        else:
+            return self.hasPathSum(root.left, targetSum - root.val) or \
+                   self.hasPathSum(root.right, targetSum - root.val)
+
 
 def main():
     candies = 10
