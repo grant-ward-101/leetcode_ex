@@ -843,13 +843,25 @@ class Solution:
             end -= 1
         return count
 
+    def smallestRangeII(self, nums: list[int], k: int) -> int:
+        nums = sorted(nums)
+        curr_min = nums[0]
+        curr_max = nums[-1]
+        res = nums[-1] - nums[0]
+        for i in range(len(nums) - 1):
+            curr_max = max(nums[i] + k, nums[-1] - k)
+            curr_min = min(nums[i + 1] - k, nums[0] + k)
+            if curr_max - curr_min <= res:
+                res = curr_max - curr_min
+        return res
+
 
 def main():
-    people = [3,2,2,1]
-    limit = 3
+    nums = [7, 8, 8]
+    k = 5
 
     test = Solution()
-    res = test.numRescueBoats(people, limit)
+    res = test.smallestRangeII(nums, k)
     print(res)
 
 
