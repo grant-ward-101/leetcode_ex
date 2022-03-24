@@ -831,12 +831,25 @@ class Solution:
             return self.hasPathSum(root.left, targetSum - root.val) or \
                    self.hasPathSum(root.right, targetSum - root.val)
 
+    def numRescueBoats(self, people: list[int], limit: int) -> int:
+        count = 0
+        people = sorted(people)
+        start = 0
+        end = len(people) - 1
+        while start <= end:
+            count += 1
+            if people[start] + people[end] <= limit:
+                start += 1
+            end -= 1
+        return count
+
 
 def main():
-    candies = 10
-    num_people = 3
+    people = [3,2,2,1]
+    limit = 3
+
     test = Solution()
-    res = test.distributeCandies(candies, num_people)
+    res = test.numRescueBoats(people, limit)
     print(res)
 
 
