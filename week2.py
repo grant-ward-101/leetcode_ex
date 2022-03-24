@@ -769,10 +769,19 @@ class Solution:
                 min_flips = min(min_flips, min(odd_count, even_count))
         return min_flips
 
+    def checkString(self, s: str) -> bool:
+        last_a_idx = s.rfind('a')
+        first_b_idx = s.find('b')
+        if last_a_idx == -1 or first_b_idx == -1:
+            return True
+        if last_a_idx < first_b_idx:
+            return True
+        return False
 
 def main():
+    s = 'aaabbb'
     test = Solution()
-    res = test.minFlips('111000')
+    res = test.checkString(s)
     print(res)
 
 
