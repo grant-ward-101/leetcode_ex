@@ -932,12 +932,48 @@ class Solution:
             slow_node.next = slow_node.next.next
             return head
 
+    def isBalanced(self, root: [TreeNode]) -> bool:
+        def recursive(node, current=0):
+            if root is None:
+                return current
+            left = recursive(node, current + 1)
+            right = recursive(node, current + 1)
+
+            if left == -1:
+                return -1
+            if right == -1:
+                return -1
+            if abs(left - right) > 1:
+                return -1
+            max_depth = max(current, max(left, right))
+            return max_depth
+
+        if root is None:
+            return True
+        return recursive(root) != -1
+
+    def specialArray(self, nums: list[int]) -> int:
+        res = -1
+        nums = [x for x in nums if x != 0]
+        if len(nums) == 0:
+            return res
+        nums = sorted(nums)
+        for i in range(0, len(nums) + 1):
+            idx = bisect.bisect_left(nums, i)
+            if len(nums[idx:]) == i:
+                res = i
+                break
+        return res
+
 
 def main():
-    keyName = ["a", "a", "a", "a", "a", "b", "b", "b", "b", "b", "b"]
-    keyTime = ["04:48", "23:53", "06:36", "07:45", "12:16", "00:52", "10:59", "17:16", "00:36", "01:26", "22:42"]
+    nums = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
     test = Solution()
-    res = test.alertNames(keyName, keyTime)
+    res = test.specialArray(nums)
     print(res)
 
 
