@@ -1,3 +1,5 @@
+import functools
+
 import numpy as np
 import bisect
 
@@ -856,9 +858,9 @@ class Solution:
         return res
 
     def longestPalindromeSubseq(self, s: str) -> int:
+        @functools.cache
         def recursive_check(x, start, end):
             if start >= end:
-                print(1)
                 return end - start + 1
             if x[start] == x[end]:
                 return 2 + recursive_check(x, start + 1, end - 1)
@@ -867,14 +869,60 @@ class Solution:
 
         return recursive_check(s, 0, len(s) - 1)
 
+    def alertNames(self, keyName: list[str], keyTime: list[str]) -> list[str]:
+        def convert_hour_to_minute(time_list):
+            res = []
+            for time in time_list:
+                temp = time.split(':')
+                res.append(int(temp[0]) * 60 + int(temp[1]))
+
+            # temp = []
+            # prev = 0
+            # for i in range(len(res) - 1):
+            #     if res[i] > res[i + 1]:
+            #         temp.append(res[prev:i + 1])
+            #         prev = i + 1
+            # temp.append(res[prev:])
+            return sorted(res)
+
+        def check_alert(str_list):
+            # day_list = convert_hour_to_minute(str_list)
+            # for time_list in day_list:
+            #     if len(time_list) <= 2:
+            #         continue
+            #     for i in range(0, len(time_list) - 2):
+            #         if abs(time_list[i + 2] - time_list[i]) <= 60:
+            #             return True
+            # return False
+            time_list = convert_hour_to_minute(str_list)
+            if len(time_list) <= 2:
+                return False
+            for i in range(0, len(time_list) - 2):
+                if abs(time_list[i + 2] - time_list[i]) <= 60:
+                    return True
+            return False
+
+        name_dict = dict()
+        for i in range(len(keyName)):
+            if keyName[i] not in name_dict:
+                name_dict[keyName[i]] = [keyTime[i]]
+            else:
+                name_dict[keyName[i]].append(keyTime[i])
+
+        res = []
+        for name in name_dict.keys():
+            if check_alert(name_dict[name]):
+                res.append(name)
+
+        return sorted(res)
+
 
 def main():
-    nums = [7, 8, 8]
-    k = 5
-    s = 'bbbab'
+    keyName = ["a", "a", "a", "a", "a", "b", "b", "b", "b", "b", "b"]
+    keyTime = ["04:48", "23:53", "06:36", "07:45", "12:16", "00:52", "10:59", "17:16", "00:36", "01:26", "22:42"]
     test = Solution()
-    res = test.longestPalindromeSubseq(s)
-    # print(res)
+    res = test.alertNames(keyName, keyTime)
+    print(res)
 
 
 if __name__ == '__main__':
