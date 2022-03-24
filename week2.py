@@ -798,12 +798,26 @@ class Solution:
                     return False
             return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
 
+    def distributeCandies(self, candies: int, num_people: int) -> list[int]:
+        remain = candies
+        res = [0] * num_people
+        required = 1
+        while remain > 0:
+            for i in range(num_people):
+                if remain <= required:
+                    res[i] += remain
+                    return res
+                else:
+                    res[i] += required
+                    remain -= required
+                required += 1
+
 
 def main():
-    s = 'ab'
-    i = 'ab'
+    candies = 10
+    num_people = 3
     test = Solution()
-    res = test.buddyStrings(s, i)
+    res = test.distributeCandies(candies, num_people)
     print(res)
 
 
