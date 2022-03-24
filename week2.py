@@ -855,14 +855,26 @@ class Solution:
                 res = curr_max - curr_min
         return res
 
+    def longestPalindromeSubseq(self, s: str) -> int:
+        def recursive_check(x, start, end):
+            if start >= end:
+                print(1)
+                return end - start + 1
+            if x[start] == x[end]:
+                return 2 + recursive_check(x, start + 1, end - 1)
+            else:
+                return max(recursive_check(x, start + 1, end), recursive_check(x, start, end - 1))
+
+        return recursive_check(s, 0, len(s) - 1)
+
 
 def main():
     nums = [7, 8, 8]
     k = 5
-
+    s = 'bbbab'
     test = Solution()
-    res = test.smallestRangeII(nums, k)
-    print(res)
+    res = test.longestPalindromeSubseq(s)
+    # print(res)
 
 
 if __name__ == '__main__':
