@@ -778,10 +778,32 @@ class Solution:
             return True
         return False
 
+    def buddyStrings(self, s: str, goal: str) -> bool:
+        if len(s) != len(goal):
+            return False
+        if s == goal:
+            seen = dict()
+            for i in s:
+                if i not in seen:
+                    seen[i] = 1
+                else:
+                    return True
+            return False
+        else:
+            pairs = []
+            for i in range(len(s)):
+                if s[i] != goal[i]:
+                    pairs.append([s[i], goal[i]])
+                if len(pairs) > 2:
+                    return False
+            return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
+
+
 def main():
-    s = 'aaabbb'
+    s = 'ab'
+    i = 'ab'
     test = Solution()
-    res = test.checkString(s)
+    res = test.buddyStrings(s, i)
     print(res)
 
 
