@@ -9,6 +9,13 @@ class ListNode:
         self.next = next
 
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
     def oddEvenList(self, head: [ListNode]) -> [ListNode]:
         if not head:
@@ -110,6 +117,22 @@ class Solution:
                     if temp > res:
                         res = temp
         return res
+
+    def sumRootToLeaf(self, root: [TreeNode]) -> int:
+        def dfs(node, path, res):
+            path += str(node.val)
+            if node.left is None and node.right is None:
+                res.append(path)
+                return
+            if node.left:
+                dfs(node.left, path, res)
+            if node.right:
+                dfs(node.right, path, res)
+
+        res = []
+        path = ''
+        dfs(root, path, res)
+        return sum([int(x, base=2) for x in res])
 
 
 def main():
