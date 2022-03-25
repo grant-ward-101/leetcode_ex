@@ -1,5 +1,6 @@
 import copy
 import numpy as np
+import collections
 
 
 class ListNode:
@@ -64,22 +65,57 @@ class Solution:
         return res
 
     def countServers(self, grid: list[list[int]]) -> int:
-        def check_connection(row, col, matrix):
-            return (matrix[row, :] == 1).sum() > 1 or (matrix[:, col] == 1).sum() > 1
+        # def check_connection(row, col, matrix):
+        #     return (matrix[row, :] == 1).sum() > 1 or (matrix[:, col] == 1).sum() > 1
+        #
+        # count = 0
+        # grid = np.array(grid)
+        # for i in range(len(grid)):
+        #     for j in range(len(grid[0])):
+        #         if grid[i][j] == 1 and check_connection(i, j, grid):
+        #             count += 1
+        # return count
 
+        row_count_dict = collections.defaultdict(int)
+        col_count_dict = collections.defaultdict(int)
+        m, n = len(grid), len(grid[0])
         count = 0
-        grid = np.array(grid)
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 1 and check_connection(i, j, grid):
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
                     count += 1
+                    row_count_dict[i] += 1
+                    col_count_dict[j] += 1
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1 and row_count_dict[i] == 1 and col_count_dict[j] == 1:
+                    count -= 1
         return count
+
+    def largestSubmatrix(self, matrix: list[list[int]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        count_matrix = copy.deepcopy(matrix)
+        for j in range(n):
+            for i in range(1, m):
+                if matrix[i][j] == 1:
+                    count_matrix[i][j] = 1 + count_matrix[i - 1][j]
+        res = 0
+        for i in range(m):
+            row = sorted(count_matrix[i], reverse=True)
+            min_height = row[0]
+            res = max(res, min_height * 1)
+            for j in range(1, n):
+                if row[j] != 0:
+                    temp = min(min_height, row[j]) * (j + 1)
+                    if temp > res:
+                        res = temp
+        return res
 
 
 def main():
-    grid = [[1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+    matrix = [[0, 0, 1], [1, 1, 1], [1, 0, 1]]
     test = Solution()
-    res = test.countServers(grid)
+    res = test.largestSubmatrix(matrix)
     print(res)
 
 
