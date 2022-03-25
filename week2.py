@@ -1,3 +1,4 @@
+import collections
 import copy
 import functools
 
@@ -78,6 +79,26 @@ class SubrectangleQueries:
 
     def getValue(self, row: int, col: int) -> int:
         return self.matrix[row][col]
+
+
+class FindSumPairs:
+
+    def __init__(self, nums1: list[int], nums2: list[int]):
+        self.nums1 = nums1
+        self.nums2 = nums2
+        self.nums2_dict = collections.Counter(nums2)
+
+    def add(self, index: int, val: int) -> None:
+        old_value = self.nums2[index]
+        self.nums2_dict[old_value] -= 1
+        self.nums2[index] = old_value + val
+        self.nums2_dict[old_value + val] += 1
+
+    def count(self, tot: int) -> int:
+        res = 0
+        for i in range(len(self.nums1)):
+            res += self.nums2_dict[tot - self.nums1[i]]
+        return res
 
 
 class Solution:
@@ -1090,11 +1111,13 @@ class Solution:
         else:
             return child_sum
 
+
 def main():
     s = '112'
     test = Solution()
     res = test.splitIntoFibonacci(s)
     print(res)
+
 
 if __name__ == '__main__':
     main()
