@@ -19,3 +19,22 @@ class Solution:
 
         odd_node.next = even_node_head
         return head
+
+    def twoOutOfThree(self, nums1: list[int], nums2: list[int], nums3: list[int]) -> list[int]:
+        set1 = set(nums1)
+        set2 = set(nums2)
+        set3 = set(nums3)
+        return list((set1 & set2) | (set2 & set3) | (set3 & set1))
+
+
+def main():
+    nums1 = [3, 1]
+    nums2 = [2, 3]
+    nums3 = [1, 2]
+
+    test = Solution()
+    res = test.twoOutOfThree(nums1, nums2, nums3)
+    print(res)
+
+if __name__ == '__main__':
+    main()
