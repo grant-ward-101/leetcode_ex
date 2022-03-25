@@ -989,6 +989,26 @@ class Solution:
                 return count
             perm = copy.deepcopy(arr)
 
+    def searchBST(self, root: [TreeNode], val: int) -> [TreeNode]:
+        if not root:
+            return
+
+        def bfs(node, val):
+            if not node:
+                return
+            if node.val == val:
+                return node
+            else:
+                left = bfs(node.left, val)
+                right = bfs(node.right, val)
+                if left:
+                    return left
+                if right:
+                    return right
+
+        return bfs(root, val)
+
+
 def main():
     nums = [10, 9, 2, 5, 3, 7, 101, 18]
     test = Solution()
