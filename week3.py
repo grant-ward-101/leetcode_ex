@@ -1,6 +1,7 @@
 import copy
 import numpy as np
 import collections
+import string
 
 
 class ListNode:
@@ -134,11 +135,23 @@ class Solution:
         dfs(root, path, res)
         return sum([int(x, base=2) for x in res])
 
+    def isSumEqual(self, firstWord: str, secondWord: str, targetWord: str) -> bool:
+        def convert(word):
+            alpha_dict = dict(zip(string.ascii_lowercase, list(range(26))))
+            res = ''
+            for letter in word:
+                res += str(alpha_dict[letter])
+            return int(res)
+
+        return convert(firstWord) + convert(secondWord) == convert(targetWord)
+
 
 def main():
-    matrix = [[0, 0, 1], [1, 1, 1], [1, 0, 1]]
+    firstWord = "acb"
+    secondWord = "cba"
+    targetWord = "cdb"
     test = Solution()
-    res = test.largestSubmatrix(matrix)
+    res = test.isSumEqual(firstWord, secondWord, targetWord)
     print(res)
 
 
