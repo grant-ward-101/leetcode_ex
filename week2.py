@@ -1,3 +1,4 @@
+import copy
 import functools
 
 import numpy as np
@@ -973,11 +974,25 @@ class Solution:
                     dp[i] = max(dp[i], 1 + dp[j])
         return max(dp)
 
+    def reinitializePermutation(self, n: int) -> int:
+        perm = list(range(n))
+        arr = list(range(n))
+        count = 0
+        for loop in range(n):
+            count += 1
+            for i in range(n):
+                if i % 2 == 0:
+                    arr[i] = perm[int(i / 2)]
+                else:
+                    arr[i] = perm[int(n / 2 + (i - 1) / 2)]
+            if arr == list(range(n)):
+                return count
+            perm = copy.deepcopy(arr)
 
 def main():
-    nums = [10,9,2,5,3,7,101,18]
+    nums = [10, 9, 2, 5, 3, 7, 101, 18]
     test = Solution()
-    res = test.lengthOfLIS(nums)
+    res = test.reinitializePermutation(4)
     print(res)
 
 
