@@ -1062,8 +1062,6 @@ class Solution:
         def backtracking(current_string, cut_size, path):
             if cut_size >= 3 and path[-1] != path[-2] + path[-3]:
                 return False
-            if cut_size >= 3 and path[-1] >= 2 ** 31:
-                return False
             if current_string == '':
                 return cut_size >= 3
 
@@ -1071,6 +1069,8 @@ class Solution:
                 cut_string = current_string[:i]
                 remain = current_string[i:]
                 if cut_string[0] == '0' and len(cut_string) != 1:
+                    break
+                if int(cut_string) > 2 ** 31:
                     break
                 else:
                     path.append(int(cut_string))
@@ -1081,21 +1081,20 @@ class Solution:
         backtracking(num, 0, path)
         return path
 
+    def rangeSumBST(self, root: [TreeNode], low: int, high: int) -> int:
+        if not root:
+            return 0
+        child_sum = self.rangeSumBST(root.left, low, high) + self.rangeSumBST(root.right, low, high)
+        if low <= root.val <= high:
+            return child_sum + root.val
+        else:
+            return child_sum
 
 def main():
-    s = "539834657215398346785398346991079669377161950407626991734534318677529701785098211336528511"
+    s = '112'
     test = Solution()
     res = test.splitIntoFibonacci(s)
     print(res)
-    temp = [str(x) for x in res]
-    temp = ''.join(temp)
-    print(temp)
-    print(temp == s)
-    for i in range(len(res) - 2):
-        if res[i] + res[i + 1] != res[i + 2]:
-            print(res[i])
-    print('true')
-
 
 if __name__ == '__main__':
     main()
