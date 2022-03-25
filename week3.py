@@ -145,13 +145,50 @@ class Solution:
 
         return convert(firstWord) + convert(secondWord) == convert(targetWord)
 
+    def removeDuplicates(self, s: str, k: int) -> str:
+        # while True:
+        #     count = 0
+        #     if len(s) < k:
+        #         break
+        #     i = 0
+        #     while i < len(s):
+        #         if s[i: i + k] == s[i] * k:
+        #             s = s[:i] + s[i + k:]
+        #             count += 1
+        #         i += 1
+        #     if count == 0:
+        #         break
+        # return s
+
+        # stack = []
+        # for letter in s:
+        #     stack.append(letter)
+        #     if len(stack) >= k and stack[-k:] == [stack[-1]] * k:
+        #         stack = stack[: -k]
+        # return ''.join(stack)
+
+        stack = []
+        for letter in s:
+            if not stack:
+                stack.append([letter, 1])
+                continue
+            if stack[-1][0] == letter:
+                stack[-1][1] += 1
+            else:
+                stack.append([letter, 1])
+            if stack[-1][1] == k:
+                del stack[-1]
+
+        res = ''
+        for letter in stack:
+            res += letter[0] * letter[1]
+        return res
 
 def main():
-    firstWord = "acb"
-    secondWord = "cba"
-    targetWord = "cdb"
+    s = "deeedbbcccbdaa"
+    k = 3
     test = Solution()
-    res = test.isSumEqual(firstWord, secondWord, targetWord)
+    res = test.removeDuplicates(s, k)
     print(res)
 
 
