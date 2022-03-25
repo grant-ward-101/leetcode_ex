@@ -1,4 +1,5 @@
 import copy
+import numpy as np
 
 
 class ListNode:
@@ -62,11 +63,23 @@ class Solution:
             curr_value += 1
         return res
 
+    def countServers(self, grid: list[list[int]]) -> int:
+        def check_connection(row, col, matrix):
+            return (matrix[row, :] == 1).sum() > 1 or (matrix[:, col] == 1).sum() > 1
+
+        count = 0
+        grid = np.array(grid)
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1 and check_connection(i, j, grid):
+                    count += 1
+        return count
+
 
 def main():
-    isWater = [[0, 1], [0, 0]]
+    grid = [[1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
     test = Solution()
-    res = test.highestPeak(isWater)
+    res = test.countServers(grid)
     print(res)
 
 
