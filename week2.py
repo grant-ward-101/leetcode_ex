@@ -1026,10 +1026,19 @@ class Solution:
         dfs(temp, val)
         return root
 
+    def twoCitySchedCost(self, costs: list[list[int]]) -> int:
+        total_cost_a = sum([x[0] for x in costs])
+        cost_convert_to_b = [x[1] - x[0] for x in costs]
+        cost_convert_to_b = sorted(cost_convert_to_b)
+        max_profit = sum(cost_convert_to_b[:int(len(costs) / 2)])
+
+        return total_cost_a + max_profit
+
+
 def main():
-    nums = [10, 9, 2, 5, 3, 7, 101, 18]
+    costs = [[10, 20], [30, 200], [400, 50], [30, 20]]
     test = Solution()
-    res = test.reinitializePermutation(4)
+    res = test.twoCitySchedCost(costs)
     print(res)
 
 
