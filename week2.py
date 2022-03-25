@@ -1008,6 +1008,23 @@ class Solution:
 
         return bfs(root, val)
 
+    def insertIntoBST(self, root: [TreeNode], val: int) -> [TreeNode]:
+        if not root:
+            return TreeNode(val)
+
+        def dfs(node, value):
+            if node.val > value and node.left is None:
+                node.left = TreeNode(val)
+            elif node.val < value and node.right is None:
+                node.right = TreeNode(val)
+            elif node.val > value and node.left is not None:
+                dfs(node.left, val)
+            elif node.val < value and node.right is not None:
+                dfs(node.right, val)
+
+        temp = root
+        dfs(temp, val)
+        return root
 
 def main():
     nums = [10, 9, 2, 5, 3, 7, 101, 18]
