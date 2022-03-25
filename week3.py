@@ -1,3 +1,6 @@
+import copy
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -26,15 +29,46 @@ class Solution:
         set3 = set(nums3)
         return list((set1 & set2) | (set2 & set3) | (set3 & set1))
 
+    def highestPeak(self, isWater: list[list[int]]) -> list[list[int]]:
+        list_idx = []
+        res = []
+        for i in range(len(isWater)):
+            temp = []
+            for j in range(len(isWater[0])):
+                if isWater[i][j] == 1:
+                    temp.append(0)
+                    list_idx.append([i, j])
+                else:
+                    temp.append(None)
+            res.append(temp)
+        curr_value = 1
+        while len(list_idx) > 0:
+            temp_list_idx = []
+            for curr_idx in list_idx:
+                row, col = curr_idx[0], curr_idx[1]
+                if row > 0 and res[row - 1][col] is None:
+                    res[row - 1][col] = curr_value
+                    temp_list_idx.append([row - 1, col])
+                if row < len(res) - 1 and res[row + 1][col] is None:
+                    res[row + 1][col] = curr_value
+                    temp_list_idx.append([row + 1, col])
+                if col > 0 and res[row][col - 1] is None:
+                    res[row][col - 1] = curr_value
+                    temp_list_idx.append([row, col - 1])
+                if col < len(res[0]) - 1 and res[row][col + 1] is None:
+                    res[row][col + 1] = curr_value
+                    temp_list_idx.append([row, col + 1])
+            list_idx = temp_list_idx
+            curr_value += 1
+        return res
+
 
 def main():
-    nums1 = [3, 1]
-    nums2 = [2, 3]
-    nums3 = [1, 2]
-
+    isWater = [[0, 1], [0, 0]]
     test = Solution()
-    res = test.twoOutOfThree(nums1, nums2, nums3)
+    res = test.highestPeak(isWater)
     print(res)
+
 
 if __name__ == '__main__':
     main()
