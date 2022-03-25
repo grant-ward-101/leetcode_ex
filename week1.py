@@ -3,15 +3,16 @@ from bisect import bisect
 from cgitb import small
 from pydoc import tempfilepager
 import string
-import  sys
+import sys
 from tabnanny import check
+
+
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
         for idx in range(len(nums) - 1):
             subtract = target - nums[idx]
             if subtract in nums[idx + 1:]:
                 return [idx, nums[idx + 1:].index(subtract) + idx + 1]
-
 
     def merge(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
         # # def find_index(arr, x):
@@ -23,7 +24,7 @@ class Solution:
         # from bisect import bisect
         # for i in nums2:
         #     idx = bisect(nums1, i)
-            
+
         #     nums1 = nums1[:idx] + [i] + nums1[idx:-1]
         temp = nums1[:m]
         res = []
@@ -51,7 +52,6 @@ class Solution:
             j += 1
             idx += 1
 
-
     def maxSubsequence(self, nums: list[int], k: int) -> list[int]:
         # temp = dict(zip(nums, range(len(nums))))
         # print(temp)
@@ -64,13 +64,11 @@ class Solution:
         temp = enumerate(nums)
         reversed_temp = sorted(temp, reverse=True, key=lambda x: x[1])
         reversed_temp = [list(x) for x in reversed_temp][:k]
-        
-        reversed_temp = sorted(reversed_temp, key=lambda x: x[0])
-        
-        return [x[1] for x in reversed_temp]
-        
 
-    
+        reversed_temp = sorted(reversed_temp, key=lambda x: x[0])
+
+        return [x[1] for x in reversed_temp]
+
     def reorderLogFiles(self, logs: list[str]) -> list[str]:
         let_log = []
         dig_log = []
@@ -83,19 +81,17 @@ class Solution:
                     dig_log.append(i)
             else:
                 let_log.append(i)
-        
+
         sorted_let_log = sorted(let_log, key=lambda x: x.split(' ')[0])
         print(sorted_let_log)
         sorted_let_log = sorted(sorted_let_log, key=lambda x: x.split(' ')[1:])
-        print(sorted_let_log)        
+        print(sorted_let_log)
         # sorted_dig_log = sorted(dig_log, key=lambda x: x.split(' ')[0][-1])
         # print(dig_log)
         # print(sorted_dig_log)
         # sorted_none_iden_log = sorted(none_iden_log)
         # return sorted_let_log + sorted_dig_log + sorted_none_iden_log
         return sorted_let_log + dig_log
-
-
 
     def maxDepth(self, root: 'Node') -> int:
 
@@ -106,9 +102,8 @@ class Solution:
             for child in node.children:
                 max_depth = max(max_depth, dfs(child, level + 1))
             return max_depth
-        
-        return dfs(root, 1)
 
+        return dfs(root, 1)
 
     def triangleNumber(self, nums: list[int]) -> int:
         res = 0
@@ -121,7 +116,6 @@ class Solution:
                     res += third_location - j - 1
         return res
 
-
     def intersect(self, nums1: list[int], nums2: list[int]) -> list[int]:
         if len(nums1) > len(nums2):
             longer_list = nums1
@@ -129,7 +123,7 @@ class Solution:
         else:
             longer_list = nums1
             shorter_list = nums2
-        
+
         hash_map = dict()
         for i in longer_list:
             if i in hash_map:
@@ -143,7 +137,6 @@ class Solution:
                 hash_map[j] -= 1
         return res
 
-
     def maxProfit(self, prices: list[int]) -> int:
         max_profit = -1
         buy_day = 0
@@ -153,15 +146,14 @@ class Solution:
                 max_profit = current_profit
             if prices[sell_date] < prices[buy_day]:
                 buy_day = sell_date
-        
-        return max_profit if max_profit > 0 else 0
 
+        return max_profit if max_profit > 0 else 0
 
     def matrixReshape(self, mat: list[list[int]], r: int, c: int) -> list[list[int]]:
         flatten_data = []
         for row in mat:
             flatten_data += row
-        
+
         if r * c != len(flatten_data):
             return mat
         res = []
@@ -170,9 +162,8 @@ class Solution:
             flatten_data = flatten_data[c:]
         return res
 
-
     def generate(self, numRows: int) -> list[list[int]]:
-        
+
         def calculate_row(num):
             if num == 1:
                 return [[1]]
@@ -187,20 +178,19 @@ class Solution:
                 new_row.append(1)
                 last_triangle.append(new_row)
                 return last_triangle
-        return calculate_row(numRows)
 
+        return calculate_row(numRows)
 
     def validateStackSequences(self, pushed: list[int], popped: list[int]) -> bool:
         stack = []
         j = 0
         for i in pushed:
             stack.append(i)
-            
+
             while (len(stack) > 0 and stack[-1] == popped[j]):
                 stack.pop(len(stack) - 1)
                 j += 1
-        return len(stack) == 0 
-
+        return len(stack) == 0
 
     def replaceElements(self, arr: list[int]) -> list[int]:
         current_max = arr[-1]
@@ -214,9 +204,9 @@ class Solution:
         arr[-1] = -1
         return arr
 
-
-    def floodFill(self, image: list[list[int]], sr: int, sc: int, newColor: int) -> list[list[int]]: 
+    def floodFill(self, image: list[list[int]], sr: int, sc: int, newColor: int) -> list[list[int]]:
         marked = []
+
         def change_color(old, new, r, c, img):
             img[r][c] = new
             marked.append([r, c])
@@ -228,13 +218,14 @@ class Solution:
                 change_color(old, new, r, c - 1, img)
             if c + 1 <= len(img[0]) - 1 and img[r][c + 1] == old and [r, c + 1] not in marked:
                 change_color(old, new, r, c + 1, img)
+
         old = image[sr][sc]
         change_color(old, newColor, sr, sc, image)
         return image
 
-
     def uniqueMorseRepresentations(self, words: list[str]) -> int:
-        arr = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        arr = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---",
+               ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
         alphabets = list(string.ascii_lowercase)
         morse_dict = dict(zip(alphabets, arr))
         morsed_words = []
@@ -244,14 +235,12 @@ class Solution:
             morsed_words.append(code)
         return len(set(morsed_words))
 
-
     def canBeEqual(self, target: list[int], arr: list[int]) -> bool:
         target_counter = collections.Counter(target)
         arr_counter = collections.Counter(arr)
         return target_counter == arr_counter
 
-
-    def scoreOfParentheses(self, s: str) -> int: 
+    def scoreOfParentheses(self, s: str) -> int:
         score = 0
         stack = []
         for i in s:
@@ -263,9 +252,8 @@ class Solution:
                 del stack[-1]
         return score
 
-
     def isValidSudoku(self, board: list[list[str]]) -> bool:
-        import numpy as np 
+        import numpy as np
         def check_duplicate(arr):
             arr.remove('.')
             return len(arr) == len(set(arr))
@@ -284,7 +272,7 @@ class Solution:
                 if not check_small_square(small_board):
                     return False
         for i in range(len(np_board)):
-            if not check_duplicate(np_board[i,:]):
+            if not check_duplicate(np_board[i, :]):
                 return False
         for i in range(len(np_board[0])):
             if not check_duplicate(np_board[:, i]):
@@ -293,7 +281,7 @@ class Solution:
 
 
 class MyHashMap:
-    
+
     def __init__(self):
         self.hash_map = []
 
@@ -320,7 +308,8 @@ class MyHashMap:
         else:
             pos = key_list.index(key)
             del self.hash_map[pos]
-        
+
+
 def main():
     # s = sys.stdin.read()
     # print(s)
@@ -332,21 +321,20 @@ def main():
     k = [[1, 1], [2, 2], [2, 1]]
     print(k[:, 0])
     input()
-    board = [["5","3",".",".","7",".",".",".","."]
-            ,["6",".",".","1","9","5",".",".","."]
-            ,[".","9","8",".",".",".",".","6","."]
-            ,["8",".",".",".","6",".",".",".","3"]
-            ,["4",".",".","8",".","3",".",".","1"]
-            ,["7",".",".",".","2",".",".",".","6"]
-            ,[".","6",".",".",".",".","2","8","."]
-            ,[".",".",".","4","1","9",".",".","5"]
-            ,[".",".",".",".","8",".",".","7","9"]]
-    s = ["gin","zen","gig","msg"]
+    board = [["5", "3", ".", ".", "7", ".", ".", ".", "."]
+        , ["6", ".", ".", "1", "9", "5", ".", ".", "."]
+        , [".", "9", "8", ".", ".", ".", ".", "6", "."]
+        , ["8", ".", ".", ".", "6", ".", ".", ".", "3"]
+        , ["4", ".", ".", "8", ".", "3", ".", ".", "1"]
+        , ["7", ".", ".", ".", "2", ".", ".", ".", "6"]
+        , [".", "6", ".", ".", ".", ".", "2", "8", "."]
+        , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
+        , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    s = ["gin", "zen", "gig", "msg"]
     sol = Solution()
     res = sol.isValidSudoku(board)
     print(res)
 
 
-
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
