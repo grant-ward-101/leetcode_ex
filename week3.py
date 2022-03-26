@@ -1,4 +1,6 @@
 import copy
+from typing import List
+
 import numpy as np
 import collections
 import string
@@ -227,12 +229,64 @@ class Solution:
 
         return recursion(root, k, seen)
 
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # if not root:
+        #     return root
+        # lowest = root
+        #
+        # def check_descendant(node, child_node):
+        #     if node.val == child_node.val:
+        #         return True
+        #     else:
+        #         return check_descendant(node.left, child_node) or check_descendant(node.right, child_node)
+        #
+        # def finder(node, node1, node2):
+        #     nonlocal lowest
+        #     if (check_descendant(node.left, node1) and check_descendant(node.right, node2)) or \
+        #             (check_descendant(node.right, node1) and check_descendant(node.left, node2)):
+        #         lowest = node
+        #         return node
+        #     if (node == node1 and check_descendant(node, node2)) or (node == node2 and check_descendant(node, node1)):
+        #         lowest = node
+        #         return node
+        #     if check_descendant(node.left, node1) and check_descendant(node.left, node2):
+        #         lowest = node.left
+        #         finder(node.left, node1, node2)
+        #     elif check_descendant(node.right, node1) and check_descendant(node.right, node2):
+        #         lowest = node.right
+        #         finder(node.right, node1, node2)
+        #
+        # return lowest
+
+        def recursion(node, p, q):
+            if p.val > node.val and q.val > node.val and node.right:
+                node = node.right
+                return recursion(node, p, q)
+            if p.val < node.val and q.val < node.val and node.left:
+                node = node.left
+                return recursion(node, p, q)
+            return node
+
+        return recursion(root, p, q)
+
+    def singleNumber(self, nums: List[int]) -> int:
+        # seen = dict()
+        # for num in nums:
+        #     if num not in seen:
+        #         seen[num] = 1
+        #     else:
+        #         seen[num] += 1
+        # return list(seen.keys())[list(seen.values()).index(1)]
+
+        res = nums[0]
+        for num in nums[1:]:
+            res = res ^ num
+        return res
 
 def main():
-    nums = [-1, 0, 3, 5, 9, 12]
-    target = 2
+    nums = [2, 2, 1]
     test = Solution()
-    res = test.search(nums, target)
+    res = test.singleNumber(nums)
     print(res)
 
 
