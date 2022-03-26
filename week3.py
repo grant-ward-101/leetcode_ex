@@ -336,11 +336,23 @@ class Solution:
             res += [i] * j
         return res
 
+    def sortEvenOdd(self, nums: List[int]) -> List[int]:
+        temp = np.zeros(len(nums))
+        nums = np.array(nums)
+        even_idx = np.arange(0, len(nums), 2)
+        odd_idx = np.arange(1, len(nums), 2)
+        even = np.sort(nums[even_idx])
+        odd = np.sort(nums[odd_idx])
+        temp[even_idx] = even
+        temp[odd_idx] = odd
+        res = temp.astype(int).tolist()
+        return res
+
 
 def main():
-    nums = [-1, 1, -6, 4, 5, -6, 1, 4, 1]
+    nums = [4, 1, 2, 3]
     test = Solution()
-    res = test.frequencySort(nums)
+    res = test.sortEvenOdd(nums)
     print(res)
 
 
