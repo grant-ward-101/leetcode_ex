@@ -211,6 +211,22 @@ class Solution:
 
         return recursion(root)
 
+    def findTarget(self, root: [TreeNode], k: int) -> bool:
+        seen = dict()
+        if not root:
+            return False
+
+        def recursion(node, k, seen):
+            if not node:
+                return False
+            if k - node.val in seen:
+                return True
+            else:
+                seen[node.val] = 1
+            return recursion(node.left, k, seen) or recursion(node.right, k, seen)
+
+        return recursion(root, k, seen)
+
 
 def main():
     nums = [-1, 0, 3, 5, 9, 12]
