@@ -348,11 +348,48 @@ class Solution:
         res = temp.astype(int).tolist()
         return res
 
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def quick_sort(nums, start, end):
+            if start >= end:
+                return
+            pivot_idx = (start + end) // 2
+            pivot = nums[pivot_idx]
+            left, right = start, end
+            while left <= right:
+                while left <= right and nums[left] < pivot:
+                    left += 1
+                while left <= right and nums[right] > pivot:
+                    right -= 1
+                if left <= right:
+                    nums[left], nums[right] = nums[right], nums[left]
+                    left += 1
+                    right -= 1
+            quick_sort(nums, start, right)
+            quick_sort(nums, left, end)
+
+        quick_sort(nums, 0, len(nums) - 1)
+        return nums
+
+    def isSubsequence(self, s: str, t: str) -> bool:
+        i = 0
+        j = 0
+        while i < len(s):
+            if j >= len(t):
+                return False
+            if s[i] == t[j]:
+                i += 1
+                j += 1
+            else:
+                j += 1
+
+        return True
+
 
 def main():
-    nums = [4, 1, 2, 3]
+    s = "axc"
+    t = "ahbgdc"
     test = Solution()
-    res = test.sortEvenOdd(nums)
+    res = test.isSubsequence(s, t)
     print(res)
 
 
