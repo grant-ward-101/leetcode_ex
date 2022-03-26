@@ -384,12 +384,31 @@ class Solution:
 
         return True
 
+    def mostVisited(self, n: int, rounds: List[int]) -> List[int]:
+        count_dict = dict(zip(list(range(1, n + 1)), [0] * n))
+        last_stop = None
+        for i in range(1, len(rounds)):
+            if last_stop is not None:
+                count_dict[last_stop] -= 1
+            track_start = rounds[i - 1]
+            track_end = rounds[i]
+            last_stop = track_end
+            track_list = []
+            if track_end <= track_start:
+                track_list = track_list + list(range(track_start, n + 1)) + list(range(1, track_end + 1))
+            else:
+                track_list = track_list + list(range(track_start, track_end + 1))
+
+            for sector in track_list:
+                count_dict[sector] += 1
+        res = [key for key, value in count_dict.items() if value == max(count_dict.values())]
+        return sorted(res)
 
 def main():
-    s = "axc"
-    t = "ahbgdc"
+    n = 7
+    rounds = [1, 3, 5, 7]
     test = Solution()
-    res = test.isSubsequence(s, t)
+    res = test.mostVisited(n, rounds)
     print(res)
 
 
