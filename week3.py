@@ -283,10 +283,21 @@ class Solution:
             res = res ^ num
         return res
 
+    def majorityElement(self, nums: List[int]) -> int:
+        num_dict = dict()
+        for num in nums:
+            if num not in num_dict:
+                num_dict[num] = 1
+            else:
+                num_dict[num] += 1
+            if num_dict[num] > len(nums) / 2:
+                return num
+
+
 def main():
-    nums = [2, 2, 1]
+    nums = [3, 2, 3]
     test = Solution()
-    res = test.singleNumber(nums)
+    res = test.majorityElement(nums)
     print(res)
 
 
