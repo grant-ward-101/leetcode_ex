@@ -1,6 +1,6 @@
 import copy
+import math
 from typing import List
-
 import numpy as np
 import collections
 import string
@@ -413,11 +413,26 @@ class Solution:
                     res += nums[k + 1:].count(sum)
         return res
 
+    def numberOfBoomerangs(self, points: List[List[int]]) -> int:
+        def calc_dist(point1, point2):
+            return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
+
+        res = 0
+        for i in range(len(points)):
+            dist_dict = collections.defaultdict(int)
+            for j in range(len(points)):
+                if i != j:
+                    temp_dist = calc_dist(points[i], points[j])
+                    dist_dict[temp_dist] += 1
+            for item in dist_dict:
+                res += dist_dict[item] * (dist_dict[item] - 1)
+        return res
+
 
 def main():
-    nums = [9, 6, 8, 23, 39, 23]
+    points = [[1, 1]]
     test = Solution()
-    res = test.countQuadruplets(nums)
+    res = test.numberOfBoomerangs(points)
     print(res)
 
 
