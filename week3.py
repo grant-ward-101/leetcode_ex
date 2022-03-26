@@ -327,11 +327,20 @@ class Solution:
                     k -= 1
         return res
 
+    def frequencySort(self, nums: List[int]) -> List[int]:
+        nums = sorted(nums)
+        counter = collections.Counter(nums)
+        res = []
+        temp = sorted(counter.items(), key=lambda x: x[1], reverse=True)
+        for i, j in reversed(temp):
+            res += [i] * j
+        return res
+
 
 def main():
-    nums = [-1, 0, 1, 2, -1, -4]
+    nums = [-1, 1, -6, 4, 5, -6, 1, 4, 1]
     test = Solution()
-    res = test.threeSum(nums)
+    res = test.frequencySort(nums)
     print(res)
 
 
