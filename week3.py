@@ -199,6 +199,18 @@ class Solution:
         res = binary_search(nums, target, 0, len(nums))
         return res
 
+    def isValidBST(self, root: [TreeNode]) -> bool:
+        def recursion(node, min_value=-1 * (2 ** 31), max_value=(2 ** 31)):
+            if not node:
+                return
+            if node.val < min_value or node.val > max_value:
+                return False
+            left_check = recursion(node.left, min_value, node.val - 1)
+            right_check = recursion(node.right, node.val + 1, max_value)
+            return left_check and right_check
+
+        return recursion(root)
+
 
 def main():
     nums = [-1, 0, 3, 5, 9, 12]
