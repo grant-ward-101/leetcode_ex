@@ -498,18 +498,15 @@ class Solution:
     def fairCandySwap(self, aliceSizes: List[int], bobSizes: List[int]) -> List[int]:
         sum_alice = sum(aliceSizes)
         sum_bob = sum(bobSizes)
-        # give = None
-        # take = None
-        # if sum_alice > sum_bob:
-        #     give = sum_alice
-        #     take = sum_bob
-        # else:
-        #     give = sum_bob
-        #     take = sum_alice
         average = (sum_alice + sum_bob) // 2
         for i in aliceSizes:
             if (sum_bob + 2 * i - sum_alice) // 2 in bobSizes:
                 return [i, (sum_bob + 2 * i - sum_alice) // 2]
+
+    def generateTheString(self, n: int) -> str:
+        if n % 2 == 0:
+            return 'x' * (n - 1) + 'a'
+        return 'x' * n
 
 
 def main():
