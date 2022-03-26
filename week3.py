@@ -428,11 +428,78 @@ class Solution:
                 res += dist_dict[item] * (dist_dict[item] - 1)
         return res
 
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        def check_valid(row, col, grid, valid_list):
+            check_pacific = False
+            check_atlantic = False
+            marked = []
+            index_list = [[row, col]]
+            while len(index_list) > 0:
+                curr_loc = index_list[0]
+                if curr_loc in valid_list:
+                    return True
+                if curr_loc[0] == 0 or curr_loc[1] == 0:
+                    check_pacific = True
+                if curr_loc[0] == len(grid) - 1 or curr_loc[1] == len(grid[0]) - 1:
+                    check_atlantic = True
+                up = [curr_loc[0] - 1, curr_loc[1]]
+                left = [curr_loc[0], curr_loc[1] - 1]
+                if up not in index_list and up not in marked and up[0] >= 0 and \
+                        grid[up[0]][up[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+                    index_list.append(up)
+                if left not in index_list and left not in marked and left[1] >= 0 and \
+                        grid[left[0]][left[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+                    index_list.append(left)
+
+                down = [curr_loc[0] + 1, curr_loc[1]]
+                right = [curr_loc[0], curr_loc[1] + 1]
+
+                if down not in index_list and down not in marked and down[0] <= len(grid) - 1 and \
+                        grid[down[0]][down[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+                    index_list.append(down)
+                if right not in index_list and right not in marked and right[1] <= len(grid[0]) - 1 and \
+                        grid[right[0]][right[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+                    index_list.append(right)
+                if check_pacific and check_atlantic:
+                    valid_list.append([row, col])
+                    return True
+                marked.append(index_list[0])
+                index_list = index_list[1:]
+            return False
+
+        # def check_valid_atlantic(row, col, grid):
+        #     index_list = [[row, col]]
+        #     while len(index_list) > 0:
+        #         curr_loc = index_list[0]
+        #         if curr_loc[0] == len(grid) - 1 or curr_loc[1] == len(grid[0]) - 1:
+        #             return True
+        #         down = [curr_loc[0] + 1, curr_loc[1]]
+        #         right = [curr_loc[0], curr_loc[1] + 1]
+        #
+        #         if down not in index_list and grid[down[0]][down[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+        #             index_list.append(down)
+        #         if right not in index_list and grid[right[0]][right[1]] <= grid[curr_loc[0]][curr_loc[1]]:
+        #             index_list.append(right)
+        #         index_list = index_list[1:]
+        #     return False
+
+        res = []
+        for i in range(len(heights)):
+            for j in range(len(heights[0])):
+                valid_list = []
+                # pacific_check = check_valid_pacific(i, j, heights)
+                # atlantic_check = check_valid_atlantic(i, j, heights)
+                # if pacific_check and atlantic_check:
+                #     res.append([i, j])
+                if check_valid(i, j, heights, valid_list):
+                    res.append([i, j])
+        return res
+
 
 def main():
-    points = [[1, 1]]
+    heights = [[1, 2, 2, 3, 5], [3, 2, 3, 4, 4], [2, 4, 5, 3, 1], [6, 7, 1, 4, 5], [5, 1, 1, 2, 4]]
     test = Solution()
-    res = test.numberOfBoomerangs(points)
+    res = test.pacificAtlantic(heights)
     print(res)
 
 
