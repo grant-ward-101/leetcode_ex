@@ -404,11 +404,20 @@ class Solution:
         res = [key for key, value in count_dict.items() if value == max(count_dict.values())]
         return sorted(res)
 
+    def countQuadruplets(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(len(nums) - 3):
+            for j in range(i + 1, len(nums) - 2):
+                for k in range(j + 1, len(nums) - 1):
+                    sum = nums[i] + nums[j] + nums[k]
+                    res += nums[k + 1:].count(sum)
+        return res
+
+
 def main():
-    n = 7
-    rounds = [1, 3, 5, 7]
+    nums = [9, 6, 8, 23, 39, 23]
     test = Solution()
-    res = test.mostVisited(n, rounds)
+    res = test.countQuadruplets(nums)
     print(res)
 
 
