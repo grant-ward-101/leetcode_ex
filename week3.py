@@ -293,11 +293,45 @@ class Solution:
             if num_dict[num] > len(nums) / 2:
                 return num
 
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        # res = []
+        # for i in range(len(nums)):
+        #     num1 = nums[i]
+        #     remain = nums[:i] + nums[i + 1:]
+        #     seen = dict()
+        #     for j in range(len(remain)):
+        #         num2 = remain[j]
+        #         num3 = 0 - num1 - num2
+        #         if num3 in seen:
+        #             temp = sorted([num1, num2, num3])
+        #             if temp not in res:
+        #                 res.append(temp)
+        #         else:
+        #             seen[num2] = 1
+        # return res
+
+        res = []
+        nums = sorted(nums)
+        for i in range(len(nums) - 2):
+            sum_required = -nums[i]
+            j = i + 1
+            k = len(nums) - 1
+            while j < k:
+                if nums[j] + nums[k] == sum_required:
+                    if [nums[i], nums[j], nums[k]] not in res:
+                        res.append([nums[i], nums[j], nums[k]])
+
+                if nums[j] + nums[k] < sum_required:
+                    j += 1
+                else:
+                    k -= 1
+        return res
+
 
 def main():
-    nums = [3, 2, 3]
+    nums = [-1, 0, 1, 2, -1, -4]
     test = Solution()
-    res = test.majorityElement(nums)
+    res = test.threeSum(nums)
     print(res)
 
 
