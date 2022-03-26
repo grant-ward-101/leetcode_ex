@@ -184,11 +184,27 @@ class Solution:
             res += letter[0] * letter[1]
         return res
 
+    def search(self, nums: list[int], target: int) -> int:
+        def binary_search(nums, target, start, end):
+            if start >= end:
+                return -1
+            idx = (end - start) // 2 + start
+            if nums[idx] == target:
+                return idx
+            elif nums[idx] < target:
+                return binary_search(nums, target, idx + 1, end)
+            else:
+                return binary_search(nums, target, start, idx)
+
+        res = binary_search(nums, target, 0, len(nums))
+        return res
+
+
 def main():
-    s = "deeedbbcccbdaa"
-    k = 3
+    nums = [-1, 0, 3, 5, 9, 12]
+    target = 2
     test = Solution()
-    res = test.removeDuplicates(s, k)
+    res = test.search(nums, target)
     print(res)
 
 
