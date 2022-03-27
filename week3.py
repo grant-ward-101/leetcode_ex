@@ -700,11 +700,29 @@ class Solution:
         res = backtracking(s, path, 0, len(s))
         return ['.'.join(x) for x in res]
 
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        def backtracking(nums, idx, curr_value, path, res):
+            if idx > len(nums):
+                return
+            if len(path) >= 2:
+                res.append(path)
+            for i in range(idx, len(nums)):
+                if nums[i] >= curr_value:
+                    backtracking(nums, i + 1, nums[i], path + [nums[i]], res)
+
+        res = []
+        backtracking(nums, 0, -101, [], res)
+        temp = []
+        for item in res:
+            if item not in temp:
+                temp.append(item)
+        return temp
+
 
 def main():
-    s = '25525511135'
+    nums = [4, 6, 7, 7]
     test = Solution()
-    res = test.restoreIpAddresses(s)
+    res = test.findSubsequences(nums)
     print(res)
 
 
