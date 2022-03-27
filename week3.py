@@ -735,11 +735,18 @@ class Solution:
             return ''
         return res[0]
 
+    def tribonacci(self, n: int) -> int:
+        temp = [0] * (n + 1)
+        temp[0:3] = [0, 1, 1]
+        for i in range(3, len(temp)):
+            temp[i] = temp[i - 1] + temp[i - 2] + temp[i - 3]
+        return temp[n]
+
 
 def main():
     s = "c"
     test = Solution()
-    res = test.longestNiceSubstring(s)
+    res = test.tribonacci(25)
     print(res)
 
 
