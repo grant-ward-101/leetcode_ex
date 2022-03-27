@@ -742,11 +742,29 @@ class Solution:
             temp[i] = temp[i - 1] + temp[i - 2] + temp[i - 3]
         return temp[n]
 
+    def numSubmat(self, mat: List[List[int]]) -> int:
+        m, n = len(mat), len(mat[0])
+        nums = [[0] * n for i in mat]
+        for i in range(m):
+            nums[i][0] = mat[i][0]
+            for j in range(1, n):
+                if mat[i][j] == 1:
+                    nums[i][j] = nums[i][j - 1] + 1
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                temp = 1812
+                for k in range(i, m):
+                    temp = min(temp, nums[k][j])
+                    res += temp
+
+        return res
+
 
 def main():
-    s = "c"
+    mat = [[1, 0, 1], [1, 1, 0], [1, 1, 0]]
     test = Solution()
-    res = test.tribonacci(25)
+    res = test.numSubmat(mat)
     print(res)
 
 
