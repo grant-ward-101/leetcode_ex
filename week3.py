@@ -593,12 +593,32 @@ class Solution:
             res[i * 2 + 1] = nums[i + n]
         return res
 
+    def reachNumber(self, target: int) -> int:
+        # min = 0
+        # max = 35000
+        # while True:
+        #     mid = (max - min) // 2
+        #     if mid * (mid + 1) / 2 >= target > (mid - 1) * mid / 2:
+        #         return mid
+        #     elif (mid - 1) * mid / 2 >= target:
+        #         max = mid
+        #     elif mid * (mid + 1) / 2 < target:
+        #         min = mid
+        target = abs(target)
+        k = 0
+        while target > 0:
+            k += 1
+            target -= k
+
+        if target % 2 == 0:
+            return k
+        return k + 1 + k % 2
+
 
 def main():
-    nums = [2, 5, 1, 3, 4, 7]
-    n = 3
+    target = 2
     test = Solution()
-    res = test.shuffle(nums, n)
+    res = test.reachNumber(target)
     print(res)
 
 
