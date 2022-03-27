@@ -658,11 +658,53 @@ class Solution:
             return 'IPv6'
         return 'Neither'
 
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def check_valid(x):
+            if x[0] == '0' and x != '0':
+                return False
+            elif int(x) < 0 or int(x) > 255:
+                return False
+            return True
+
+        # def backtracking(remain, cut_size, path, res):
+        #     if cut_size == 3:
+        #         return check_valid(remain)
+        #     if cut_size >= 4:
+        #         return False
+        #     if remain == '':
+        #         return cut_size == 5
+        #     for i in range(1, len(remain)):
+        #         cut_string = remain[:i]
+        #         if not check_valid(cut_string):
+        #             break
+        #         path.append(cut_string)
+        #         if backtracking(remain[i:], cut_size + 1, path, res):
+        #             temp = [x for x in path]
+        #             temp.append(remain[i:])
+        #             res.append(temp)
+        #             return True
+        #         del path[-1]
+        def backtracking(s, path, start, end):
+            op = []
+            if len(path) == 4 and start == end:
+                return [path]
+            for j in range(start + 1, end + 1):
+                cut_string = s[start:j]
+                if check_valid(cut_string):
+                    temp = backtracking(s, path + [cut_string], j, end)
+                    op.extend(temp)
+            return op
+
+        path = []
+        res = []
+        res = backtracking(s, path, 0, len(s))
+        return ['.'.join(x) for x in res]
+
 
 def main():
-    queryIP = "20EE:FGb8:85a3:0:0:8A2E:0370:7334"
+    s = '25525511135'
     test = Solution()
-    res = test.validIPAddress(queryIP)
+    res = test.restoreIpAddresses(s)
     print(res)
 
 
