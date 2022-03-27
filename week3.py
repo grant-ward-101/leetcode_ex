@@ -614,6 +614,12 @@ class Solution:
             return k
         return k + 1 + k % 2
 
+    def isSameAfterReversals(self, num: int) -> bool:
+        if num == 0:
+            return True
+        if num % 10 == 0:
+            return False
+        return True
 
 def main():
     target = 2
