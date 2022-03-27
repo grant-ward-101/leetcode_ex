@@ -19,6 +19,32 @@ class TreeNode:
         self.right = right
 
 
+class MyHashMap:
+
+    def __init__(self):
+        self.key = []
+        self.value = []
+
+    def put(self, key: int, value: int) -> None:
+        if key not in self.key:
+            self.key.append(key)
+            self.value.append(value)
+        else:
+            self.value[self.key.index(key)] = value
+
+    def get(self, key: int) -> int:
+        if key not in self.key:
+            return -1
+        else:
+            return self.value[self.key.index(key)]
+
+    def remove(self, key: int) -> None:
+        if key in self.key:
+            idx = self.key.index(key)
+            del self.key[idx]
+            del self.value[idx]
+
+
 class Solution:
     def oddEvenList(self, head: [ListNode]) -> [ListNode]:
         if not head:
