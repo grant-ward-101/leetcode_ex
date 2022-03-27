@@ -548,12 +548,49 @@ class Solution:
             nums[idx:idx + bin[item]] = [item] * bin[item]
             idx += bin[item]
 
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        def merge_two(intv1, intv2):
+            if intv1[0] <= intv2[0] and intv1[1] >= intv2[1]:
+                return intv1
+            if intv1[0] >= intv2[0] and intv1[1] <= intv2[1]:
+                return intv2
+            if intv1[0] <= intv2[0] <= intv1[1]:
+                return [intv1[0], intv2[1]]
+            elif intv1[0] <= intv2[1] <= intv1[1]:
+                return [intv2[0], intv1[1]]
+            else:
+                return -1
+
+        res = [intervals[0]]
+        for i in range(1, len(intervals)):
+            result = merge_two(res[-1], intervals[i])
+            if result != -1:
+                res[-1] = result
+            else:
+                res.append(intervals[i])
+        if len(res) == 1:
+            return res
+        while True:
+            res = sorted(res, key=lambda x: x[0])
+            merge_flag = False
+            temp_res = [res[0]]
+            for i in range(1, len(res)):
+                result = merge_two(temp_res[-1], res[i])
+                if result != -1:
+                    temp_res[-1] = result
+                    merge_flag = True
+                else:
+                    temp_res.append(res[i])
+            res = temp_res
+            if not merge_flag:
+                break
+        return res
+
 
 def main():
-    nums = [2, 0, 2, 1, 1, 0]
-
+    intervals = [[2,3],[5,5],[2,2],[3,4],[3,4]]
     test = Solution()
-    res = test.sortColors(nums)
+    res = test.merge(intervals)
     print(res)
 
 
