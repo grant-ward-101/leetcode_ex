@@ -508,13 +508,21 @@ class Solution:
             return 'x' * (n - 1) + 'a'
         return 'x' * n
 
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        temp = [sum(x) for x in mat]
+        order = sorted(range(len(temp)), key=lambda x: temp[x])
+        return order[:k]
+
 
 def main():
-    aliceSizes = [1, 1]
-    bobSizes = [2, 2]
+    mat = [[1, 0, 0, 0],
+           [1, 1, 1, 1],
+           [1, 0, 0, 0],
+           [1, 0, 0, 0]]
+    k = 2
 
     test = Solution()
-    res = test.fairCandySwap(aliceSizes, bobSizes)
+    res = test.kWeakestRows(mat, k)
     print(res)
 
 
