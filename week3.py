@@ -718,11 +718,28 @@ class Solution:
                 temp.append(item)
         return temp
 
+    def longestNiceSubstring(self, s: str) -> str:
+        def check_nice(x):
+            for letter in x:
+                if letter.swapcase() not in x:
+                    return False
+            return True
+
+        res = []
+        for i in range(len(s)):
+            for j in range(i + 1, len(s) + 1):
+                if check_nice(s[i:j]):
+                    res.append(s[i: j])
+        res = sorted(res, key=lambda x: len(x), reverse=True)
+        if len(res) == 0:
+            return ''
+        return res[0]
+
 
 def main():
-    nums = [4, 6, 7, 7]
+    s = "c"
     test = Solution()
-    res = test.findSubsequences(nums)
+    res = test.longestNiceSubstring(s)
     print(res)
 
 
