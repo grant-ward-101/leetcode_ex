@@ -760,11 +760,23 @@ class Solution:
 
         return res
 
+    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+        count_diff = []
+        for i in range(len(s1)):
+            if s1[i] != s2[i]:
+                count_diff.append([s1[i], s2[i]])
+        if count_diff == 0:
+            return True
+        if count_diff == 2:
+            return count_diff[0][0] == count_diff[1][1] and count_diff[0][1] == count_diff[1][0]
+        return False
+
 
 def main():
-    mat = [[1, 0, 1], [1, 1, 0], [1, 1, 0]]
+    s1 = 'caa'
+    s2 = 'aaz'
     test = Solution()
-    res = test.numSubmat(mat)
+    res = test.areAlmostEqual(s1, s2)
     print(res)
 
 
