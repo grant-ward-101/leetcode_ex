@@ -621,10 +621,48 @@ class Solution:
             return False
         return True
 
+    def validIPAddress(self, queryIP: str) -> str:
+        def check_v4(ip):
+            parts = ip.split('.')
+            if len(parts) != 4:
+                return False
+            for part in parts:
+                if not part.isdigit():
+                    return False
+                if part[0] == '0' and part != '0':
+                    return False
+                if int(part) > 255 or int(part) < 0:
+                    return False
+            return True
+
+        def check_v6(ip):
+            parts = ip.split(':')
+            if len(parts) != 8:
+                return False
+            for part in parts:
+                if len(part) < 1 or len(part) > 4:
+                    return False
+                if not all(x in string.hexdigits for x in part):
+                    return False
+            return True
+
+        v4, v6 = False, False
+        if '.' in queryIP:
+            v4 = check_v4(queryIP)
+        elif ':' in queryIP:
+            v6 = check_v6(queryIP)
+
+        if v4:
+            return 'IPv4'
+        if v6:
+            return 'IPv6'
+        return 'Neither'
+
+
 def main():
-    target = 2
+    queryIP = "20EE:FGb8:85a3:0:0:8A2E:0370:7334"
     test = Solution()
-    res = test.reachNumber(target)
+    res = test.validIPAddress(queryIP)
     print(res)
 
 
