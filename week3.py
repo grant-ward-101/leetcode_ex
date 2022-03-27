@@ -586,11 +586,19 @@ class Solution:
                 break
         return res
 
+    def shuffle(self, nums: List[int], n: int) -> List[int]:
+        res = [0] * (2 * n)
+        for i in range(n):
+            res[i * 2] = nums[i]
+            res[i * 2 + 1] = nums[i + n]
+        return res
+
 
 def main():
-    intervals = [[2,3],[5,5],[2,2],[3,4],[3,4]]
+    nums = [2, 5, 1, 3, 4, 7]
+    n = 3
     test = Solution()
-    res = test.merge(intervals)
+    res = test.shuffle(nums, n)
     print(res)
 
 
