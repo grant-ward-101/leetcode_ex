@@ -539,16 +539,21 @@ class Solution:
         order = sorted(range(len(temp)), key=lambda x: temp[x])
         return order[:k]
 
+    def sortColors(self, nums: List[int]) -> None:
+        bin = collections.defaultdict(int)
+        for num in nums:
+            bin[num] += 1
+        idx = 0
+        for item in sorted(bin.keys()):
+            nums[idx:idx + bin[item]] = [item] * bin[item]
+            idx += bin[item]
+
 
 def main():
-    mat = [[1, 0, 0, 0],
-           [1, 1, 1, 1],
-           [1, 0, 0, 0],
-           [1, 0, 0, 0]]
-    k = 2
+    nums = [2, 0, 2, 1, 1, 0]
 
     test = Solution()
-    res = test.kWeakestRows(mat, k)
+    res = test.sortColors(nums)
     print(res)
 
 
