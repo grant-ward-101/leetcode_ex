@@ -1029,11 +1029,28 @@ class Solution:
                 res = max(res, nums[i] ^ nums[j])
         return res
 
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        low_len = len(str(low))
+        high_len = len(str(high))
+        res = []
+        for i in range(low_len, high_len + 1):
+            for num in range(1, 10 - i + 1):
+                temp = list(range(num, num + i))
+                temp = [str(x) for x in temp]
+                temp = int(''.join(temp))
+                if low <= temp <= high:
+                    res.append(temp)
+                elif temp > high:
+                    break
+
+        return res
+
 
 def main():
-    s = "aab"
+    low = 1000
+    high = 13000
     test = Solution()
-    res = test.makeFancyString(s)
+    res = test.sequentialDigits(low, high)
     print(res)
 
 
