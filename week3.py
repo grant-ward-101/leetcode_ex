@@ -934,12 +934,28 @@ class Solution:
                 return True
         return False
 
+    def countHomogenous(self, s: str) -> int:
+        count = []
+        start = 0
+        end = 1
+        while end < len(s):
+            if s[end] == s[start]:
+                end += 1
+            else:
+                count.append(end - start)
+                start = end
+                end += 1
+        count.append(end - start)
+        res = 0
+        for num in count:
+            res += math.comb(num + 1, 2)
+        return res % (10 ** 9 + 7)
+
 
 def main():
-    mat = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
-    target = [[1, 1, 1], [0, 1, 0], [0, 0, 0]]
+    s = 'abbcccaa'
     test = Solution()
-    res = test.findRotation(mat, target)
+    res = test.countHomogenous('yx')
     print(res)
 
 
