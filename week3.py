@@ -1007,12 +1007,25 @@ class Solution:
                 res = max(res, temp)
         return res
 
+    def makeFancyString(self, s: str) -> str:
+        res = ''
+        start = 0
+        end = 1
+        while end < len(s):
+            if s[end] == s[start]:
+                end += 1
+            else:
+                res += s[start] * min(2, end - start)
+                start = end
+                end += 1
+        res += s[start] * min(2, end - start)
+        return res
+
 
 def main():
-    n = 3
-    mines = [[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+    s = "aab"
     test = Solution()
-    res = test.orderOfLargestPlusSign(n, mines)
+    res = test.makeFancyString(s)
     print(res)
 
 
