@@ -771,12 +771,66 @@ class Solution:
             return count_diff[0][0] == count_diff[1][1] and count_diff[0][1] == count_diff[1][0]
         return False
 
+    def search(self, nums: List[int], target: int) -> int:
+        # def find_pivot(nums):
+        #     if len(nums) == 1:
+        #         return 0
+        #     start, end = 0, len(nums)
+        #     mid = 0
+        #     while start < end:
+        #         mid = (end + start) // 2
+        #         if nums[mid - 1] > nums[mid] and nums[(mid + 1) % len(nums)] > nums[mid]:
+        #             return mid
+        #         if nums[mid] < nums[-1]:
+        #             end = mid - 1
+        #         else:
+        #             start = mid + 1
+        #     return 0
+        #
+        # def binary_search(nums, start, end, k):
+        #     while start <= end:
+        #         mid = (start + end) // 2
+        #         if nums[mid] == k:
+        #             return mid
+        #         if nums[mid] > k:
+        #             end = mid - 1
+        #         else:
+        #             start = mid + 1
+        #     return -1
+        #
+        # pivot = find_pivot(nums)
+        # if nums[pivot] == target:
+        #     return pivot
+        # if nums[0] <= target <= nums[pivot - 1]:
+        #     return binary_search(nums, 0, pivot, target)
+        # elif nums[pivot] <= target <= nums[-1]:
+        #     return binary_search(nums, pivot, len(nums), target)
+        # else:
+        #     return -1
+
+        start, end = 0, len(nums) - 1
+        while start <= end:
+            mid = (start + end) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[start] <= nums[mid]:
+                if nums[start] > target or nums[mid] < target:
+                    start = mid + 1
+                else:
+                    end = mid - 1
+            else:
+                if nums[mid] > target or nums[end] < target:
+                    end = mid - 1
+                else:
+                    start = mid + 1
+        return -1
+
 
 def main():
-    s1 = 'caa'
-    s2 = 'aaz'
+    nums = [4, 5, 6, 7, 0, 1, 2]
+    target = 3
     test = Solution()
-    res = test.areAlmostEqual(s1, s2)
+    res = test.search(nums, target)
     print(res)
 
 
