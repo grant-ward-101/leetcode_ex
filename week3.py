@@ -951,11 +951,26 @@ class Solution:
             res += math.comb(num + 1, 2)
         return res % (10 ** 9 + 7)
 
+    def removeKdigits(self, num: str, k: int) -> str:
+        stack = []
+        for i in num:
+            while stack and k > 0 and int(stack[-1]) > int(i):
+                stack.pop(-1)
+                k -= 1
+            if i != '0' or stack:
+                stack.append(i)
+
+        if k > 0:
+            stack = stack[:-k]
+        if stack:
+            return ''.join(stack)
+        return '0'
+
 
 def main():
-    s = 'abbcccaa'
+    num = '10'
     test = Solution()
-    res = test.countHomogenous('yx')
+    res = test.removeKdigits(num, 3)
     print(res)
 
 
