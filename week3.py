@@ -966,11 +966,53 @@ class Solution:
             return ''.join(stack)
         return '0'
 
+    def orderOfLargestPlusSign(self, n: int, mines: List[List[int]]) -> int:
+        if n <= 2:
+            if len(mines) == n ** 2:
+                return 0
+            else:
+                return 1
+        stack_down = [[1] * n for i in range(n)]
+        stack_up = [[1] * n for i in range(n)]
+        stack_left = [[1] * n for i in range(n)]
+        stack_right = [[1] * n for i in range(n)]
+
+        for mine in mines:
+            i, j = mine[0], mine[1]
+            stack_down[i][j] = 0
+            stack_up[i][j] = 0
+            stack_right[i][j] = 0
+            stack_left[i][j] = 0
+
+        for j in range(1, n - 1):
+            for i in range(1, n - 1):
+                if stack_down[i][j] != 0:
+                    stack_down[i][j] = stack_down[i - 1][j] + 1
+
+            for k in range(n - 2, 0, -1):
+                if stack_up[k][j] != 0:
+                    stack_up[k][j] = stack_up[k + 1][j] + 1
+
+            for i in range(1, n - 1):
+                if stack_right[j][i] != 0:
+                    stack_right[j][i] = stack_right[j][i - 1] + 1
+
+            for k in range(n - 2, 0, -1):
+                if stack_left[j][k] != 0:
+                    stack_left[j][k] = stack_left[j][k + 1] + 1
+        res = 1
+        for i in range(1, n - 1):
+            for j in range(1, n - 1):
+                temp = min([stack_down[i][j], stack_left[i][j], stack_right[i][j], stack_up[i][j]])
+                res = max(res, temp)
+        return res
+
 
 def main():
-    num = '10'
+    n = 3
+    mines = [[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
     test = Solution()
-    res = test.removeKdigits(num, 3)
+    res = test.orderOfLargestPlusSign(n, mines)
     print(res)
 
 
