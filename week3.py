@@ -825,12 +825,44 @@ class Solution:
                     start = mid + 1
         return -1
 
+    def getRow(self, rowIndex: int) -> List[int]:
+        if rowIndex == 0 or rowIndex == 1:
+            return [1] * (rowIndex + 1)
+        last_row = [1, 1]
+        for i in range(2, rowIndex + 1):
+            new_row = [1]
+            for k in range(len(last_row) - 1):
+                new_row.append(last_row[k] + last_row[k + 1])
+            new_row.append(1)
+            last_row = new_row
+
+        return last_row
+
+    def search2(self, nums: List[int], target: int) -> bool:
+        nums = list(dict.fromkeys(nums))
+        start, end = 0, len(nums) - 1
+        while start <= end:
+            mid = (start + end) // 2
+            if nums[mid] == target:
+                return True
+            if nums[start] <= nums[mid]:
+                if nums[start] > target or nums[mid] < target:
+                    start = mid + 1
+                else:
+                    end = mid - 1
+            else:
+                if nums[mid] > target or nums[end] < target:
+                    end = mid - 1
+                else:
+                    start = mid + 1
+        return False
+
 
 def main():
-    nums = [4, 5, 6, 7, 0, 1, 2]
-    target = 3
+    nums = [1, 3, 5]
+    target = 1
     test = Solution()
-    res = test.search(nums, target)
+    res = test.search2(nums, target)
     print(res)
 
 
