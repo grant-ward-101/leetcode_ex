@@ -1021,6 +1021,14 @@ class Solution:
         res += s[start] * min(2, end - start)
         return res
 
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            for j in range(i, n):
+                res = max(res, nums[i] ^ nums[j])
+        return res
+
 
 def main():
     s = "aab"
