@@ -917,10 +917,29 @@ class Solution:
             res[n // 2, n // 2] = start_value
         return res.astype(int).tolist()
 
+    def findRotation(self, mat: List[List[int]], target: List[List[int]]) -> bool:
+        def rotate(matrix):
+            n = len(matrix)
+            matrix = np.array(matrix)
+            temp = np.zeros((n, n))
+            for i in range(n):
+                temp[:, n - 1 - i] = matrix[i, :]
+            return temp
+
+        if (np.array(mat) == np.array(target)).all():
+            return True
+        for i in range(3):
+            mat = rotate(mat)
+            if (np.array(mat) == np.array(target)).all():
+                return True
+        return False
+
 
 def main():
+    mat = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
+    target = [[1, 1, 1], [0, 1, 0], [0, 0, 0]]
     test = Solution()
-    res = test.generateMatrix(3)
+    res = test.findRotation(mat, target)
     print(res)
 
 
