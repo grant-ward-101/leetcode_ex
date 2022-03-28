@@ -857,12 +857,70 @@ class Solution:
                     start = mid + 1
         return False
 
+    def rotate(self, matrix: List[List[int]]) -> None:
+        n = len(matrix) - 1
+        max_idx = len(matrix) - 1
+        m = len(matrix) // 2 + len(matrix) % 2
+        for i in range(m):
+            for j in range(i, max_idx):
+                a, b, c, d = matrix[i][j], matrix[j][n - i], matrix[n - i][n - j], matrix[n - j][i]
+                matrix[i][j], matrix[j][n - i], matrix[n - i][n - j], matrix[n - j][i] = d, a, b, c
+            max_idx -= 1
+
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        def fill_with_dir(grid, row_idx, col_idx, dir, start_value, num):
+            # end_idx = [row_idx + row_idx + dir[0] * num, col_idx + dir[1] * num]
+            # grid[row_idx: max(end_idx[0], 1), col_idx:end_idx[1] + 1] = np.arange(start_value, start_value + num)
+            end_idx = None
+            if dir == [0, 1]:
+                end_idx = [row_idx, col_idx + num]
+                grid[row_idx, col_idx: end_idx[1]] = np.arange(start_value, start_value + num)
+                return end_idx
+
+            if dir == [1, 0]:
+                end_idx = [row_idx + num, col_idx]
+                grid[row_idx:end_idx[0], col_idx] = np.arange(start_value, start_value + num)
+                return end_idx
+
+            if dir == [0, -1]:
+                end_idx = [row_idx, col_idx - num]
+                grid[row_idx, end_idx[1] + 1: col_idx + 1] = np.arange(start_value + num - 1, start_value - 1, -1)
+                return end_idx
+
+            if dir == [-1, 0]:
+                end_idx = [row_idx - num, col_idx]
+                grid[end_idx[0] + 1:row_idx + 1, col_idx] = np.arange(start_value + num - 1, start_value - 1, -1)
+                return end_idx
+
+        num_layer = n // 2
+        res = np.zeros((n, n))
+        start_value = 1
+        start_row, start_col = 0, 0
+        start_num = n - 1
+        dir = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+
+        while num_layer > 0:
+            count = 0
+            while count < 4:
+                end_idx = fill_with_dir(res, start_row, start_col, dir[count], start_value, start_num)
+                start_row, start_col = end_idx[0], end_idx[1]
+                count += 1
+                start_value += start_num
+                # if start_value > n ** 2:
+                #     return res.astype(int).tolist()
+            start_num -= 2
+            start_row += 1
+            start_col += 1
+            num_layer -= 1
+        print(start_value)
+        if n % 2 == 1:
+            res[n // 2, n // 2] = start_value
+        return res.astype(int).tolist()
+
 
 def main():
-    nums = [1, 3, 5]
-    target = 1
     test = Solution()
-    res = test.search2(nums, target)
+    res = test.generateMatrix(3)
     print(res)
 
 
