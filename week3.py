@@ -1045,12 +1045,75 @@ class Solution:
 
         return res
 
+    def findDuplicate(self, nums: List[int]) -> int:
+        # res = nums[0]
+        # for idx, value in enumerate(nums[1:]):
+        #     res ^= value ^ (idx + 1)
+        # return res
+        start, end = 0, len(nums) - 1
+        res = 0
+        while start <= end:
+            mid = (start + end) // 2
+            # count = 0
+
+            count = sum(num <= mid for num in nums)
+            if count > mid:
+                res = mid
+                end = mid - 1
+            else:
+                start = mid + 1
+        return res
+
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        def divide(mat, k, up_left_corner, down_right_corner):
+            # if len(mat) == 1 and len(mat[0] == 1):
+            #     return mat[0][0] == k
+
+            up_left_row, up_left_col = up_left_corner[0], up_left_corner[1]
+            down_right_row, down_right_col = down_right_corner[0], down_right_corner[1]
+
+            if up_left_row == down_right_row and up_left_col == down_right_col:
+                return mat[up_left_row][up_left_col] == k
+            mid_row = (up_left_row + down_right_row) // 2
+            mid_col = (up_left_col + down_right_col) // 2
+            mid_point = [mid_row, mid_col]
+
+            up_left_check = False
+            up_right_check = False
+            down_left_check = False
+            down_right_check = False
+
+            if mat[up_left_row][up_left_col] <= k <= mat[mid_row][mid_col]:
+                up_left_check = divide(mat, k, up_left_corner, mid_point)
+                if up_left_check:
+                    return True
+            if (mid_col + 1 < len(mat[0])) and mat[up_left_row][mid_col + 1] <= k <= mat[mid_row][down_right_col]:
+                up_right_check = divide(mat, k, [up_left_row, mid_col + 1], [mid_row, down_right_col])
+                if up_right_check:
+                    return True
+            if (mid_row + 1 < len(mat)) and mat[mid_row + 1][up_left_col] <= k <= mat[down_right_row][mid_col]:
+                down_left_check = divide(mat, k, [mid_row + 1, up_left_col], [down_right_row, mid_col])
+                if down_left_check:
+                    return True
+            if (mid_row + 1 < len(mat)) and (mid_col + 1 < len(mat[0])) and \
+                    mat[mid_row + 1][mid_col + 1] <= k <= mat[down_right_row][down_right_col]:
+                down_right_check = divide(mat, k, [mid_row + 1, mid_col + 1], down_right_corner)
+                if down_right_check:
+                    return True
+
+            return False
+
+        return divide(matrix, target, [0, 0], [len(matrix) - 1, len(matrix[0]) - 1])
+
 
 def main():
-    low = 1000
-    high = 13000
+    matrix = [[1, 4, 7, 11, 15],
+              [2, 5, 8, 12, 19],
+              [3, 6, 9, 16, 22],
+              [10, 13, 14, 17, 24],
+              [18, 21, 23, 26, 30]]
     test = Solution()
-    res = test.sequentialDigits(low, high)
+    res = test.searchMatrix(matrix, 103)
     print(res)
 
 
