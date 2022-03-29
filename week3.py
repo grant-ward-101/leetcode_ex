@@ -1,5 +1,6 @@
 import copy
 import math
+import random
 from typing import List
 import numpy as np
 import collections
@@ -43,6 +44,28 @@ class MyHashMap:
             idx = self.key.index(key)
             del self.key[idx]
             del self.value[idx]
+
+
+class RandomizedSet:
+
+    def __init__(self):
+        self.randomized_set = collections.defaultdict(int)
+
+    def insert(self, val: int) -> bool:
+        if val not in self.randomized_set:
+            self.randomized_set[val] = 1
+            return True
+        return False
+
+    def remove(self, val: int) -> bool:
+        if val in self.randomized_set:
+            del self.randomized_set[val]
+            return True
+        return False
+
+    def getRandom(self) -> int:
+        choice = random.choice(list(self.randomized_set.keys()))
+        return choice
 
 
 class Solution:
