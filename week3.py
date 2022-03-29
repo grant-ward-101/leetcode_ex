@@ -1186,11 +1186,22 @@ class Solution:
                     second = max(int(i), second)
         return second
 
+    def checkOverlap(self, radius: int, x_center: int, y_center: int, x1: int, y1: int, x2: int, y2: int) -> bool:
+        x = 0 if x1 <= x_center <= x2 else min(abs(x1 - x_center), abs(x2 - x_center))
+        y = 0 if y1 <= y_center <= y2 else min(abs(y1 - y_center), abs(y2 - y_center))
+        return x ** 2 + y ** 2 <= radius ** 2
+
 
 def main():
-    s = "abc1111"
+    radius = 10
+    xCenter = 10
+    yCenter = 1
+    x1 = 0
+    y1 = 0
+    x2 = 100
+    y2 = 100
     test = Solution()
-    res = test.secondHighest(s)
+    res = test.checkOverlap(radius, xCenter, yCenter, x1, y1, x2, y2)
     print(res)
 
 
