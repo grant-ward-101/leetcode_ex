@@ -1156,12 +1156,28 @@ class Solution:
                 start = mid + 1
         return res
 
+    def checkPowersOfThree(self, n: int) -> bool:
+        curr_max = 10 ** 9
+        while n > 0:
+            if n == 1:
+                max_exp = 0
+            else:
+                max_exp = round(math.log(n, 3))
+            remain = n - 3 ** max_exp
+            if curr_max == max_exp:
+                return False
+            if remain == 0:
+                return True
+            n = remain
+
+            curr_max = max_exp
+        return False
+
 
 def main():
-    piles = [30, 11, 23, 4, 20]
-    h = 6
+    n = 21
     test = Solution()
-    res = test.minEatingSpeed(piles, h)
+    res = test.checkPowersOfThree(n)
     print(res)
 
 
