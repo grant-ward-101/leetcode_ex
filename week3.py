@@ -1214,11 +1214,21 @@ class Solution:
 
         return min([both_back, both_front, front_back])
 
+    def prefixesDivBy5(self, nums: List[int]) -> List[bool]:
+        curr_exp = 1
+        prev = nums[0]
+        res = [prev % 5 == 0]
+        for i, val in enumerate(nums[1:]):
+            curr = (prev << 1) + val
+            res.append(curr % 5 == 0)
+            prev = curr
+        return res
+
 
 def main():
-    nums = [101]
+    nums = [1, 1, 0, 0, 0, 1, 0, 0, 1]
     test = Solution()
-    res = test.minimumDeletions(nums)
+    res = test.prefixesDivBy5(nums)
     print(res)
 
 
