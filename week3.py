@@ -1173,11 +1173,24 @@ class Solution:
             curr_max = max_exp
         return False
 
+    def secondHighest(self, s: str) -> int:
+        first = -1
+        second = -1
+        for i in s:
+            if i.isdigit():
+                if int(i) > first:
+                    if first != -1:
+                        second = first
+                    first = int(i)
+                elif int(i) < first:
+                    second = max(int(i), second)
+        return second
+
 
 def main():
-    n = 21
+    s = "abc1111"
     test = Solution()
-    res = test.checkPowersOfThree(n)
+    res = test.secondHighest(s)
     print(res)
 
 
