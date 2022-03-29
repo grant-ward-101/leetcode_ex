@@ -1258,17 +1258,29 @@ class Solution:
                 else:
                     board[i][j] = 'X'
 
+    def minMoves(self, target: int, maxDoubles: int) -> int:
+        temp = target
+        res = 0
+        while temp > 1:
+            if maxDoubles > 0:
+                if temp % 2 == 1:
+                    temp -= 1
+                    res += 1
+                else:
+                    temp /= 2
+                    maxDoubles -= 1
+                    res += 1
+            else:
+                res += temp - 1
+                temp = 0
+        return int(res)
+
 
 def main():
-    board = [["O", "O", "O", "O", "X", "X"],
-             ["O", "O", "O", "O", "O", "O"],
-             ["O", "X", "O", "X", "O", "O"],
-             ["O", "X", "O", "O", "X", "O"],
-             ["O", "X", "O", "X", "O", "O"],
-             ["O", "X", "O", "O", "O", "O"]]
+    target = 5
+    maxDoubles = 0
     test = Solution()
-    res = test.solve(board)
-    print(board)
+    res = test.minMoves(target, maxDoubles)
     print(res)
 
 
