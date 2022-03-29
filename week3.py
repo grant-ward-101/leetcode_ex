@@ -1224,11 +1224,51 @@ class Solution:
             prev = curr
         return res
 
+    def solve(self, board: List[List[str]]) -> None:
+        def dfs(grid, i, j):
+            if grid[i][j] == 'O':
+                grid[i][j] = '*'
+            if i - 1 > 0 and grid[i - 1][j] == 'O':
+                dfs(grid, i - 1, j)
+            if i + 1 < len(grid) and grid[i + 1][j] == 'O':
+                dfs(grid, i + 1, j)
+            if j - 1 > 0 and grid[i][j - 1] == 'O':
+                dfs(grid, i, j - 1)
+            if j + 1 < len(grid[0]) and grid[i][j + 1] == 'O':
+                dfs(grid, i, j + 1)
+
+        for i in range(len(board)):
+            if board[i][0] == 'O':
+                dfs(board, i, 0)
+        for i in range(len(board)):
+            if board[i][len(board[0]) - 1] == 'O':
+                dfs(board, i, len(board[0]) - 1)
+
+        for j in range(len(board[0])):
+            if board[0][j] == 'O':
+                dfs(board, 0, j)
+        for j in range(len(board[0])):
+            if board[len(board) - 1][j] == 'O':
+                dfs(board, len(board) - 1, j)
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == '*':
+                    board[i][j] = 'O'
+                else:
+                    board[i][j] = 'X'
+
 
 def main():
-    nums = [1, 1, 0, 0, 0, 1, 0, 0, 1]
+    board = [["O", "O", "O", "O", "X", "X"],
+             ["O", "O", "O", "O", "O", "O"],
+             ["O", "X", "O", "X", "O", "O"],
+             ["O", "X", "O", "O", "X", "O"],
+             ["O", "X", "O", "X", "O", "O"],
+             ["O", "X", "O", "O", "O", "O"]]
     test = Solution()
-    res = test.prefixesDivBy5(nums)
+    res = test.solve(board)
+    print(board)
     print(res)
 
 
