@@ -1197,11 +1197,28 @@ class Solution:
             res += [nums[2 * i + 1]] * nums[2 * i]
         return res
 
+    def minimumDeletions(self, nums: List[int]) -> int:
+        idx_min = nums.index(min(nums))
+        idx_max = nums.index(max(nums))
+        n = len(nums)
+        if idx_min < idx_max:
+            first = idx_min
+            second = idx_max
+        else:
+            first = idx_max
+            second = idx_min
+
+        both_front = second + 1
+        both_back = n - first
+        front_back = first + 1 + n - second
+
+        return min([both_back, both_front, front_back])
+
 
 def main():
-    nums = [1, 1, 2, 3]
+    nums = [101]
     test = Solution()
-    res = test.decompressRLElist(nums)
+    res = test.minimumDeletions(nums)
     print(res)
 
 
