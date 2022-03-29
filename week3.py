@@ -1191,17 +1191,17 @@ class Solution:
         y = 0 if y1 <= y_center <= y2 else min(abs(y1 - y_center), abs(y2 - y_center))
         return x ** 2 + y ** 2 <= radius ** 2
 
+    def decompressRLElist(self, nums: List[int]) -> List[int]:
+        res = []
+        for i in range(len(nums) // 2):
+            res += [nums[2 * i + 1]] * nums[2 * i]
+        return res
+
 
 def main():
-    radius = 10
-    xCenter = 10
-    yCenter = 1
-    x1 = 0
-    y1 = 0
-    x2 = 100
-    y2 = 100
+    nums = [1, 1, 2, 3]
     test = Solution()
-    res = test.checkOverlap(radius, xCenter, yCenter, x1, y1, x2, y2)
+    res = test.decompressRLElist(nums)
     print(res)
 
 
