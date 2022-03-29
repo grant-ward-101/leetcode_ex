@@ -1105,15 +1105,22 @@ class Solution:
 
         return divide(matrix, target, [0, 0], [len(matrix) - 1, len(matrix[0]) - 1])
 
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key=lambda x: x[1])
+        curr_end = intervals[0][1]
+        res = 0
+        for interval in intervals[1:]:
+            if interval[0] < curr_end <= interval[1]:
+                res += 1
+            else:
+                curr_end = interval[1]
+        return res
+
 
 def main():
-    matrix = [[1, 4, 7, 11, 15],
-              [2, 5, 8, 12, 19],
-              [3, 6, 9, 16, 22],
-              [10, 13, 14, 17, 24],
-              [18, 21, 23, 26, 30]]
+    intervals = [[1, 2], [2, 3]]
     test = Solution()
-    res = test.searchMatrix(matrix, 103)
+    res = test.eraseOverlapIntervals(intervals)
     print(res)
 
 
