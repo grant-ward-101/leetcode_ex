@@ -1116,11 +1116,29 @@ class Solution:
                 curr_end = interval[1]
         return res
 
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        def calc_sum_hour(k, nums):
+            return sum([math.ceil(num / k) for num in nums])
+
+        res = 10 ** 9
+        start = 0
+        end = 10 ** 9
+        while start <= end:
+            mid = (start + end) // 2
+            hours = calc_sum_hour(mid, piles)
+            if hours <= h:
+                res = min(res, mid)
+                end = mid - 1
+            else:
+                start = mid + 1
+        return res
+
 
 def main():
-    intervals = [[1, 2], [2, 3]]
+    piles = [30, 11, 23, 4, 20]
+    h = 6
     test = Solution()
-    res = test.eraseOverlapIntervals(intervals)
+    res = test.minEatingSpeed(piles, h)
     print(res)
 
 
