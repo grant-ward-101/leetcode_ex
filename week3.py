@@ -1,3 +1,4 @@
+import bisect
 import copy
 import functools
 import math
@@ -1364,10 +1365,39 @@ class Solution:
                 left += 1
         return False
 
+    def maximumBeauty(self, items: List[List[int]], queries: List[int]) -> List[int]:
+        price_max = collections.defaultdict(int)
+        items = sorted(items, key=lambda x: x[0])
+
+        temp_max = 0
+        for price, beauty in items:
+            temp_max = max(temp_max, beauty)
+            price_max[price] = max(temp_max, price_max[price])
+
+        price_list = list(price_max.keys())
+        beauty_list = list(price_max.values())
+        # queries = zip(list(range(len(queries))), queries)
+        # queries = sorted(queries, key=lambda x: x[1])
+        res = []
+        for query in queries:
+            if query < price_list[0]:
+                res.append(0)
+            else:
+                res.append(beauty_list[bisect.bisect(price_list, query) - 1])
+        # final_res = []
+        # for idx, query in queries:
+        #     final_res.append(res[idx])
+        # return final_res
+        return res
+
 def main():
-    c = 5
+    items = [[193, 732], [781, 962], [864, 954], [749, 627], [136, 746], [478, 548], [640, 908], [210, 799], [567, 715],
+             [914, 388], [487, 853], [533, 554], [247, 919], [958, 150], [193, 523], [176, 656], [395, 469], [763, 821],
+             [542, 946], [701, 676]]
+
+    queries = [885, 1445, 1580, 1309, 205, 1788, 1214, 1404, 572, 1170, 989, 265, 153, 151, 1479, 1180, 875, 276, 1584]
     test = Solution()
-    res = test.judgeSquareSum(19801)
+    res = test.maximumBeauty(items, queries)
     print(res)
 
 
