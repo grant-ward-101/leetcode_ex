@@ -1,5 +1,7 @@
 import copy
+import functools
 import math
+import operator
 import random
 from typing import List
 import numpy as np
@@ -1308,11 +1310,23 @@ class Solution:
             dp_sum_dict[sum] += 1
         return res
 
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        prefix = [1]
+        postfix = [1]
+        for i in range(1, len(nums)):
+            prefix.append(prefix[i - 1] * nums[i - 1])
+        for i in range(len(nums) - 2, -1, -1):
+            postfix.append(postfix[len(nums) - i - 2] * nums[i + 1])
+
+        res = []
+        for i in range(len(nums)):
+            res.append(prefix[i] * postfix[len(nums) - 1 - i])
+        return res
 
 def main():
-    nums = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    nums = [-1, 1, 0, -3, 3]
     test = Solution()
-    res = test.subarraySum(nums, 0)
+    res = test.productExceptSelf(nums)
     print(res)
 
 
