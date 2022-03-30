@@ -1432,10 +1432,18 @@ class Solution:
             res += 1
         return res
 
+    def rotateString(self, s: str, goal: str) -> bool:
+        for i in range(len(s)):
+            temp = s[i:] + s[:i]
+            if temp == goal:
+                return True
+        return False
+
 def main():
-    num = 123
+    s = 'abcde'
+    goal = 'cdeab'
     test = Solution()
-    res = test.numberOfSteps(num)
+    res = test.rotateString(s, goal)
     print(res)
 
 
