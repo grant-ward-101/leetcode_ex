@@ -1390,14 +1390,30 @@ class Solution:
         # return final_res
         return res
 
-def main():
-    items = [[193, 732], [781, 962], [864, 954], [749, 627], [136, 746], [478, 548], [640, 908], [210, 799], [567, 715],
-             [914, 388], [487, 853], [533, 554], [247, 919], [958, 150], [193, 523], [176, 656], [395, 469], [763, 821],
-             [542, 946], [701, 676]]
+    def numSteps(self, s: str) -> int:
+        res = 0
+        while s != '1':
+            n = len(s)
+            if s[-1] == '1':
+                i = n - 1
+                while i >= 0:
+                    if s[i] == '0':
+                        break
+                    i -= 1
+                if i == -1:
+                    s = '1' + '0' * n
+                else:
+                    s = s[:i] + '1' + '0' * (n - 1 - i)
+            else:
+                s = s[: -1]
+            res += 1
+        return res
 
-    queries = [885, 1445, 1580, 1309, 205, 1788, 1214, 1404, 572, 1170, 989, 265, 153, 151, 1479, 1180, 875, 276, 1584]
+
+def main():
+    s = '1'
     test = Solution()
-    res = test.maximumBeauty(items, queries)
+    res = test.numSteps(s)
     print(res)
 
 
