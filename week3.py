@@ -1290,15 +1290,29 @@ class Solution:
 
         return res
 
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        dp_sum = [0] * len(nums)
+        dp_sum[0] = nums[0]
+        for idx, val in enumerate(nums):
+            if idx > 0:
+                dp_sum[idx] = dp_sum[idx - 1] + val
+
+        dp_sum_dict = collections.defaultdict(int)
+
+        res = 0
+        for sum in dp_sum:
+            if sum == k:
+                res += 1
+            if sum - k in dp_sum_dict:
+                res += dp_sum_dict[sum - k]
+            dp_sum_dict[sum] += 1
+        return res
+
 
 def main():
-    values = [9, 8, 8, 7, 6]
-    labels = [0, 0, 0, 1, 1]
-    numWanted = 3
-    useLimit = 1
-
+    nums = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     test = Solution()
-    res = test.largestValsFromLabels(values, labels, numWanted, useLimit)
+    res = test.subarraySum(nums, 0)
     print(res)
 
 
