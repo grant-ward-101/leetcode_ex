@@ -1409,11 +1409,24 @@ class Solution:
             res += 1
         return res
 
+    def countNicePairs(self, nums: List[int]) -> int:
+        def rev(x):
+            return int(str(x)[::-1])
+
+        res = 0
+        temp_dict = collections.defaultdict(int)
+        for num in nums:
+            temp = num - rev(num)
+            if temp in temp_dict:
+                res += temp_dict[temp]
+            temp_dict[temp] += 1
+        return res % (10 ** 9 + 7)
+
 
 def main():
-    s = '1'
+    nums = [13,10,35,24,76]
     test = Solution()
-    res = test.numSteps(s)
+    res = test.countNicePairs(nums)
     print(res)
 
 
