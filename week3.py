@@ -1323,10 +1323,39 @@ class Solution:
             res.append(prefix[i] * postfix[len(nums) - 1 - i])
         return res
 
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        # for i in range(len(nums) - 2):
+        #     left = i + 1
+        #     right = len(nums) - 1
+        #     while left < right:
+        #         while left < right and nums[i] >= nums[left]:
+        #             left += 1
+        #         while left < right and nums[i] >= nums[right]:
+        #             right -= 1
+        #
+        #         if left < right and nums[left] >= nums[right]:
+        #             right -=1
+        #         if left >= right:
+        #             break
+        #         if nums[i] < nums[left] < nums[right]:
+        #             return True
+        # return False
+
+        first = second = 2 ** 31 - 1
+        for num in nums:
+            if num < first:
+                first = num
+            elif num < second:
+                second = num
+            else:
+                return True
+        return False
+
+
 def main():
-    nums = [-1, 1, 0, -3, 3]
+    nums = [1, 5, 0, 4, 1, 3]
     test = Solution()
-    res = test.productExceptSelf(nums)
+    res = test.increasingTriplet(nums)
     print(res)
 
 
