@@ -1351,11 +1351,23 @@ class Solution:
                 return True
         return False
 
+    def judgeSquareSum(self, c: int) -> bool:
+        left = 0
+        right = int(math.sqrt(c)) + 1
+        while left <= right:
+            temp = left ** 2 + right ** 2
+            if temp == c:
+                return True
+            elif temp > c:
+                right -= 1
+            else:
+                left += 1
+        return False
 
 def main():
-    nums = [1, 5, 0, 4, 1, 3]
+    c = 5
     test = Solution()
-    res = test.increasingTriplet(nums)
+    res = test.judgeSquareSum(19801)
     print(res)
 
 
