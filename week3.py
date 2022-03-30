@@ -1275,12 +1275,30 @@ class Solution:
                 temp = 0
         return int(res)
 
+    def largestValsFromLabels(self, values: List[int], labels: List[int], numWanted: int, useLimit: int) -> int:
+        val_lab = list(zip(values, labels))
+        limit_dict = dict(zip(set(labels), [useLimit] * len(set(labels))))
+        val_lab = sorted(val_lab, key=lambda x: x[0], reverse=True)
+        res = 0
+        for value, label in val_lab:
+            if numWanted == 0:
+                break
+            if limit_dict[label] > 0:
+                res += value
+                limit_dict[label] -= 1
+                numWanted -= 1
+
+        return res
+
 
 def main():
-    target = 5
-    maxDoubles = 0
+    values = [9, 8, 8, 7, 6]
+    labels = [0, 0, 0, 1, 1]
+    numWanted = 3
+    useLimit = 1
+
     test = Solution()
-    res = test.minMoves(target, maxDoubles)
+    res = test.largestValsFromLabels(values, labels, numWanted, useLimit)
     print(res)
 
 
