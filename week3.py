@@ -1422,11 +1422,20 @@ class Solution:
             temp_dict[temp] += 1
         return res % (10 ** 9 + 7)
 
+    def numberOfSteps(self, num: int) -> int:
+        res = 0
+        while num > 0:
+            if num % 2 == 1:
+                num -= 1
+            else:
+                num /= 2
+            res += 1
+        return res
 
 def main():
-    nums = [13,10,35,24,76]
+    num = 123
     test = Solution()
-    res = test.countNicePairs(nums)
+    res = test.numberOfSteps(num)
     print(res)
 
 
