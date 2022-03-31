@@ -1629,6 +1629,7 @@ class Solution:
                 if list2:
                     tail.next = list2
             return dummy.next
+
         def middleNode(head: [ListNode]) -> [ListNode]:
             slow = head
             fast = head
@@ -1649,11 +1650,34 @@ class Solution:
         right = self.sortList(mid)
         return merge(left, right)
 
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        if end not in bank:
+            return -1
+        else:
+            queue = collections.deque([(start, 0)])
+            visited = [0] * len(bank)
+            while len(queue) > 0:
+                curr_mutation, step = queue.popleft()
+                if curr_mutation == end:
+                    return step
+                else:
+                    for i in range(len(bank)):
+                        if visited[i] == 0:
+                            diff = 0
+                            for j in range(len(curr_mutation)):
+                                if curr_mutation[j] != bank[i][j]:
+                                    diff += 1
+                            if diff == 1:
+                                queue.append((bank[i], step + 1))
+            return -1
+
 
 def main():
-    arr = [1, 2, 3]
+    start = "AAAAACCC"
+    end = "AACCCCCC"
+    bank = ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
     test = Solution()
-    res = test.pancakeSort(arr)
+    res = test.minMutation(start, end, bank)
     print(res)
 
 
