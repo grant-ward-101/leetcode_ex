@@ -1473,11 +1473,40 @@ class Solution:
 
         return output.astype(int)
 
+    def addStrings(self, num1: str, num2: str) -> str:
+        carry = 0
+        res = ''
+        while num1 and num2:
+            sum = int(num1[-1]) + int(num2[-1]) + carry
+            temp = sum % 10
+            carry = sum // 10
+            res = str(temp) + res
+            num1 = num1[:-1]
+            num2 = num2[:-1]
+        while num1:
+            sum = int(num1[-1]) + carry
+            temp = sum % 10
+            carry = sum // 10
+            res = str(temp) + res
+            num1 = num1[:-1]
+
+        while num2:
+            sum = int(num2[-1]) + carry
+            temp = sum % 10
+            carry = sum // 10
+            res = str(temp) + res
+            num2 = num2[:-1]
+        if carry != 0:
+            res = str(carry) + res
+        return res
+
 
 def main():
-    matrix = [[1, 2], [3, 4]]
+    num1 = '99999999'
+    num2 = '24771'
     test = Solution()
-    res = test.spiralOrder(matrix)
+    res = test.addStrings(num1, num2)
+    print(int(num1) + int(num2))
     print(res)
 
 
