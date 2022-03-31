@@ -1676,7 +1676,7 @@ class Solution:
         res = [0] * n
 
         num_queue = collections.deque()
-        for i in range(n * 2 -1, -1, -1):
+        for i in range(n * 2 - 1, -1, -1):
             while num_queue and nums[i % n] >= num_queue[-1]:
                 num_queue.pop()
             if not num_queue:
@@ -1686,10 +1686,33 @@ class Solution:
             num_queue.append(nums[i % n])
         return res
 
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        # import re
+        # paragraph = paragraph.lower() +
+        # paragraph = re.sub('[!?\',;.]', ' ', paragraph)
+        # for word in banned:
+        #     paragraph = re.sub(word, ' ', paragraph)
+        # word_list = (paragraph.split(' '))
+        # word_list = list(filter(lambda x: x != '', word_list))
+        # res = collections.Counter(word_list).most_common(1)[0][0]
+        # return res
+        import re
+        paragraph = paragraph.lower()
+        paragraph = re.sub('[!?\',;.]', ' ', paragraph)
+        word_list = paragraph.split()
+        temp = collections.defaultdict(int)
+        for word in word_list:
+            if word not in banned:
+                temp[word] += 1
+        # temp = sorted(temp, key=lambda x: x[1])
+        return max(temp, key=temp.get)
+
+
 def main():
-    nums = [1, 2, 1]
+    paragraph = "abc abc? abcd the jeff!"
+    banned = ["abc", "abcd", "jeff"]
     test = Solution()
-    res = test.nextGreaterElements(nums)
+    res = test.mostCommonWord(paragraph, banned)
     print(res)
 
 
