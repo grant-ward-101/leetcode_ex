@@ -1607,12 +1607,48 @@ class Solution:
             return
         fast_node = head
         slow_node = head
-        while fast_node.next and fast_node.next.next:
+        while fast_node and fast_node.next:
             fast_node = fast_node.next.next
             slow_node = slow_node.next
-        if fast_node.next:
-            return slow_node.next
         return slow_node
+
+    def sortList(self, head: [ListNode]) -> [ListNode]:
+        def merge(self, list1, list2):
+            dummy = tail = ListNode()
+            while list1 and list2:
+                if list1.val < list2.val:
+                    tail.next = list1
+                    list1 = list1.next
+                else:
+                    tail.next = list2
+                    list2 = list2.next
+                tail = tail.next
+
+                if list1:
+                    tail.next = list1
+                if list2:
+                    tail.next = list2
+            return dummy.next
+        def middleNode(head: [ListNode]) -> [ListNode]:
+            slow = head
+            fast = head
+            while fast.next and fast.next.next:
+                slow = slow.next
+                fast = fast.next.next
+            return slow
+
+        if not head or not head.next:
+            return head
+
+        mid = middleNode(head)
+        left = head
+        temp = mid.next
+        mid.next = None
+        mid = temp
+        left = self.sortList(left)
+        right = self.sortList(mid)
+        return merge(left, right)
+
 
 def main():
     arr = [1, 2, 3]
