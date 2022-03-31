@@ -1602,9 +1602,20 @@ class Solution:
                 res.append(i)
         return res
 
+    def middleNode(self, head: [ListNode]) -> [ListNode]:
+        if not head:
+            return
+        fast_node = head
+        slow_node = head
+        while fast_node.next and fast_node.next.next:
+            fast_node = fast_node.next.next
+            slow_node = slow_node.next
+        if fast_node.next:
+            return slow_node.next
+        return slow_node
 
 def main():
-    arr = [1,2,3]
+    arr = [1, 2, 3]
     test = Solution()
     res = test.pancakeSort(arr)
     print(res)
