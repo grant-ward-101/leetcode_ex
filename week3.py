@@ -1538,6 +1538,16 @@ class Solution:
                 res += 1
         return res
 
+    def isPalindrome(self, head: [ListNode]) -> bool:
+        s = ''
+        if not head:
+            return True
+        while head:
+            s += str(head.val)
+            head = head.next
+        return s == s[::-1]
+
+
 def main():
     s = 'abccccdd'
     test = Solution()
