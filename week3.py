@@ -1500,13 +1500,18 @@ class Solution:
             res = str(carry) + res
         return res
 
-
+    def longestPalindrome(self, s: str) -> int:
+        counter = collections.Counter(s)
+        res = 0
+        for value in counter.values():
+            res += value // 2 * 2
+            if res % 2 == 0 and value % 2 == 1:
+                res += 1
+        return res
 def main():
-    num1 = '99999999'
-    num2 = '24771'
+    s = 'abccccdd'
     test = Solution()
-    res = test.addStrings(num1, num2)
-    print(int(num1) + int(num2))
+    res = test.longestPalindrome(s)
     print(res)
 
 
