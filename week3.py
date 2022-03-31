@@ -1,6 +1,7 @@
 import bisect
 import copy
 import functools
+import itertools
 import math
 import operator
 import random
@@ -1508,6 +1509,28 @@ class Solution:
             if res % 2 == 0 and value % 2 == 1:
                 res += 1
         return res
+
+    def splitArray(self, nums: List[int], m: int) -> int:
+        prefix_sum = [0] + list(itertools.accumulate(nums))
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def recursion(curr_idx, subarray_count):
+            if subarray_count == 1:
+                return prefix_sum[n] - prefix_sum[curr_idx]
+
+            min_remain = prefix_sum[n]
+            for i in range(curr_idx, n - subarray_count + 1):
+                first_split_sum = prefix_sum[i + 1] - prefix_sum[curr_idx]
+                largest_split_sum = max(first_split_sum, recursion(i + 1, subarray_count - 1))
+                min_remain = min(min_remain, largest_split_sum)
+
+                if first_split_sum >= min_remain:
+                    break
+            return min_remain
+
+        return recursion(0, m)
+
 def main():
     s = 'abccccdd'
     test = Solution()
