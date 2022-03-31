@@ -1671,13 +1671,25 @@ class Solution:
                                 queue.append((bank[i], step + 1))
             return -1
 
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [0] * n
+
+        num_queue = collections.deque()
+        for i in range(n * 2 -1, -1, -1):
+            while num_queue and nums[i % n] >= num_queue[-1]:
+                num_queue.pop()
+            if not num_queue:
+                res[i % n] = -1
+            else:
+                res[i % n] = num_queue[-1]
+            num_queue.append(nums[i % n])
+        return res
 
 def main():
-    start = "AAAAACCC"
-    end = "AACCCCCC"
-    bank = ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
+    nums = [1, 2, 1]
     test = Solution()
-    res = test.minMutation(start, end, bank)
+    res = test.nextGreaterElements(nums)
     print(res)
 
 
