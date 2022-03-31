@@ -1588,12 +1588,25 @@ class Solution:
                 t_counter[letter] = s_counter[letter]
         return res
 
+    def pancakeSort(self, arr: List[int]) -> List[int]:
+        res = []
+        arr = np.array(arr)
+        for i in range(len(arr), 0, -1):
+            max_idx = arr[:i].argmax()
+            if max_idx == len(arr[:i]) - 1:
+                continue
+            else:
+                arr[:max_idx + 1] = arr[:max_idx + 1][::-1]
+                res.append(max_idx + 1)
+                arr[:i] = arr[:i][::-1]
+                res.append(i)
+        return res
+
 
 def main():
-    s = "cotxazilut"
-    t = "nahrrmcchxwrieqqdwdpneitkxgnt"
+    arr = [1,2,3]
     test = Solution()
-    res = test.minSteps(s, t)
+    res = test.pancakeSort(arr)
     print(res)
 
 
