@@ -1539,19 +1539,61 @@ class Solution:
         return res
 
     def isPalindrome(self, head: [ListNode]) -> bool:
-        s = ''
-        if not head:
-            return True
+        # s = ''
+        # if not head:
+        #     return True
+        # while head:
+        #     s += str(head.val)
+        #     head = head.next
+        # return s == s[::-1]
+
+        def reverse(node):
+            if not node:
+                return node
+            prev = None
+            while node:
+                temp_next = node.next
+                node.next = prev
+                prev = node
+                node = temp_next
+            return prev
+
+        temp = head
+        reverse_temp = reverse(temp)
+
         while head:
-            s += str(head.val)
+            if head.val != reverse_temp.val:
+                return False
             head = head.next
-        return s == s[::-1]
+            reverse_temp = reverse_temp.next
+        return True
+
+    def minSteps(self, s: str, t: str) -> int:
+        s_counter = collections.Counter(s)
+        t_counter = collections.Counter(t)
+        res = 0
+        for letter, count in s_counter.items():
+            if letter not in t_counter:
+                res += count
+                t_counter[letter] = count
+            elif s_counter[letter] < t_counter[letter]:
+                res += t_counter[letter] - s_counter[letter]
+                s_counter[letter] = t_counter[letter]
+        for letter, count in t_counter.items():
+            if letter not in s_counter:
+                res += count
+                s_counter[letter] = count
+            elif t_counter[letter] < s_counter[letter]:
+                res += s_counter[letter] - t_counter[letter]
+                t_counter[letter] = s_counter[letter]
+        return res
 
 
 def main():
-    s = 'abccccdd'
+    s = "cotxazilut"
+    t = "nahrrmcchxwrieqqdwdpneitkxgnt"
     test = Solution()
-    res = test.longestPalindrome(s)
+    res = test.minSteps(s, t)
     print(res)
 
 
