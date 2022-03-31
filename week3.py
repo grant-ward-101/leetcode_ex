@@ -1439,11 +1439,45 @@ class Solution:
                 return True
         return False
 
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        output = []
+
+        def recursion(mat):
+            nonlocal output
+            # if :
+            #     return output
+            if len(mat) == 1 and len(mat[0]) > 1:
+                output = np.append(output, mat[0])
+                return output
+            elif len(mat) > 1 and len(mat[0]) == 1:
+                output = np.append(output, np.ravel(mat))
+                return output
+            elif len(mat) == 1 and len(mat[0]) == 1:
+                output = np.append(output, mat[0])
+                return output
+            else:
+                first_row = mat[0, :]
+                last_col = mat[:, len(mat[0]) - 1]
+                last_row = mat[len(mat) - 1, :][::-1]
+                first_col = mat[:, 0][::-1]
+
+                output = np.concatenate((output, first_row[:-1], last_col[:-1], last_row[:-1], first_col[:-1]))
+                if len(mat) - 1 == 1 or len(mat[0]) - 1 == 1:
+                    return output
+                else:
+                    mat = mat[1:len(mat) - 1, 1:len(mat[0]) - 1]
+                    recursion(mat)
+
+        matrix = np.array(matrix)
+        recursion(matrix)
+
+        return output.astype(int)
+
+
 def main():
-    s = 'abcde'
-    goal = 'cdeab'
+    matrix = [[1, 2], [3, 4]]
     test = Solution()
-    res = test.rotateString(s, goal)
+    res = test.spiralOrder(matrix)
     print(res)
 
 
