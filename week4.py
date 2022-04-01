@@ -5,6 +5,7 @@ import itertools
 import math
 import operator
 import random
+import time
 from typing import List
 import numpy as np
 import collections
@@ -22,6 +23,11 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
+class larger_num(str):
+    def __lt__(x, y):
+        return x + y > y + x
 
 
 class Solution:
@@ -90,13 +96,56 @@ class Solution:
             s = s[idx + 1:]
         return res
 
+    def largestNumber(self, nums: List[int]) -> str:
+        largest_num = ''.join(sorted(map(str, nums), key=larger_num))
+        return '0' if largest_num[0] == '0' else largest_num
+
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        # total_sum = sum(nums)
+        # if total_sum % p == 0:
+        #     return 0
+        #
+        # prefix_sum = [0] + list(itertools.accumulate(nums))
+        # postfix_sum = ([0] + list(itertools.accumulate(nums[::-1])))[::-1]
+        # res = float('inf')
+        # for i in range(len(prefix_sum)):
+        #     for j in range(i, len(postfix_sum)):
+        #         if prefix_sum[i] + postfix_sum[j] > 0:
+        #             if (prefix_sum[i] + postfix_sum[j]) % p == 0:
+        #                 res = min(res, j - i)
+        #
+        # if res == float('inf'):
+        #     return -1
+        # return res
+
+        total_sum = sum(nums) % p
+        if total_sum == 0:
+            return 0
+        n = len(nums)
+        res = n
+        remain = {0: -1}
+        current_sum = 0
+        for idx, value in enumerate(nums):
+            current_sum = (current_sum + value) % p
+            temp = (current_sum - total_sum) % p
+            if temp in remain:
+                res = min(res, idx - remain[temp])
+            remain[current_sum] = idx
+        if res == n:
+            return -1
+        else:
+            return res
+
 
 def main():
-    pattern = "abba"
-    s = "dog cat cat dog"
+    start = time.perf_counter()
+
+    p = 226574574
     test = Solution()
-    res = test.wordPattern(pattern, s)
+    res = test.minSubarray(nums, p)
     print(res)
+    stop = time.perf_counter()
+    print(f'time: {stop - start}')
 
 
 if __name__ == '__main__':
