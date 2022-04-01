@@ -198,12 +198,30 @@ class Solution:
         reshape = [[new_grid[n * j + i] for i in range(n)] for j in range(m)]
         return reshape
 
+    def numSub(self, s: str) -> int:
+        start = 0
+        end = 0
+        temp = []
+        for i in range(len(s)):
+            if s[i] == '1':
+                end += 1
+            else:
+                if s[i - 1] != '0':
+                    temp.append(end - start)
+                start = i + 1
+                end = i + 1
+        temp.append(end - start)
+        res = 0
+        mod = 10 ** 9 + 7
+        for num in temp:
+            res = (res + num * (num + 1) / 2) % mod
+        return int(res)
+
 
 def main():
-    grid = [[1], [2], [3], [4], [7], [6], [5]]
-    k = 23
+    s = '111111'
     test = Solution()
-    res = test.shiftGrid(grid, k)
+    res = test.numSub(s)
     print(res)
 
 
