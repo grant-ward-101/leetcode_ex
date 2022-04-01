@@ -50,13 +50,18 @@ class Solution:
             return -1
         return min_res
 
+    def reverseString(self, s: List[str]) -> None:
+        n = len(s)
+        for i in range(n // 2):
+            temp = s[i]
+            s[i] = s[n - 1 - i]
+            s[n - 1 - i] = temp
 
 def main():
-    arr = [24, 1, 21, 1, 4, 3, 27, 7, 5, 1, 12, 1, 1, 43, 2, 5, 4, 54, 34]
-    # arr = [4, 3, 2, 6, 2, 3, 4]
-    target = 54
+    s = ["h", "e", "l", "l", "o"]
     test = Solution()
-    res = test.minSumOfLengths(arr, target)
+    res = test.reverseString(s)
+    print(s)
     print(res)
 
 
