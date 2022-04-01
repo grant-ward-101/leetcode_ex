@@ -167,11 +167,27 @@ class Solution:
             res += grid[i][len(grid) - 1]
         return res + 2 * count
 
+    def minDeletions(self, s: str) -> int:
+        res = 0
+        letter_counter = dict(collections.Counter(s).most_common())
+        marked = []
+        for letter, count in letter_counter.items():
+            if count not in marked:
+                marked.append(count)
+            else:
+                temp = letter_counter.values()
+                while count in temp or count in marked:
+                    res += 1
+                    count -= 1
+                if count != 0:
+                    marked.append(count)
+        return res
+
 
 def main():
-    grid = [[1, 2], [3, 4]]
+    s = "bbcebab"
     test = Solution()
-    res = test.surfaceArea(grid)
+    res = test.minDeletions(s)
     print(res)
 
 
