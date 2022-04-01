@@ -240,12 +240,62 @@ class Solution:
         time_dict = sorted(time_dict.items(), key=lambda x: x[1], reverse=True)
         return time_dict[0][0]
 
+    def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        grid = np.array(grid)
+
+        def check_valid(mat):
+            flatten = np.sort(mat, axis=None)
+            if np.any(np.arange(1, 10, dtype=int) != flatten):
+                return False
+            sum_row = np.sum(mat, axis=1)
+            if not np.all(sum_row == sum_row[0]):
+                return False
+            sum_col = np.sum(mat, axis=0)
+            if not np.all(sum_col == sum_row[0]):
+                return False
+            first_dia = np.sum(mat.diagonal())
+            second_dia = np.sum(np.fliplr(mat).diagonal())
+            if first_dia != sum_row[0] or second_dia != sum_row[0]:
+                return False
+            return True
+
+        res = 0
+        for row in range(m - 2):
+            for col in range(n - 2):
+                temp = grid[row:row + 3, col:col + 3]
+                if check_valid(temp):
+                    res += 1
+        return res
+        # row_sum = np.zeros((m, n + 1))
+        # col_sum = np.zeros((m + 1, n))
+
+        # col_sum[1:, :] = np.cumsum(grid, axis=0)
+        # row_sum[:, 1:] = np.cumsum(grid, axis=1)
+        # res = 0
+        # for row in range(m - 2):
+        #     for col in range(n - 2):
+        #         row_temp = row_sum[row:row + 3, col + 3] - row_sum[row:row + 3, col]
+        #         if not np.all(row_temp == row_temp[0]):
+        #             break
+        #         col_temp = col_sum[row + 3, col: col + 3] - col_sum[row, col:col + 3]
+        #         if not np.all(col_temp == row_temp[0]):
+        #             break
+        #         first_diagonal = grid[row][col] + grid[row + 1][col + 1] + grid[row + 2][col + 2]
+        #         if first_diagonal != row_temp[0]:
+        #             break
+        #         second_diagonal = grid[row + 2][col] + grid[row + 1][col + 1] + grid[row][col + 2]
+        #         if second_diagonal != row_temp[0]:
+        #             break
+        #         res += 1
+        # return res
+
 
 def main():
-    releaseTimes = [10,19,20,21,22,32]
-    keysPressed = "abodzo"
+    grid = [[4, 3, 8, 4], [9, 5, 1, 9], [2, 7, 6, 2]]
     test = Solution()
-    res = test.slowestKey(releaseTimes, keysPressed)
+    res = test.numMagicSquaresInside(grid)
     print(res)
 
 
