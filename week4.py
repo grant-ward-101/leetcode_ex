@@ -145,12 +145,33 @@ class Solution:
             d.append(i - arr1[i] - arr2[i])
         return max(max(a) - min(a), max(b) - min(b), max(c) - min(c), max(d) - min(d))
 
+    def surfaceArea(self, grid: List[List[int]]) -> int:
+        res = 0
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid)):
+                if grid[i][j] > 0:
+                    count += 1
+                if i - 1 >= 0 and grid[i][j] > grid[i - 1][j]:
+                    res += grid[i][j] - grid[i - 1][j]
+                if i + 1 < len(grid) and grid[i][j] > grid[i + 1][j]:
+                    res += grid[i][j] - grid[i + 1][j]
+                if j - 1 >= 0 and grid[i][j] > grid[i][j - 1]:
+                    res += grid[i][j] - grid[i][j - 1]
+                if j + 1 < len(grid) and grid[i][j] > grid[i][j + 1]:
+                    res += grid[i][j] - grid[i][j + 1]
+        for i in range(len(grid)):
+            res += grid[i][0]
+            res += grid[0][i]
+            res += grid[len(grid) - 1][i]
+            res += grid[i][len(grid) - 1]
+        return res + 2 * count
+
 
 def main():
-    arr1 = [1, 2, 3, 4]
-    arr2 = [-1, 4, 5, 6]
+    grid = [[1, 2], [3, 4]]
     test = Solution()
-    res = test.maxAbsValExpr(arr1, arr2)
+    res = test.surfaceArea(grid)
     print(res)
 
 
