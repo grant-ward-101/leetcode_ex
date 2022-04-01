@@ -231,11 +231,21 @@ class Solution:
                 start = i + 1
         return res
 
+    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
+        time_dict = collections.defaultdict(int)
+        releaseTimes = [0] + releaseTimes
+        for idx, key in enumerate(keysPressed):
+            time_dict[key] = max(time_dict[key], releaseTimes[idx + 1] - releaseTimes[idx])
+        time_dict = dict(sorted(time_dict.items(), key=lambda x: x[0], reverse=True))
+        time_dict = sorted(time_dict.items(), key=lambda x: x[1], reverse=True)
+        return time_dict[0][0]
+
 
 def main():
-    s = '()()'
+    releaseTimes = [10,19,20,21,22,32]
+    keysPressed = "abodzo"
     test = Solution()
-    res = test.removeOuterParentheses(s)
+    res = test.slowestKey(releaseTimes, keysPressed)
     print(res)
 
 
