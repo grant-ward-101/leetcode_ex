@@ -74,6 +74,22 @@ class Solution:
                 return False
         return True
 
+    def partitionLabels(self, s: str) -> list[int]:
+        res = []
+        while len(s) > 0:
+            current_letter = s[0]
+            idx = 0
+            last_curr = s.rfind(current_letter)
+            while idx < last_curr:
+                temp_letter = s[idx]
+                last_temp = s.rfind(temp_letter)
+                if last_temp > last_curr:
+                    last_curr = last_temp
+                idx += 1
+            res.append(idx + 1)
+            s = s[idx + 1:]
+        return res
+
 
 def main():
     pattern = "abba"
