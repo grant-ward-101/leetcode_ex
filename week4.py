@@ -57,11 +57,29 @@ class Solution:
             s[i] = s[n - 1 - i]
             s[n - 1 - i] = temp
 
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        word_list = s.split()
+        if len(word_list) != len(pattern):
+            return False
+        temp = dict()
+        seen = dict()
+        for letter, word in zip(pattern, word_list):
+            if word not in seen:
+                seen[word] = letter
+            elif seen[word] != letter:
+                return False
+            if letter not in temp:
+                temp[letter] = word
+            elif temp[letter] != word:
+                return False
+        return True
+
+
 def main():
-    s = ["h", "e", "l", "l", "o"]
+    pattern = "abba"
+    s = "dog cat cat dog"
     test = Solution()
-    res = test.reverseString(s)
-    print(s)
+    res = test.wordPattern(pattern, s)
     print(res)
 
 
