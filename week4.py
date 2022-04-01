@@ -217,11 +217,25 @@ class Solution:
             res = (res + num * (num + 1) / 2) % mod
         return int(res)
 
+    def removeOuterParentheses(self, s: str) -> str:
+        stack = []
+        res = ''
+        start = 0
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append(s[i])
+            else:
+                stack.pop(-1)
+            if len(stack) == 0:
+                res += s[start + 1:i]
+                start = i + 1
+        return res
+
 
 def main():
-    s = '111111'
+    s = '()()'
     test = Solution()
-    res = test.numSub(s)
+    res = test.removeOuterParentheses(s)
     print(res)
 
 
