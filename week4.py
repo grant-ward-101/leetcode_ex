@@ -183,11 +183,27 @@ class Solution:
                     marked.append(count)
         return res
 
+    def shiftGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        # grid = np.array(grid)
+        # for i in range(k):
+        #     grid = np.roll(grid, 1, axis=1)
+        #     grid[:, 0] = np.roll(grid[:, 0], 1, axis=0)
+        # res = grid.tolist()
+        # return res
+        m = len(grid)
+        n = len(grid[0])
+        flatten = functools.reduce(operator.add, grid)
+        k = k % len(flatten)
+        new_grid = flatten[-k:] + flatten[:-k]
+        reshape = [[new_grid[n * j + i] for i in range(n)] for j in range(m)]
+        return reshape
+
 
 def main():
-    s = "bbcebab"
+    grid = [[1], [2], [3], [4], [7], [6], [5]]
+    k = 23
     test = Solution()
-    res = test.minDeletions(s)
+    res = test.shiftGrid(grid, k)
     print(res)
 
 
