@@ -136,16 +136,22 @@ class Solution:
         else:
             return res
 
+    def maxAbsValExpr(self, arr1: List[int], arr2: List[int]) -> int:
+        a, b, c, d = [], [], [], []
+        for i in range(len(arr1)):
+            a.append(i + arr1[i] + arr2[i])
+            b.append(i + arr1[i] - arr2[i])
+            c.append(i - arr1[i] + arr2[i])
+            d.append(i - arr1[i] - arr2[i])
+        return max(max(a) - min(a), max(b) - min(b), max(c) - min(c), max(d) - min(d))
+
 
 def main():
-    start = time.perf_counter()
-
-    p = 226574574
+    arr1 = [1, 2, 3, 4]
+    arr2 = [-1, 4, 5, 6]
     test = Solution()
-    res = test.minSubarray(nums, p)
+    res = test.maxAbsValExpr(arr1, arr2)
     print(res)
-    stop = time.perf_counter()
-    print(f'time: {stop - start}')
 
 
 if __name__ == '__main__':
