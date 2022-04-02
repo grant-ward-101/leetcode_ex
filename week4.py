@@ -291,11 +291,46 @@ class Solution:
         #         res += 1
         # return res
 
+    def validPalindrome(self, s: str) -> bool:
+        def check(low, high, mark=False):
+            while low <= high:
+                if s[low] != s[high]:
+                    if mark:
+                        return False
+                    else:
+                        return check(low + 1, high, True) or check(low, high - 1, True)
+                else:
+                    low += 1
+                    high -= 1
+            return True
+
+        left = 0
+        right = len(s) - 1
+
+        return check(left, right)
+
+    def isPalindrome(self, s: str) -> bool:
+        left = 0
+        right = len(s) - 1
+        while left <= right:
+            if not s[left].isalnum():
+                left += 1
+                continue
+            if not s[right].isalnum():
+                right -= 1
+                continue
+            if s[left].lower() == s[right].lower():
+                left += 1
+                right -= 1
+            else:
+                return False
+        return True
+
 
 def main():
-    grid = [[4, 3, 8, 4], [9, 5, 1, 9], [2, 7, 6, 2]]
+    s = " "
     test = Solution()
-    res = test.numMagicSquaresInside(grid)
+    res = test.isPalindrome(s)
     print(res)
 
 
