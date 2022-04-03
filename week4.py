@@ -378,11 +378,38 @@ class Solution:
 
         return res
 
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        def calc_day(weights, load):
+            count = 0
+            temp_sum = 0
+            if load < max(weights):
+                return float('inf')
+            for weight in weights:
+                temp_sum += weight
+                if temp_sum > load:
+                    count += 1
+                    temp_sum = weight
+            return count + 1
+
+        left = 0
+        right = sum(weights)
+        mid = 0
+        while left <= right:
+            mid = (left + right) // 2
+            day = calc_day(weights, mid)
+            if day <= days:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+
+
 def main():
-    num1 = "2"
-    num2 = "3"
+    weights = [147, 73, 265, 305, 191, 152, 192, 293, 309, 292, 182, 157, 381, 287, 73, 162, 313, 366, 346, 47]
+
+    days = 10
     test = Solution()
-    res = test.multiply(num1, num2)
+    res = test.shipWithinDays(weights, days)
     print(res)
 
 
