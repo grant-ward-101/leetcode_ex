@@ -414,11 +414,31 @@ class Solution:
             res.append(value)
         return res
 
+    def nextPermutation(self, nums: List[int]) -> None:
+        idx = len(nums) - 2
+        while idx >= 0 and nums[idx] >= nums[idx + 1]:
+            idx -= 1
+        if idx >= 0:
+            i = len(nums) - 1
+            while nums[i] <= nums[idx]:
+                i -= 1
+            temp = nums[i]
+            nums[i] = nums[idx]
+            nums[idx] = temp
+        idx += 1
+        n = len(nums) - 1
+        while idx < n:
+            temp = nums[n]
+            nums[n] = nums[idx]
+            nums[idx] = temp
+            idx += 1
+            n -= 1
+
 
 def main():
-    strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+    nums = [1, 1, 5]
     test = Solution()
-    res = test.groupAnagrams(strs)
+    res = test.
     print(res)
 
 
