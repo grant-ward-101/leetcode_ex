@@ -434,11 +434,24 @@ class Solution:
             idx += 1
             n -= 1
 
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        dna_map = collections.defaultdict(int)
+        res = []
+        if len(s) <= 10:
+            return res
+        for i in range(len(s) - 9):
+            temp = s[i:i + 10]
+            dna_map[temp] += 1
+        for key, value in dna_map.items():
+            if value > 1:
+                res.append(key)
+        return res
+
 
 def main():
-    nums = [1, 1, 5]
+    s = "AAAAAAAAAAA"
     test = Solution()
-    res = test.
+    res = test.findRepeatedDnaSequences(s)
     print(res)
 
 
