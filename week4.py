@@ -403,13 +403,22 @@ class Solution:
                 left = mid + 1
         return left
 
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        letter_dict = collections.defaultdict(list)
+        for word in strs:
+            sorted_word = ''.join(sorted(word))
+            letter_dict[sorted_word].append(word)
+
+        res = []
+        for key, value in letter_dict.items():
+            res.append(value)
+        return res
+
 
 def main():
-    weights = [147, 73, 265, 305, 191, 152, 192, 293, 309, 292, 182, 157, 381, 287, 73, 162, 313, 366, 346, 47]
-
-    days = 10
+    strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
     test = Solution()
-    res = test.shipWithinDays(weights, days)
+    res = test.groupAnagrams(strs)
     print(res)
 
 
