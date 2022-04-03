@@ -326,11 +326,63 @@ class Solution:
                 return False
         return True
 
+    def multiply(self, num1: str, num2: str) -> str:
+        def sum_string(num1: str, num2: str) -> str:
+            carry = 0
+            res = ''
+            while num1 and num2:
+                sum = int(num1[-1]) + int(num2[-1]) + carry
+                temp = sum % 10
+                carry = sum // 10
+                res = str(temp) + res
+                num1 = num1[:-1]
+                num2 = num2[:-1]
+            while num1:
+                sum = int(num1[-1]) + carry
+                temp = sum % 10
+                carry = sum // 10
+                res = str(temp) + res
+                num1 = num1[:-1]
+
+            while num2:
+                sum = int(num2[-1]) + carry
+                temp = sum % 10
+                carry = sum // 10
+                res = str(temp) + res
+                num2 = num2[:-1]
+            if carry != 0:
+                res = str(carry) + res
+            return res
+
+        def multiply_string(num1: str, num2: str) -> str:
+            carry = 0
+            res = ''
+            while num1:
+                mul = int(num1[-1]) * int(num2) + carry
+                temp = mul % 10
+                carry = mul // 10
+                res = str(temp) + res
+                num1 = num1[:-1]
+
+            if carry != 0:
+                res = str(carry) + res
+            return res
+
+        if num1 == '0' or num2 == '0':
+            return '0'
+        res = ''
+        for i in range(len(num2) - 1, -1, -1):
+            temp_mul = multiply_string(num1, num2[i])
+            temp_mul += '0' * (len(num2) - 1 - i)
+            res = sum_string(res, temp_mul)
+
+        return res
 
 def main():
-    s = " "
+    num1 = "2"
+    num2 = "3"
     test = Solution()
-    res = test.isPalindrome(s)
+    res = test.multiply(num1, num2)
     print(res)
 
 
