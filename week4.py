@@ -524,11 +524,33 @@ class Solution:
                 left = mid + 1
         return left
 
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        points = sorted(points, key=lambda x: x[1])
+
+        idx = 0
+        while idx < len(points) - 1:
+            ball1 = points[idx]
+            ball2 = points[idx + 1]
+            flag = False
+
+            if ball2[0] < ball1[0]:
+                del points[idx + 1]
+                flag = True
+            elif ball2[0] <= ball1[1]:
+                points[idx + 1] = [ball2[0], ball1[1]]
+                del points[idx]
+                flag = True
+
+            if not flag:
+                idx += 1
+
+        return len(points)
+
 
 def main():
-    nums = [1, 3, 5, 6]
+    points = [[3, 9], [7, 12], [3, 8], [6, 8], [9, 10], [2, 9], [0, 9], [3, 9], [0, 6], [2, 8]]
     test = Solution()
-    res = test.searchInsert(nums, 7)
+    res = test.findMinArrowShots(points)
     print(res)
 
 
