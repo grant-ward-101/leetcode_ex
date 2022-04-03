@@ -495,6 +495,23 @@ class Solution:
             else:
                 left = mid + 1
         return -1
+
+    def firstBadVersion(self, n: int) -> int:
+        def isBadVersion(num):
+            return True
+
+        left = 0
+        right = n
+        while left <= right:
+            mid = left + (right - left) // 2
+            temp = isBadVersion(mid)
+            if temp:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+
+
 def main():
     nums = [5]
     test = Solution()
