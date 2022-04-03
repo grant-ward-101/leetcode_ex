@@ -25,11 +25,6 @@ class TreeNode:
         self.right = right
 
 
-class larger_num(str):
-    def __lt__(x, y):
-        return x + y > y + x
-
-
 class Solution:
     def minSumOfLengths(self, arr: List[int], target: int) -> int:
         def left_min(nums, k):
@@ -96,9 +91,9 @@ class Solution:
             s = s[idx + 1:]
         return res
 
-    def largestNumber(self, nums: List[int]) -> str:
-        largest_num = ''.join(sorted(map(str, nums), key=larger_num))
-        return '0' if largest_num[0] == '0' else largest_num
+    # def largestNumber(self, nums: List[int]) -> str:
+    #     largest_num = ''.join(sorted(map(str, nums), key=larger_num))
+    #     return '0' if largest_num[0] == '0' else largest_num
 
     def minSubarray(self, nums: List[int], p: int) -> int:
         # total_sum = sum(nums)
@@ -473,11 +468,37 @@ class Solution:
                 max_length = right - left - 1
         return s[start: start + max_length]
 
+    def guessNumber(self, n: int) -> int:
+        def guess(number):
+            return 1
 
+        left = 1
+        right = n
+        while left < right:
+            mid = (left + right) // 2
+            if guess(mid) == 0:
+                return mid
+            if guess(mid) == -1:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+    def search(self, nums: list[int], target: int) -> int:
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1
 def main():
-    s = "cbbd"
+    nums = [5]
     test = Solution()
-    res = test.longestPalindrome(s)
+    res = test.search(nums, 5)
     print(res)
 
 
