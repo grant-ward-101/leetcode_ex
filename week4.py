@@ -447,11 +447,37 @@ class Solution:
                 res.append(key)
         return res
 
+    def longestPalindrome(self, s: str) -> str:
+        if len(s) <= 1:
+            return s
+        n = len(s)
+        start = 0
+        max_length = 0
+        for i in range(1, n):
+            left = i - 1
+            right = i
+            while left >= 0 and right <= n - 1 and s[left] == s[right]:
+                left -= 1
+                right += 1
+            if right - left - 1 > max_length:
+                start = left + 1
+                max_length = right - left - 1
+
+            left = i - 1
+            right = i + 1
+            while left >= 0 and right <= n - 1 and s[left] == s[right]:
+                left -= 1
+                right += 1
+            if right - left - 1 > max_length:
+                start = left + 1
+                max_length = right - left - 1
+        return s[start: start + max_length]
+
 
 def main():
-    s = "AAAAAAAAAAA"
+    s = "cbbd"
     test = Solution()
-    res = test.findRepeatedDnaSequences(s)
+    res = test.longestPalindrome(s)
     print(res)
 
 
