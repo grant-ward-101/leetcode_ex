@@ -579,11 +579,22 @@ class Solution:
         res = [x ** 2 for x in temp[::-1]]
         return res
 
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        left = 0
+        right = len(arr) - 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if arr[mid] < arr[mid + 1]:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+
 
 def main():
-    nums = [-7, -3, 2, 3, 11]
+    arr = [3,9,8,6,4]
     test = Solution()
-    res = test.sortedSquares(nums)
+    res = test.peakIndexInMountainArray(arr)
     print(res)
 
 
