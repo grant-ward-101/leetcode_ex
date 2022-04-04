@@ -590,9 +590,44 @@ class Solution:
                 right = mid
         return left
 
+    def swapNodes(self, head: [ListNode], k: int) -> [ListNode]:
+        # left = head
+        # right = head
+        # prev_left = None
+        # prev_right = None
+        # for i in range(k - 1):
+        #     prev_left, left = left, left.next
+        #
+        # temp = left
+        # while temp.next:
+        #     prev_right, right = right, right.next
+        #     temp = temp.next
+        # # temp_next_right = right.next
+        # # temp_next_left = left.next
+        # # prev_left.next = right
+        # # right.next = temp_next_left
+        # # prev_left.next = left
+        # # left.next = temp_next_right
+        # # if prev_left:
+        # #     prev_left.next = right
+        # # prev_right.next, left.next, right.next = left, right.next, left.next
+        # return head
+        left = head
+        right = head
+        for i in range(k - 1):
+            left = left.next
+        temp = left
+        while temp.next:
+            right = right.next
+            temp = temp.next
+        temp_val = left.val
+        left.val = right.val
+        right.val = temp_val
+        return head
+
 
 def main():
-    arr = [3,9,8,6,4]
+    arr = [3, 9, 8, 6, 4]
     test = Solution()
     res = test.peakIndexInMountainArray(arr)
     print(res)
