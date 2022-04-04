@@ -681,12 +681,26 @@ class Solution:
             return subtract // 2 + 1
         return subtract // 2
 
+    def average(self, salary: List[int]) -> float:
+        temp_min = salary[0]
+        temp_max = salary[0]
+        temp = salary[0] * -1
+        for i in range(1, len(salary)):
+            if salary[i] > temp_max:
+                temp += temp_max
+                temp_max = salary[i]
+            elif salary[i] < temp_min:
+                temp += temp_min
+                temp_min = salary[i]
+            else:
+                temp += salary[i]
+        return temp / (len(salary) - 2)
+
 
 def main():
-    low = 3
-    high = 7
+    salary = [1000, 2000, 3000]
     test = Solution()
-    res = test.countOdds(low, high)
+    res = test.average(salary)
     print(res)
 
 
