@@ -565,13 +565,25 @@ class Solution:
             left += 1
             right -= 1
 
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        left = 0
+        right = len(nums) - 1
+        temp = []
+        while left <= right:
+            if abs(nums[left]) < abs(nums[right]):
+                temp.append(abs(nums[right]))
+                right -= 1
+            else:
+                temp.append(abs(nums[left]))
+                left += 1
+        res = [x ** 2 for x in temp[::-1]]
+        return res
+
 
 def main():
-    nums = [-1, -100, 3, 99]
-    k = 3
+    nums = [-7, -3, 2, 3, 11]
     test = Solution()
-    res = test.rotate(nums, k)
-    print(nums)
+    res = test.sortedSquares(nums)
     print(res)
 
 
