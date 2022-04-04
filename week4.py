@@ -637,11 +637,48 @@ class Solution:
 
         return recursion(n)
 
+    def detectCycle(self, head: [ListNode]) -> [ListNode]:
+        slow = head
+        fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                break
+            else:
+                return None
+        temp = head
+        while temp != slow:
+            temp, slow = temp.next, slow.next
+        return temp
+
+    def matrixBlockSum(self, mat: List[List[int]], k: int) -> List[List[int]]:
+        temp = np.array(mat)
+        m = len(mat)
+        n = len(mat[0])
+        prefix_sum = np.zeros((m + 1, n + 1))
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                prefix_sum[i, j] = prefix_sum[i - 1, j] \
+                                   + prefix_sum[i, j - 1] \
+                                   + temp[i - 1, j - 1] \
+                                   - prefix_sum[i - 1, j - 1]
+
+        res = np.zeros((m, n))
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                bot_right = prefix_sum[min(m, i + k), min(n, j + k)]
+                bot_left = prefix_sum[min(m, i + k), max(0, j - k - 1)]
+                top_right = prefix_sum[max(0, i - k - 1), min(n, j + k)]
+                top_left = prefix_sum[max(0, i - k - 1), max(0, j - k - 1)]
+                res[i - 1, j - 1] = bot_right - bot_left - top_right + top_left
+        return res.tolist()
 
 def main():
-    n = 4
+    mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     test = Solution()
-    res = test.integerReplacement(n)
+    res = test.matrixBlockSum(mat, 1)
     print(res)
 
 
