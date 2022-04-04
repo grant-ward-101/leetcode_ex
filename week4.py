@@ -675,10 +675,18 @@ class Solution:
                 res[i - 1, j - 1] = bot_right - bot_left - top_right + top_left
         return res.tolist()
 
+    def countOdds(self, low: int, high: int) -> int:
+        subtract = high - low + 1
+        if subtract % 2 and high % 2 and low % 2:
+            return subtract // 2 + 1
+        return subtract // 2
+
+
 def main():
-    mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    low = 3
+    high = 7
     test = Solution()
-    res = test.matrixBlockSum(mat, 1)
+    res = test.countOdds(low, high)
     print(res)
 
 
