@@ -625,11 +625,23 @@ class Solution:
         right.val = temp_val
         return head
 
+    def integerReplacement(self, n: int) -> int:
+        def recursion(num):
+            if num == 1:
+                return 0
+            else:
+                if num % 2 == 0:
+                    return 1 + recursion(num // 2)
+                else:
+                    return 1 + min(recursion(num + 1), recursion(num - 1))
+
+        return recursion(n)
+
 
 def main():
-    arr = [3, 9, 8, 6, 4]
+    n = 4
     test = Solution()
-    res = test.peakIndexInMountainArray(arr)
+    res = test.integerReplacement(n)
     print(res)
 
 
