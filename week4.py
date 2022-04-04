@@ -696,11 +696,41 @@ class Solution:
                 temp += salary[i]
         return temp / (len(salary) - 2)
 
+    def tree2str(self, root: [TreeNode]) -> str:
+        def inorder(node):
+            if not node:
+                return ''
+            if not node.left and not node.right:
+                return str(node.val)
+
+            temp = str(node.val)
+            if not node.left and node.right:
+                temp += '()'
+            if node.left:
+                temp += '(' + inorder(node.left) + ')'
+            if node.right:
+                temp += '(' + inorder(node.right) + ')'
+            return temp
+
+        if not root:
+            return ''
+        res = inorder(root)
+        return res
+        # res = res[1:-1]
+        # stack = []
+        # for letter in res:
+        #     if stack and stack[-1] == '(' and letter == ')':
+        #         stack = stack[:-1]
+        #     else:
+        #         stack.append(letter)
+        # res = ''.join(stack)
+        # return res
+
 
 def main():
     salary = [1000, 2000, 3000]
     test = Solution()
-    res = test.average(salary)
+    res = test.tree2str(None)
     print(res)
 
 
