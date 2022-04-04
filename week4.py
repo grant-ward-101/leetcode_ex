@@ -546,11 +546,32 @@ class Solution:
 
         return len(points)
 
+    def rotate(self, nums: List[int], k: int) -> None:
+        k = k % len(nums)
+
+        for i in range(0, len(nums) // 2):
+            nums[i], nums[len(nums) - 1 - i] = nums[len(nums) - 1 - i], nums[i]
+        left = 0
+        right = k - 1
+        while left < right:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right -= 1
+
+        left = k
+        right = len(nums) - 1
+        while left < right:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right -= 1
+
 
 def main():
-    points = [[3, 9], [7, 12], [3, 8], [6, 8], [9, 10], [2, 9], [0, 9], [3, 9], [0, 6], [2, 8]]
+    nums = [-1, -100, 3, 99]
+    k = 3
     test = Solution()
-    res = test.findMinArrowShots(points)
+    res = test.rotate(nums, k)
+    print(nums)
     print(res)
 
 
