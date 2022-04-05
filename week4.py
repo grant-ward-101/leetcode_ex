@@ -798,11 +798,35 @@ class Solution:
                 right = mid - 1
         return False
 
+    def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        res = 0
+        arr2 = sorted(arr2)
+
+        def binary_search(nums, target):
+            low = 0
+            high = len(nums) - 1
+            while low <= high:
+                mid = low + (high - low) // 2
+                if abs(nums[mid] - target) <= d:
+                    return False
+                elif nums[mid] > target:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            return True
+
+        for num1 in arr1:
+            if binary_search(arr2, num1):
+                res += 1
+        return res
 
 def main():
-    num = 4
+    arr1 = [4,-3,-7,0,-10]
+    arr2 = [10]
+    d = 69
+
     test = Solution()
-    res = test.isPerfectSquare(num)
+    res = test.findTheDistanceValue(arr1, arr2, d)
     print(res)
 
 
