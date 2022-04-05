@@ -882,6 +882,32 @@ class Solution:
             else:
                 right -= 1
 
+    def deleteDuplicates(self, head: [ListNode]) -> [ListNode]:
+        seen = []
+        duplicate = []
+        temp = head
+        while temp:
+            if temp.val in seen:
+                duplicate.append(temp.val)
+            else:
+                seen.append(temp.val)
+            temp = temp.next
+        while head and head.val in duplicate:
+            head = head.next
+
+        pre = None
+        temp = head
+        while temp:
+            if temp.val not in duplicate:
+                pre, temp = temp, temp.next
+            else:
+                next_not_duplicate = temp
+                while next_not_duplicate and next_not_duplicate.val in duplicate:
+                    next_not_duplicate = next_not_duplicate.next
+                temp = next_not_duplicate
+                pre.next = temp
+        return head
+
 
 def main():
     arr1 = [4, -3, -7, 0, -10]
