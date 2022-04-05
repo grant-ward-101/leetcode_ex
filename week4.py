@@ -832,6 +832,15 @@ class Solution:
                 idx += 1
         nums += [0] * count_zeros
 
+    def subtractProductAndSum(self, n: int) -> int:
+        product = 1
+        sum = 0
+        while n > 0:
+            temp = n % 10
+            product *= temp
+            sum += temp
+            n //= 10
+        return product - sum
 def main():
     arr1 = [4,-3,-7,0,-10]
     arr2 = [10]
