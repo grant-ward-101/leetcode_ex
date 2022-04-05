@@ -737,12 +737,55 @@ class Solution:
             res += abs(num - target) / x
         return int(res)
 
+    # def maxArea(self, height: List[int]) -> int:
+    #     left = 0
+    #     right = len(height) - 1
+    #     max_water = min(height[left], height[right]) * (right - left)
+    #     while left < right:
+    #         if right - left == 1:
+    #             max_water = max(max_water, min(height[left], height[right]))
+    #             break
+    #         temp_water_left = 0
+    #         greater_left = left
+    #         while greater_left < right:
+    #             if height[greater_left] > height[left]:
+    #                 temp_water_left = min(height[greater_left], height[right]) * (right - greater_left)
+    #                 break
+    #             greater_left += 1
+    #         if greater_left == right:
+    #             greater_left = left
+    #         temp_water_right = 0
+    #         greater_right = right
+    #         while greater_right > left:
+    #             if height[greater_right] > height[right]:
+    #                 temp_water_right = min(height[greater_right], height[left]) * (greater_right - left)
+    #                 break
+    #             greater_right -= 1
+    #         if greater_right == left:
+    #             greater_right = right
+    #         if temp_water_left > temp_water_right:
+    #             max_water = max(max_water, temp_water_left)
+    #             left = greater_left
+    #         else:
+    #             max_water = max(max_water, temp_water_left)
+    #             right = greater_right
+    #     return max_water
+    def maxArea(self, height: List[int]) -> int:
+        max_water = 0
+        left = 0
+        right = len(height) - 1
+        while left < right:
+            max_water = max(max_water, min(height[left], height[right]) * (right - left))
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+        return max_water
 
 def main():
-    grid = [[1, 2], [3, 4]]
-    x = 2
+    height = [1, 8, 100, 2, 100, 4, 8, 3, 7]
     test = Solution()
-    res = test.minOperations(grid, x)
+    res = test.maxArea(height)
     print(res)
 
 
