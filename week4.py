@@ -442,7 +442,7 @@ class Solution:
                 res.append(key)
         return res
 
-    def longestPalindrome(self, s: str) -> str:
+    def longestPalindrome1(self, s: str) -> str:
         if len(s) <= 1:
             return s
         n = len(s)
@@ -908,14 +908,59 @@ class Solution:
                 pre.next = temp
         return head
 
+    def maximumBobPoints(self, numArrows: int, aliceArrows: List[int]) -> List[int]:
+        ans = []
+        target = 0
+
+        def rec(n, num_arrows, alice_arrows, sum, res):
+            nonlocal ans, target
+            if n == -1 or num_arrows <= 0:
+                if sum > target:
+                    target = sum
+                    if num_arrows > 0:
+                        res[0] += num_arrows
+                    ans = res
+                return
+            required = alice_arrows[n] + 1
+            if required <= num_arrows:
+                res[n] = required
+                rec(n - 1, num_arrows - required, alice_arrows, sum + n, res)
+                res[n] = 0
+            rec(n - 1, num_arrows, alice_arrows, sum, res)
+            return
+
+        res = [0] * 12
+        rec(11, numArrows, aliceArrows, 0, res)
+        return ans
+
+    def longestPalindrome(self, words: List[str]) -> int:
+        hash_map = collections.defaultdict(int)
+        double = collections.defaultdict(int)
+        for word in words:
+            if word[0] != word[1]:
+                hash_map[word] += 1
+            else:
+                double[word] += 1
+        res = 0
+        single = False
+        seen = []
+        for word in set(words):
+            res += min(hash_map[word], hash_map[word[::-1]])
+            if double[word] % 2 == 0:
+                res += double[word]
+            else:
+                if not single:
+                    res += double[word]
+                    single = True
+                else:
+                    res += double[word] // 2 * 2
+        return res * 2
+
 
 def main():
-    arr1 = [4, -3, -7, 0, -10]
-    arr2 = [10]
-    d = 69
-
+    words = ["cc", "ll", "xx"]
     test = Solution()
-    res = test.findTheDistanceValue(arr1, arr2, d)
+    res = test.longestPalindrome(words)
     print(res)
 
 
