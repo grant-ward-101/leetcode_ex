@@ -945,22 +945,45 @@ class Solution:
         single = False
         seen = []
         for word in set(words):
-            res += min(hash_map[word], hash_map[word[::-1]])
-            if double[word] % 2 == 0:
-                res += double[word]
+            if word[0] != word[1]:
+                res += min(hash_map[word], hash_map[word[::-1]])
             else:
-                if not single:
+                if double[word] % 2 == 0:
                     res += double[word]
-                    single = True
                 else:
-                    res += double[word] // 2 * 2
+                    if not single:
+                        res += double[word]
+                        single = True
+                    else:
+                        res += double[word] // 2 * 2
         return res * 2
+
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums = sorted(nums)
+        res = float('inf')
+
+        for i in range(len(nums) - 2):
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                temp_sum = nums[i] + nums[left] + nums[right]
+                if abs(target - temp_sum) < abs(target - res):
+                    res = temp_sum
+                if temp_sum == target:
+                    return temp_sum
+                elif temp_sum > target:
+                    right -= 1
+                else:
+                    left += 1
+        return res
 
 
 def main():
-    words = ["cc", "ll", "xx"]
+    nums = [0, 0, 0]
+    target = 1
+
     test = Solution()
-    res = test.longestPalindrome(words)
+    res = test.threeSumClosest(nums, target)
     print(res)
 
 
