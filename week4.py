@@ -849,8 +849,29 @@ class Solution:
                 count += 1
             n = n >> 1
         return count
+
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> [ListNode]:
+        len_a, len_b = 0, 0
+        temp_a, temp_b = headA, headB
+        while temp_a:
+            len_a += 1
+            temp_a = temp_a.next
+        while temp_b:
+            len_b += 1
+            temp_b = temp_b.next
+        temp_a, temp_b = headA, headB
+        for i in range(abs(len_a - len_b)):
+            if len_a > len_b:
+                temp_a = temp_a.next
+            else:
+                temp_b = temp_b.next
+        while temp_a and temp_b and temp_a is not temp_b:
+            temp_a = temp_a.next
+            temp_b = temp_b.next
+        return temp_a
+
 def main():
-    arr1 = [4,-3,-7,0,-10]
+    arr1 = [4, -3, -7, 0, -10]
     arr2 = [10]
     d = 69
 
