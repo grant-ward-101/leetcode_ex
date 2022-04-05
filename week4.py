@@ -726,11 +726,23 @@ class Solution:
         # res = ''.join(stack)
         # return res
 
+    def minOperations(self, grid: List[List[int]], x: int) -> int:
+        mat = np.array(grid)
+        if np.any(mat % x != mat[0][0] % x):
+            return -1
+        flatten = np.sort(np.ravel(mat))
+        target = flatten[len(flatten) // 2]
+        res = 0
+        for num in flatten:
+            res += abs(num - target) / x
+        return int(res)
+
 
 def main():
-    salary = [1000, 2000, 3000]
+    grid = [[1, 2], [3, 4]]
+    x = 2
     test = Solution()
-    res = test.tree2str(None)
+    res = test.minOperations(grid, x)
     print(res)
 
 
