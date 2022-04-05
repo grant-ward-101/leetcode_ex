@@ -841,6 +841,14 @@ class Solution:
             sum += temp
             n //= 10
         return product - sum
+
+    def hammingWeight(self, n: int) -> int:
+        count = 0
+        while n > 0:
+            if n % 2 == 0:
+                count += 1
+            n = n >> 1
+        return count
 def main():
     arr1 = [4,-3,-7,0,-10]
     arr2 = [10]
