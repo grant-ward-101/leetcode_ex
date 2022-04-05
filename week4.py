@@ -799,6 +799,7 @@ class Solution:
         return False
 
     def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+
         res = 0
         arr2 = sorted(arr2)
 
@@ -819,6 +820,17 @@ class Solution:
             if binary_search(arr2, num1):
                 res += 1
         return res
+
+    def moveZeroes(self, nums: List[int]) -> None:
+        count_zeros = 0
+        idx = 0
+        while idx < len(nums):
+            if nums[idx] == 0:
+                count_zeros += 1
+                del nums[idx]
+            else:
+                idx += 1
+        nums += [0] * count_zeros
 
 def main():
     arr1 = [4,-3,-7,0,-10]
