@@ -782,10 +782,27 @@ class Solution:
                 right -= 1
         return max_water
 
+    def isPerfectSquare(self, num: int) -> bool:
+        if num == 1:
+            return True
+        left = 1
+        right = num // 2
+        while left <= right:
+            mid = left + (right - left) // 2
+            temp = mid * mid
+            if temp == num:
+                return True
+            elif temp < num:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return False
+
+
 def main():
-    height = [1, 8, 100, 2, 100, 4, 8, 3, 7]
+    num = 4
     test = Solution()
-    res = test.maxArea(height)
+    res = test.isPerfectSquare(num)
     print(res)
 
 
