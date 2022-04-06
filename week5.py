@@ -112,16 +112,34 @@ class Solution:
                     comb.append(i)
                     backtracking(n, k, idx + 1, i + 1)
                     comb = comb[:-1]
-        
+
         backtracking(n, k)
+        return res
+
+    def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
+        left, right = 0, len(arr) - 1
+        while left < right and arr[left] < arr[left + 1]:
+            left += 1
+        while right > 0 and arr[right - 1] < arr[right]:
+            right -= 1
+        if left == len(arr) - 1:
+            return 0
+        res = min(len(arr) - left - 1, right)
+
+        for i in range(left + 1):
+            if arr[i] <= arr[right]:
+                res = min(res, right - i - 1)
+            elif right < len(arr) - 1:
+                right += 1
+            else:
+                break
         return res
 
 
 def main():
-    n = 4
-    k = 2
+    arr = [-1, 3, 5, 2, 1, 4, 8, 2, 4, 5]
     test = Solution()
-    res = test.combine(n ,k)
+    res = test.findLengthOfShortestSubarray(arr)
     print(res)
 
 
