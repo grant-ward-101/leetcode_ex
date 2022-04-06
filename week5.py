@@ -43,13 +43,42 @@ class Solution:
                     res = idx
         return res
 
+    def threeSumMulti(self, arr: List[int], target: int) -> int:
+        # digit_count = collections.Counter(arr)
+        arr = sorted(arr)
+        res = 0
+        for i in range(len(arr) - 2):
+            left = i + 1
+            right = len(arr) - 1
+            while left < right:
+                temp = arr[i] + arr[left] + arr[right]
+                if temp == target:
+                    if arr[left] != arr[right]:
+                        temp_right = right
+                        while arr[temp_right] == arr[right] and temp_right > left:
+                            temp_right -= 1
+                        temp_left = left
+                        while arr[temp_left] == arr[left] and temp_left < right:
+                            temp_left += 1
+                        res += (right - temp_right) * (temp_left - left)
+                        right = temp_right
+                        left = temp_left
+                    else:
+                        res += int((right - left + 1) * (right - left) / 2)
+                        break
+                elif temp > target:
+                    right -= 1
+                else:
+                    left += 1
+
+        return res
+
 
 def main():
-    x = 3
-    y = 4
-    points = [[1, 2], [3, 1], [2, 4], [2, 3], [4, 4]]
+    arr = [1, 1, 2, 2, 2, 2]
+    target = 5
     test = Solution()
-    res = test.nearestValidPoint(x, y, points)
+    res = test.threeSumMulti(arr, target)
     print(res)
 
 
