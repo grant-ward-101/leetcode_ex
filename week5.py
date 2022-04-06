@@ -99,12 +99,29 @@ class Solution:
             return remain + res
         return res[1:]
 
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
+        comb = []
+
+        def backtracking(n, k, idx=0, start=1):
+            nonlocal res, comb
+            if idx == k:
+                res.append(comb)
+            else:
+                for i in range(start, n + 1):
+                    comb.append(i)
+                    backtracking(n, k, idx + 1, i + 1)
+                    comb = comb[:-1]
+        
+        backtracking(n, k)
+        return res
+
 
 def main():
-    s = "2-5g-3-J"
+    n = 4
     k = 2
     test = Solution()
-    res = test.licenseKeyFormatting(s, k)
+    res = test.combine(n ,k)
     print(res)
 
 
