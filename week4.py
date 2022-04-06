@@ -992,12 +992,33 @@ class Solution:
                 right = mid - 1
         return left - 1
 
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        lower_target = ord(target) - 26
+        upper_target = ord(target)
+
+        letters = [ord(x) for x in letters]
+        temp = 0
+        if all(num <= upper_target for num in letters):
+            temp = lower_target
+        else:
+            temp = upper_target
+
+        left = 0
+        right = len(letters) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if letters[mid] <= temp:
+                left += 1
+            else:
+                right -= 1
+        return chr(letters[left])
 
 def main():
-    x = 1
+    letters = ['a', 'b']
+    target = "z"
 
     test = Solution()
-    res = test.mySqrt(x)
+    res = test.nextGreatestLetter(letters, target)
     print(res)
 
 
