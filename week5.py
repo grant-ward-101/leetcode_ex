@@ -33,11 +33,23 @@ class Solution:
                 return nums[i] + nums[i - 1] + nums[i - 2]
         return 0
 
+    def nearestValidPoint(self, x: int, y: int, points: List[List[int]]) -> int:
+        res = -1
+        temp_max = float('inf')
+        for idx, point in enumerate(points):
+            if point[0] == x or point[1] == y:
+                if abs(point[0] - x) + abs(point[1] - y) < temp_max:
+                    temp_max = abs(point[0] - x) + abs(point[1] - y)
+                    res = idx
+        return res
+
 
 def main():
-    nums = [1, 2, 1]
+    x = 3
+    y = 4
+    points = [[1, 2], [3, 1], [2, 4], [2, 3], [4, 4]]
     test = Solution()
-    res = test.largestPerimeter(nums)
+    res = test.nearestValidPoint(x, y, points)
     print(res)
 
 
