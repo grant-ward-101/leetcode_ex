@@ -977,13 +977,27 @@ class Solution:
                     left += 1
         return res
 
+    def mySqrt(self, x: int) -> int:
+        if x == 1:
+            return x
+        left = 0
+        right = x // 2
+        while left <= right:
+            mid = left + (right - left) // 2
+            if mid * mid == x:
+                return mid
+            elif mid * mid < x:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1
+
 
 def main():
-    nums = [0, 0, 0]
-    target = 1
+    x = 1
 
     test = Solution()
-    res = test.threeSumClosest(nums, target)
+    res = test.mySqrt(x)
     print(res)
 
 
