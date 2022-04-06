@@ -86,11 +86,25 @@ class Solution:
             idx += 1
         return s[:n].count('1')
 
+    def licenseKeyFormatting(self, s: str, k: int) -> str:
+        s = (s.replace('-', '')).upper()
+        temp = len(s) % k
+        remain = ''
+        remain = s[:temp]
+        s = s[temp:]
+        res = ''
+        for i in range(0, len(s), k):
+            res += '-' + s[i:i + k]
+        if len(remain):
+            return remain + res
+        return res[1:]
+
+
 def main():
-    arr = [1, 1, 2, 2, 2, 2]
-    target = 5
+    s = "2-5g-3-J"
+    k = 2
     test = Solution()
-    res = test.threeSumMulti(arr, target)
+    res = test.licenseKeyFormatting(s, k)
     print(res)
 
 
