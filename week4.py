@@ -25,6 +25,83 @@ class TreeNode:
         self.right = right
 
 
+class MyLinkedList:
+    class Node:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+
+    def __init__(self):
+        self.head = self.Node()
+        self.length = 0
+
+    def get(self, index: int) -> int:
+        if index < 0 or index >= self.length:
+            return -1
+        temp = self.head
+        for i in range(index):
+            temp = temp.next
+        return temp.val
+
+    def addAtHead(self, val: int) -> None:
+        new_head = self.Node(val=val)
+        if self.length > 0:
+            new_head.next = self.head
+        self.head = new_head
+        self.length += 1
+
+    def addAtTail(self, val: int) -> None:
+        if self.length > 0:
+            temp = self.head
+            while temp and temp.next:
+                temp = temp.next
+            new_tail = self.Node(val=val)
+            temp.next = new_tail
+            self.length += 1
+        else:
+            self.addAtHead(val)
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        if index == 0:
+            self.addAtHead(val)
+        elif index == self.length:
+            self.addAtTail(val)
+        elif 0 < index < self.length:
+            new_node = self.Node(val=val)
+            temp = self.head
+            for i in range(index - 1):
+                temp = temp.next
+            next_node = temp.next
+            temp.next = new_node
+            new_node.next = next_node
+            self.length += 1
+
+    def deleteAtIndex(self, index: int) -> None:
+        if self.length > 0:
+            if index == 0:
+                temp_head = self.head.next
+                self.head.next = None
+                self.head = temp_head
+                self.length -= 1
+            elif 0 < index < self.length:
+                temp = self.head
+                for i in range(index - 1):
+                    temp = temp.next
+                new_next_node = temp.next.next
+                curr_next_node = temp.next
+                temp.next = new_next_node
+                curr_next_node.next = None
+                self.length -= 1
+
+    def print(self):
+        s = []
+        temp = self.head
+        while temp:
+            s.append(temp.val)
+            temp = temp.next
+        print(s)
+
+
 class Solution:
     def minSumOfLengths(self, arr: List[int], target: int) -> int:
         def left_min(nums, k):
@@ -1040,10 +1117,19 @@ class Solution:
 
 
 def main():
-    s = "Let's take LeetCode contest"
-    test = Solution()
-    res = test.reverseWords(s)
-    print(res)
+    # s = "Let's take LeetCode contest"
+    # test = Solution()
+    # res = test.reverseWords(s)
+    # print(res)
+    test = MyLinkedList()
+    test.addAtHead(5)
+    test.addAtIndex(1, 2)
+    test.addAtHead(6)
+    test.addAtTail(2)
+    test.addAtTail(1)
+    print(test.length)
+    print(test.get(5))
+    test.print()
 
 
 if __name__ == '__main__':
