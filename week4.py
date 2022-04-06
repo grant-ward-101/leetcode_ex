@@ -1019,6 +1019,26 @@ class Solution:
             word_list[idx] = word_list[idx][::-1]
         return ' '.join(word_list)
 
+    def swapPairs(self, head: [ListNode]) -> [ListNode]:
+        if not head or not head.next:
+            return head
+        dummy = ListNode()
+        dummy.next = head
+        node = head
+        prev = dummy
+        while node and node.next:
+            next_two_temp = node.next.next
+            second = node.next
+
+            second.next = node
+            node.next = next_two_temp
+            prev.next = second
+
+            prev = node
+            node = next_two_temp
+        return dummy.next
+
+
 def main():
     s = "Let's take LeetCode contest"
     test = Solution()
