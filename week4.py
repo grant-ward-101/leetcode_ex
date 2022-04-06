@@ -1013,12 +1013,16 @@ class Solution:
                 right -= 1
         return chr(letters[left])
 
-def main():
-    letters = ['a', 'b']
-    target = "z"
+    def reverseWords(self, s: str) -> str:
+        word_list = s.split()
+        for idx, word in enumerate(word_list):
+            word_list[idx] = word_list[idx][::-1]
+        return ' '.join(word_list)
 
+def main():
+    s = "Let's take LeetCode contest"
     test = Solution()
-    res = test.nextGreatestLetter(letters, target)
+    res = test.reverseWords(s)
     print(res)
 
 
