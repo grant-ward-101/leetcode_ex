@@ -73,6 +73,18 @@ class Solution:
 
         return res
 
+    def magicalString(self, n: int) -> int:
+        s = '122'
+        flag = '1'
+        idx = 2
+        while len(s) <= n:
+            s += int(s[idx]) * flag
+            if flag == '1':
+                flag = '2'
+            else:
+                flag = '1'
+            idx += 1
+        return s[:n].count('1')
 
 def main():
     arr = [1, 1, 2, 2, 2, 2]
