@@ -135,11 +135,22 @@ class Solution:
                 break
         return res
 
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        while len(stones) > 1:
+            stones = sorted(stones)
+            new_stones = stones[-1] - stones[-2]
+            stones = stones[:-2]
+            if new_stones:
+                stones.append(new_stones)
+        if len(stones):
+            return stones[0]
+        return 0
+
 
 def main():
-    arr = [-1, 3, 5, 2, 1, 4, 8, 2, 4, 5]
+    stones = [1, 1]
     test = Solution()
-    res = test.findLengthOfShortestSubarray(arr)
+    res = test.lastStoneWeight(stones)
     print(res)
 
 
