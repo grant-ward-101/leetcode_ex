@@ -195,12 +195,25 @@ class Solution:
             return [-1, -1]
         return [first, last]
 
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        missing = 0
+        prev = 0
+        for i in range(0, len(arr)):
+            curr = arr[i]
+            temp = missing + (curr - prev - 1)
+            if temp >= k:
+                return prev + k - missing
+
+            missing = temp
+            prev = curr
+        return arr[-1] + k - missing
+
 
 def main():
-    nums = []
-    target = 6
+    arr = [5, 6, 7, 8, 9]
+    k = 9
     test = Solution()
-    res = test.searchRange(nums, target)
+    res = test.findKthPositive(arr, k)
     print(res)
 
 
