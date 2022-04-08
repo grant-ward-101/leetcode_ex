@@ -166,20 +166,42 @@ class Solution:
             return stones[0]
         return 0
 
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        first = -1
+        last = - 1
+        flag = False
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if target == nums[mid]:
+                flag = True
+            if target <= nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        first = left
+
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if target >= nums[mid]:
+                left = mid + 1
+            else:
+                right = mid - 1
+        last = left - 1
+        if not flag:
+            return [-1, -1]
+        return [first, last]
+
 
 def main():
-    # stones = [1, 1]
-    # test = Solution()
-    # res = test.lastStoneWeight(stones)
-    # print(res)
-    k = 3
-    nums = [4, 5, 8, 2]
-    obj = KthLargest(k, nums)
-    param_1 = obj.add(3)
-    param_1 = obj.add(5)
-    param_1 = obj.add(10)
-    print(param_1)
-    obj.print()
+    nums = []
+    target = 6
+    test = Solution()
+    res = test.searchRange(nums, target)
+    print(res)
 
 
 if __name__ == '__main__':
