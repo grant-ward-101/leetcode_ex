@@ -208,12 +208,25 @@ class Solution:
             prev = curr
         return arr[-1] + k - missing
 
+    def arrangeCoins(self, n: int) -> int:
+        left = 0
+        right = n
+        while left <= right:
+            mid = left + (right - left) // 2
+            if mid * (mid + 1) / 2 == n:
+                return mid
+            elif mid * (mid + 1) / 2 < n:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1
+
 
 def main():
-    arr = [5, 6, 7, 8, 9]
+    n = 8
     k = 9
     test = Solution()
-    res = test.findKthPositive(arr, k)
+    res = test.arrangeCoins(n)
     print(res)
 
 
