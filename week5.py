@@ -25,6 +25,26 @@ class TreeNode:
         self.right = right
 
 
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        self.sorted_list = sorted(nums)
+        if len(self.sorted_list) >= k:
+            self.res = self.sorted_list[-k]
+        else:
+            self.res = 0
+        self.k = k
+
+    def add(self, val: int) -> int:
+        idx = bisect.bisect_left(self.sorted_list, val)
+        self.sorted_list.insert(idx, val)
+        return self.sorted_list[-self.k]
+
+    def print(self):
+        print(self.sorted_list)
+        print(self.res)
+
+
 class Solution:
     def largestPerimeter(self, nums: List[int]) -> int:
         nums = sorted(nums)
@@ -148,10 +168,18 @@ class Solution:
 
 
 def main():
-    stones = [1, 1]
-    test = Solution()
-    res = test.lastStoneWeight(stones)
-    print(res)
+    # stones = [1, 1]
+    # test = Solution()
+    # res = test.lastStoneWeight(stones)
+    # print(res)
+    k = 3
+    nums = [4, 5, 8, 2]
+    obj = KthLargest(k, nums)
+    param_1 = obj.add(3)
+    param_1 = obj.add(5)
+    param_1 = obj.add(10)
+    print(param_1)
+    obj.print()
 
 
 if __name__ == '__main__':
