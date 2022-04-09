@@ -264,12 +264,40 @@ class Solution:
                 return True
         return False
 
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        marked = []
+        res = 0
+
+        def dfs(i, j):
+            nonlocal marked, res
+            temp = 0
+            marked.append([i, j])
+            if grid[i][j] == 0:
+                return 0
+            else:
+                temp += 1
+                if i - 1 >= 0 and [i - 1, j] not in marked:
+                    temp += dfs(i - 1, j)
+                if i + 1 < len(grid) and [i + 1, j] not in marked:
+                    temp += dfs(i + 1, j)
+                if j - 1 >= 0 and [i, j - 1] not in marked:
+                    temp += dfs(i, j - 1)
+                if j + 1 < len(grid[0]) and [i, j + 1] not in marked:
+                    temp += dfs(i, j + 1)
+            res = max(temp, res)
+            return temp
+
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                dfs(row, col)
+        return res
+
 
 def main():
-    s1 = "adc"
-    s2 = "dcda"
+    grid = [[0, 0, 0, 0, 0, 0, 0, 0]]
+
     test = Solution()
-    res = test.checkInclusion(s1, s2)
+    res = test.maxAreaOfIsland(grid)
     print(res)
 
 
