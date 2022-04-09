@@ -292,7 +292,16 @@ class Solution:
                 dfs(row, col)
         return res
 
-
+    def sortedArrayToBST(self, nums: List[int]) -> [TreeNode]:
+        def recursion(left, right):
+            if left > right:
+                return None
+            mid = left + (right - left) // 2
+            root = TreeNode(nums[mid])
+            root.left = recursion(left, mid -1)
+            root.right = recursion(mid + 1, right)
+            return root
+        return recursion(0, len(nums) - 1)
 def main():
     grid = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
