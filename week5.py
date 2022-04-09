@@ -10,6 +10,7 @@ from typing import List
 import numpy as np
 import collections
 import string
+from collections import deque
 
 
 class ListNode:
@@ -221,12 +222,35 @@ class Solution:
                 right = mid - 1
         return left - 1
 
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        num_count = collections.defaultdict(int)
+        for num in nums:
+            num_count[num] += 1
+        sorted_dict = dict(sorted(num_count.items(), key=lambda x: x[1], reverse=True))
+        return list(sorted_dict.keys())[:k]
+
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if len(s) in [0, 1]:
+            return len(s)
+        res = 0
+        left = 0
+        right = 0
+        seen = deque()
+        while right < len(s):
+            if s[right] in seen:
+                res = max(res, right - left)
+                while s[right] in seen:
+                    seen.popleft()
+                    left += 1
+            seen.append(s[right])
+            right += 1
+        return max(res, len(seen))
+
 
 def main():
-    n = 8
-    k = 9
+    s = "aab"
     test = Solution()
-    res = test.arrangeCoins(n)
+    res = test.lengthOfLongestSubstring(s)
     print(res)
 
 
