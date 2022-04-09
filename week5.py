@@ -246,11 +246,30 @@ class Solution:
             right += 1
         return max(res, len(seen))
 
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s1) > len(s2):
+            return False
+        n = len(s1)
+        s1_count = collections.Counter(s1)
+        slide = s2[:n]
+        s2_count = collections.Counter(slide)
+        if s1_count == s2_count:
+            return True
+        for idx in range(1, len(s2) - n + 1):
+            s2_count[s2[idx - 1]] -= 1
+            if s2_count[s2[idx - 1]] == 0:
+                del s2_count[s2[idx - 1]]
+            s2_count[s2[idx + n - 1]] += 1
+            if s1_count == s2_count:
+                return True
+        return False
+
 
 def main():
-    s = "aab"
+    s1 = "adc"
+    s2 = "dcda"
     test = Solution()
-    res = test.lengthOfLongestSubstring(s)
+    res = test.checkInclusion(s1, s2)
     print(res)
 
 
