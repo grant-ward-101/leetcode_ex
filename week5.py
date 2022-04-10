@@ -302,11 +302,24 @@ class Solution:
             root.right = recursion(mid + 1, right)
             return root
         return recursion(0, len(nums) - 1)
-def main():
-    grid = [[0, 0, 0, 0, 0, 0, 0, 0]]
 
+    def calPoints(self, ops: List[str]) -> int:
+        stack = collections.deque()
+        for item in ops:
+            try:
+                stack.append(int(item))
+            except ValueError:
+                if item == '+':
+                    stack.append(stack[-1] + stack[-2])
+                elif item == 'D':
+                    stack.append(stack[-1] * 2)
+                else:
+                    stack.pop()
+        return sum(stack)
+def main():
+    ops = ["1"]
     test = Solution()
-    res = test.maxAreaOfIsland(grid)
+    res = test.calPoints(ops)
     print(res)
 
 
