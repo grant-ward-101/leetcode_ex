@@ -765,11 +765,29 @@ class Solution:
                     dp[i][j] = dp[i - 1][j] or dp[i - 1][max(0, j - nums[i - 1])]
         return dp[len(dp) - 1][len(dp[0]) - 1]
 
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        # dp_sum = [0] * len(nums)
+        # dp_sum[0] = nums[0]
+        # for idx, val in enumerate(nums):
+        #     if idx > 0:
+        #         dp_sum[idx] = dp_sum[idx - 1] + val
+
+        dp_sum_dict = collections.defaultdict(int)
+        dp_sum_dict[0] = 1
+        prefix_sum = 0
+        res = 0
+        for num in nums:
+            prefix_sum += num
+            if prefix_sum - k in dp_sum_dict:
+                res += dp_sum_dict[prefix_sum - k]
+            dp_sum_dict[prefix_sum] += 1
+        return res
 
 def main():
-    nums = [14, 9, 8, 4, 3, 2]
+    nums = [1, 2, 3]
+    k = 3
     test = Solution()
-    res = test.canPartition(nums)
+    res = test.subarraySum(nums, k)
     print(res)
 
 
