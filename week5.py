@@ -470,12 +470,28 @@ class Solution:
             idx = bisect.bisect_left(friend_list, removed)
         return friend_list[0]
 
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        removed = []
+        for idx, letter in enumerate(s):
+            if letter == '(':
+                stack.append([idx, letter])
+            elif letter == ')':
+                if len(stack) == 0:
+                    removed.append(idx)
+                else:
+                    stack.pop(-1)
+        if len(stack):
+            removed += [idx for idx, letter in stack]
+        for idx in sorted(removed, reverse=True):
+            s = s[:idx] + s[idx + 1:]
+        return s
+
 
 def main():
-    n = 6
-    k = 5
+    s = "))(("
     test = Solution()
-    res = test.findTheWinner(n, k)
+    res = test.minRemoveToMakeValid(s)
     print(res)
 
 
