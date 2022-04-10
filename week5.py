@@ -427,14 +427,55 @@ class Solution:
             temp.next = None
         return head
 
+    def reverseKGroup(self, head: [ListNode], k: int) -> [ListNode]:
+        def reverse_list(node):
+            if not head:
+                return head
+
+            def reverseHelper(node):
+                if not node.next:
+                    return node
+                new_head = reverseHelper(node.next)
+                node.next.next = node
+                return new_head
+
+            new_head = reverseHelper(head)
+            head.next = None
+            return new_head
+
+        start = ListNode(next=head)
+        end = start
+        final = start
+        while True:
+            count = 0
+            for i in range(k):
+                end_ptr = end_ptr.next
+                if end_ptr is None: break
+            if end_ptr is None: break
+            temp_next = end.next
+            end.next = None
+            reverse_list(start.next)
+            start.next.next = temp_next
+            temp = start
+            start = start.next
+            temp.next = end
+            end = start
+        return final.next
+
+    def findTheWinner(self, n: int, k: int) -> int:
+        friend_list = list(range(1, n + 1))
+        idx = 0
+        while len(friend_list) > 1:
+            removed = friend_list.pop((idx + k - 1) % len(friend_list))
+            idx = bisect.bisect_left(friend_list, removed)
+        return friend_list[0]
+
 
 def main():
-    head = ListNode(1)
-    head.next = ListNode(2)
-    head.next.next = ListNode(3)
-    head.next.next.next = ListNode(4)
+    n = 6
+    k = 5
     test = Solution()
-    res = test.reorderList(head)
+    res = test.findTheWinner(n, k)
     print(res)
 
 
