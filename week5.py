@@ -32,10 +32,12 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Node:
     def __init__(self, val=None, children=None):
         self.val = val
         self.children = children
+
 
 class KthLargest:
 
@@ -522,6 +524,7 @@ class Solution:
 
     def preorder(self, root: 'Node') -> List[int]:
         res = []
+
         def recursion(node):
             nonlocal res
             if not node:
@@ -533,11 +536,29 @@ class Solution:
         recursion(root)
         return res
 
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        stack = []
+        temp = []
+        res = []
+        n1, n2 = len(nums1), len(nums2)
+        for idx in range(n2 - 1, -1, -1):
+            while len(stack) and stack[-1] <= nums2[idx]:
+                del stack[-1]
+            if len(stack):
+                temp.append(stack[-1])
+            else:
+                temp.append(-1)
+            stack.append(nums2[idx])
+        temp = temp[::-1]
+        for num in nums1:
+            res.append(temp[nums2.index(num)])
+        return res
 
 def main():
-    n = 19
+    nums1 = [4, 1, 2]
+    nums2 = [1, 3, 4, 2]
     test = Solution()
-    res = test.isHappy(n)
+    res = test.nextGreaterElement(nums1, nums2)
     print(res)
 
 
