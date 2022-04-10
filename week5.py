@@ -332,10 +332,37 @@ class Solution:
             res += len(grid[m]) - left
         return res
 
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        left = 0
+        right = len(matrix) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if matrix[mid][0] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        if left < 0:
+            return False
+        row_idx = left - 1
+
+        left = 0
+        right = len(matrix[0]) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if matrix[row_idx][mid] == target:
+                return True
+            elif matrix[row_idx][mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return False
+
+
 def main():
-    grid = [[3, 2], [1, 0]]
+    matrix = [[1], [3]]
+    target = 1
     test = Solution()
-    res = test.countNegatives(grid)
+    res = test.searchMatrix(matrix, target)
     print(res)
 
 
