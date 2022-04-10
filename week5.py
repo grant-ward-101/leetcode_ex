@@ -357,12 +357,41 @@ class Solution:
                 right = mid - 1
         return False
 
+    def mergeTrees(self, root1: [TreeNode], root2: [TreeNode]) -> [TreeNode]:
+        if not root1:
+            return root2
+        if not root2:
+            return root1
+
+        def recursion(node1, node2):
+            if node1 and node2:
+                node1.val += node2.val
+            elif not node1:
+                return node2
+            elif not node2:
+                return node1
+            elif not node1 and not node2:
+                return None
+            node1.left = recursion(node1.left, node2.left)
+            node1.right = recursion(node1.right, node2.right)
+            return node1
+
+        root1 = recursion(root1, root2)
+        return root1
+
 
 def main():
-    matrix = [[1], [3]]
-    target = 1
+    root1 = TreeNode(1)
+    root1.left = TreeNode(3)
+    root1.left.left = TreeNode(5)
+    root1.right = TreeNode(2)
+    root2 = TreeNode(2)
+    root2.left = TreeNode(1)
+    root2.left.right = TreeNode(4)
+    root2.right = TreeNode(3)
+    root2.right.right = TreeNode(7)
     test = Solution()
-    res = test.searchMatrix(matrix, target)
+    res = test.mergeTrees(root1, root2)
     print(res)
 
 
