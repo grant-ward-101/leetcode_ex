@@ -676,11 +676,44 @@ class Solution:
         recursion(root)
         return res
 
+    def deleteNode(self, root: [TreeNode], key: int) -> [TreeNode]:
+        def find_max(node):
+            while node.right:
+                node = node.right
+            return node
+
+        if not root:
+            return None
+        temp = root
+        if temp.val == key:
+            if not temp.right:
+                return temp.left
+            elif not temp.left:
+                return temp.right
+            else:
+                max_node = find_max(temp.left)
+                temp.val = max_node.val
+                temp.left = self.deleteNode(temp.left, max_node.val)
+
+        elif temp.val < key:
+            temp.right = self.deleteNode(temp.right, key)
+        else:
+            temp.left = self.deleteNode(temp.left, key)
+        return root
+
 
 def main():
+    root = TreeNode(5)
+    root.left = TreeNode(3)
+    root.right = TreeNode(6)
+    root.right.right = TreeNode(7)
+
+    root.left.left = TreeNode(2)
+    root.left.right = TreeNode(4)
+
     mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     test = Solution()
-    res = test.diagonalSum(mat)
+    res = test.deleteNode(root, 3)
     print(res)
 
 
