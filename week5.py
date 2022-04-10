@@ -506,10 +506,21 @@ class Solution:
                 return False
         return True
 
+    def isHappy(self, n: int) -> bool:
+        seen = set()
+        while n > 1 and n not in seen:
+            seen.add(n)
+            new = sum([int(x) ** 2 for x in str(n)])
+            n = new
+        if n > 1:
+            return False
+        return True
+
+
 def main():
-    nums = [-1, -2, -3, -4, 3, 2, 1]
+    n = 19
     test = Solution()
-    res = test.arraySign(nums)
+    res = test.isHappy(n)
     print(res)
 
 
