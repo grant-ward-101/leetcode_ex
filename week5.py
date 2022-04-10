@@ -651,6 +651,32 @@ class Solution:
                     queue.append(curr.right)
             res.append(temp[-1])
         return res
+
+    def pathSum(self, root: [TreeNode], targetSum: int) -> List[List[int]]:
+        if not root:
+            return []
+
+        res = []
+        path = []
+
+        def recursion(node):
+            nonlocal path, res
+            if not node:
+                return
+            path.append(node.val)
+            if not node.left and not node.right:
+                if sum(path) == targetSum:
+                    res.append(path)
+            if node.left:
+                recursion(node.left)
+            if node.right:
+                recursion(node.right)
+            path = path[:-1]
+
+        recursion(root)
+        return res
+
+
 def main():
     mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     test = Solution()
