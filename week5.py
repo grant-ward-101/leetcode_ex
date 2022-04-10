@@ -379,19 +379,24 @@ class Solution:
         root1 = recursion(root1, root2)
         return root1
 
+    def connect(self, root):
+        if not root:
+            return None
+        queue = collections.deque([root])
+        while len(queue) > 0:
+            temp = None
+            for i in range(len(queue)):
+                curr = queue.popleft()
+                curr.next = temp
+                temp = curr
+                if curr.right:
+                    queue.append(curr.right)
+                    queue.append(curr.left)
+        return root
 
 def main():
-    root1 = TreeNode(1)
-    root1.left = TreeNode(3)
-    root1.left.left = TreeNode(5)
-    root1.right = TreeNode(2)
-    root2 = TreeNode(2)
-    root2.left = TreeNode(1)
-    root2.left.right = TreeNode(4)
-    root2.right = TreeNode(3)
-    root2.right.right = TreeNode(7)
     test = Solution()
-    res = test.mergeTrees(root1, root2)
+    # res = test.mergeTrees(root1, root2)
     print(res)
 
 
