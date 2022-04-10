@@ -707,6 +707,17 @@ class Solution:
             res.append(res[i - 1] + res[i - 2])
         return res[n]
 
+    def areNumbersAscending(self, s: str) -> bool:
+        words = s.split()
+        prev = float('-inf')
+        for word in words:
+            if word.isnumeric():
+                if int(word) > prev:
+                    prev = int(word)
+                else:
+                    return False
+        return True
+
 
 def main():
     root = TreeNode(5)
