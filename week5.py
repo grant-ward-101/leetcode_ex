@@ -739,11 +739,37 @@ class Solution:
                         min_effort[ni][nj] = new_min_e
                         heapq.heappush(pq, (new_min_e, ni, nj))
 
+    def canPartition(self, nums: List[int]) -> bool:
+        # if sum(nums) % 2:
+        #     return False
+        # target = sum(nums) / 2
+        # sub_sums = {0}
+        # for num in nums:
+        #     temp = set()
+        #     for sub_sum in sub_sums:
+        #         temp.add(num + sub_sum)
+        #         temp.add(sub_sum)
+        #     sub_sums = temp
+        # return True if target in sub_sums else False
+        if sum(nums) % 2:
+            return False
+        target = sum(nums) // 2
+        dp = [[True] + [False] * target for i in range(len(nums) + 1)]
+        for i in range(1, len(dp)):
+            for j in range(1, len(dp[0])):
+                if j < nums[i - 1]:
+                    dp[i][j] = dp[i - 1][j]
+                elif j == nums[i - 1]:
+                    dp[i][j] = True
+                else:
+                    dp[i][j] = dp[i - 1][j] or dp[i - 1][max(0, j - nums[i - 1])]
+        return dp[len(dp) - 1][len(dp[0]) - 1]
+
 
 def main():
-    heights = [[1, 2, 3], [3, 8, 4], [5, 3, 5]]
+    nums = [14, 9, 8, 4, 3, 2]
     test = Solution()
-    res = test.minimumEffortPath(heights)
+    res = test.canPartition(nums)
     print(res)
 
 
