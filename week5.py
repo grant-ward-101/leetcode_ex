@@ -783,6 +783,10 @@ class Solution:
             dp_sum_dict[prefix_sum] += 1
         return res
 
+    def truncateSentence(self, s: str, k: int) -> str:
+        return ' '.join(s.split()[:k])
+
+
 def main():
     nums = [1, 2, 3]
     k = 3
