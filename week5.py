@@ -564,11 +564,21 @@ class Solution:
                 return False
         return True
 
+    def sumOddLengthSubarrays(self, arr: List[int]) -> int:
+        prefix_sum = [0] + list(itertools.accumulate(arr))
+        res = 0
+        for i in range(1, len(arr) + 1):
+            count = 1
+            while i + count <= len(prefix_sum):
+                res += prefix_sum[i + count - 1] - prefix_sum[i - 1]
+                count += 2
+        return res
+
 
 def main():
-    coordinates = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]
+    arr = [10, 11, 12]
     test = Solution()
-    res = test.checkStraightLine(coordinates)
+    res = test.sumOddLengthSubarrays(arr)
     print(res)
 
 
