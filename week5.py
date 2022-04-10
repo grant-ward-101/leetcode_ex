@@ -635,7 +635,22 @@ class Solution:
 
         return res
 
-
+    def rightSideView(self, root: [TreeNode]) -> List[int]:
+        if not root:
+            return []
+        queue = collections.deque([root])
+        res = []
+        while len(queue):
+            temp = []
+            for i in range(len(queue)):
+                curr = queue.popleft()
+                temp.append(curr.val)
+                if curr.left:
+                    queue.append(curr.left)
+                if curr.right:
+                    queue.append(curr.right)
+            res.append(temp[-1])
+        return res
 def main():
     mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     test = Solution()
