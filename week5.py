@@ -298,9 +298,10 @@ class Solution:
                 return None
             mid = left + (right - left) // 2
             root = TreeNode(nums[mid])
-            root.left = recursion(left, mid -1)
+            root.left = recursion(left, mid - 1)
             root.right = recursion(mid + 1, right)
             return root
+
         return recursion(0, len(nums) - 1)
 
     def calPoints(self, ops: List[str]) -> int:
@@ -316,10 +317,25 @@ class Solution:
                 else:
                     stack.pop()
         return sum(stack)
+
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        res = 0
+        for m in range(len(grid)):
+            left = 0
+            right = len(grid[0]) - 1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if grid[m][mid] >= 0:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            res += len(grid[m]) - left
+        return res
+
 def main():
-    ops = ["1"]
+    grid = [[3, 2], [1, 0]]
     test = Solution()
-    res = test.calPoints(ops)
+    res = test.countNegatives(grid)
     print(res)
 
 
