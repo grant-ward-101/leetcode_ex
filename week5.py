@@ -701,6 +701,12 @@ class Solution:
             temp.left = self.deleteNode(temp.left, key)
         return root
 
+    def fib(self, n: int) -> int:
+        res = [0, 1]
+        for i in range(2, n + 1):
+            res.append(res[i - 1] + res[i - 2])
+        return res[n]
+
 
 def main():
     root = TreeNode(5)
