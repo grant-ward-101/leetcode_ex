@@ -589,6 +589,52 @@ class Solution:
             res += mat[n // 2][n // 2]
         return res
 
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        def array_to_tree(left, right):
+            nonlocal preorder_index
+            if left > right:
+                return None
+            root_value = preorder[preorder_index]
+            root = TreeNode(root_value)
+
+            preorder_index += 1
+            root.left = array_to_tree(left, inorder_index_map[root_value] - 1)
+            root.right = array_to_tree(inorder_index_map[root_value] + 1, right)
+
+            return root
+
+        preorder_index = 0
+
+        inorder_index_map = {}
+        for index, value in enumerate(inorder):
+            inorder_index_map[value] = index
+
+        return array_to_tree(0, len(preorder) - 1)
+
+    def zigzagLevelOrder(self, root: [TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        queue = collections.deque([root])
+        res = []
+        forward = True
+        while len(queue) > 0:
+            temp = []
+            for i in range(len(queue)):
+                curr = queue.popleft()
+                temp.append(curr.val)
+                if curr.left:
+                    queue.append(curr.left)
+                if curr.right:
+                    queue.append(curr.right)
+            if forward:
+                res.append(temp)
+                forward = False
+            else:
+                res.append(reversed(temp))
+                forward = True
+
+        return res
+
 
 def main():
     mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
