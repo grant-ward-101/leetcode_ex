@@ -11,6 +11,7 @@ import numpy as np
 import collections
 import string
 from collections import deque
+import heapq
 
 
 class ListNode:
@@ -718,19 +719,31 @@ class Solution:
                     return False
         return True
 
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        m, n = len(heights), len(heights[0])
+        min_effort = [[float('inf')] * n for i in range(m)]
+        visited = set()
+        min_effort[0][0] = 0
+        pq = [(0, 0, 0)]
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        while pq:
+            min_e, i, j = heapq.heappop(pq)
+            if i == m - 1 and j == n - 1:
+                return int(min_effort[i][j])
+            visited.add((i, j))
+            for dir in direction:
+                ni, nj = i + dir[0], j + dir[1]
+                if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
+                    new_min_e = max(min_e, abs(heights[i][j] - heights[ni][nj]))
+                    if new_min_e < min_effort[ni][nj]:
+                        min_effort[ni][nj] = new_min_e
+                        heapq.heappush(pq, (new_min_e, ni, nj))
+
 
 def main():
-    root = TreeNode(5)
-    root.left = TreeNode(3)
-    root.right = TreeNode(6)
-    root.right.right = TreeNode(7)
-
-    root.left.left = TreeNode(2)
-    root.left.right = TreeNode(4)
-
-    mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    heights = [[1, 2, 3], [3, 8, 4], [5, 3, 5]]
     test = Solution()
-    res = test.deleteNode(root, 3)
+    res = test.minimumEffortPath(heights)
     print(res)
 
 
