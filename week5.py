@@ -32,6 +32,10 @@ class TreeNode:
         self.left = left
         self.right = right
 
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
 
 class KthLargest:
 
@@ -515,6 +519,19 @@ class Solution:
         if n > 1:
             return False
         return True
+
+    def preorder(self, root: 'Node') -> List[int]:
+        res = []
+        def recursion(node):
+            nonlocal res
+            if not node:
+                return
+            res.append(node.val)
+            for child in node.children:
+                recursion(child)
+
+        recursion(root)
+        return res
 
 
 def main():
