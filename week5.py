@@ -567,18 +567,33 @@ class Solution:
     def sumOddLengthSubarrays(self, arr: List[int]) -> int:
         prefix_sum = [0] + list(itertools.accumulate(arr))
         res = 0
-        for i in range(1, len(arr) + 1):
+        for i in range(1, len(prefix_sum)):
             count = 1
             while i + count <= len(prefix_sum):
                 res += prefix_sum[i + count - 1] - prefix_sum[i - 1]
                 count += 2
         return res
 
+    def maximumWealth(self, accounts: List[List[int]]) -> int:
+        res = 0
+        for customer in accounts:
+            res = max(res, sum(customer))
+        return res
+
+    def diagonalSum(self, mat: List[List[int]]) -> int:
+        res = 0
+        n = len(mat)
+        for i in range(n // 2):
+            res += mat[i][i] + mat[i][n - i - 1] + mat[n - i - 1][i] + mat[n - i - 1][n - i - 1]
+        if n % 2 == 1:
+            res += mat[n // 2][n // 2]
+        return res
+
 
 def main():
-    arr = [10, 11, 12]
+    mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     test = Solution()
-    res = test.sumOddLengthSubarrays(arr)
+    res = test.diagonalSum(mat)
     print(res)
 
 
