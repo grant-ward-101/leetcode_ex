@@ -487,11 +487,20 @@ class Solution:
             s = s[:idx] + s[idx + 1:]
         return s
 
+    def arraySign(self, nums: List[int]) -> int:
+        sign = 1
+        for num in nums:
+            if num == 0:
+                return 0
+            else:
+                sign = -sign if num < 0 else sign
+        return sign
+
 
 def main():
-    s = "))(("
+    nums = [-1, -2, -3, -4, 3, 2, 1]
     test = Solution()
-    res = test.minRemoveToMakeValid(s)
+    res = test.arraySign(nums)
     print(res)
 
 
