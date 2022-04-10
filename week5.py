@@ -18,6 +18,13 @@ class ListNode:
         self.val = val
         self.next = next
 
+    def print(self):
+        s = []
+        while self:
+            s.append(str(self.val))
+            self = self.next
+        print(' -> '.join(s))
+
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -394,9 +401,40 @@ class Solution:
                     queue.append(curr.left)
         return root
 
+    def reorderList(self, head: [ListNode]) -> None:
+        if not head or not head.next:
+            return head
+        queue = collections.deque()
+        temp = head
+        while temp:
+            queue.append(temp)
+            temp = temp.next
+        temp = head
+        temp = queue.popleft()
+        temp.next = queue.pop()
+        temp = temp.next
+        while len(queue) > 1:
+            first = queue.popleft()
+            last = queue.pop()
+            last.next = None
+            first.next = last
+            temp.next = first
+            temp = last
+        if len(queue):
+            temp.next = queue.pop()
+            temp.next.next = None
+        else:
+            temp.next = None
+        return head
+
+
 def main():
+    head = ListNode(1)
+    head.next = ListNode(2)
+    head.next.next = ListNode(3)
+    head.next.next.next = ListNode(4)
     test = Solution()
-    # res = test.mergeTrees(root1, root2)
+    res = test.reorderList(head)
     print(res)
 
 
