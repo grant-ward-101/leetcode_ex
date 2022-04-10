@@ -554,11 +554,21 @@ class Solution:
             res.append(temp[nums2.index(num)])
         return res
 
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        if len(coordinates) == 2:
+            return True
+        start = coordinates[0]
+        end = coordinates[-1]
+        for coord in coordinates[1:-1]:
+            if (coord[0] - start[0]) * (end[1] - start[1]) != (end[0] - start[0]) * (coord[1] - start[1]):
+                return False
+        return True
+
+
 def main():
-    nums1 = [4, 1, 2]
-    nums2 = [1, 3, 4, 2]
+    coordinates = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]
     test = Solution()
-    res = test.nextGreaterElement(nums1, nums2)
+    res = test.checkStraightLine(coordinates)
     print(res)
 
 
